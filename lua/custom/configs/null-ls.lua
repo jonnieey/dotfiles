@@ -8,5 +8,5 @@ local opts = {
       extra_args = {"--line-length", "79"}
     })
   }
-}
+} 
 return opts

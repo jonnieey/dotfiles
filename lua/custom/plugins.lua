@@ -40,7 +40,7 @@ local plugins = {
   {
     "mfussenegger/nvim-dap-python",
     ft = "python",
-    dependancies = {
+    dependencies = {
       "mfussenegger/nvim-dap",
       "rcarriga/nvim-dap-ui",
     },
@@ -54,7 +54,7 @@ local plugins = {
   {
     "rcarriga/nvim-dap-ui",
     lazy = false,
-    dependancies = "mfussenegger/nvim-dap",
+    dependencies = "mfussenegger/nvim-dap",
     config = function()
       local dap = require("dap")
       local dapui = require("dapui")
@@ -94,5 +94,17 @@ local plugins = {
 
   },
   { 'Exafunction/codeium.vim', },
+  {
+    "jackMort/ChatGPT.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim"
+    },
+    config = function()
+      require("chatgpt").setup({ })
+    end,
+  },
 }
 return plugins
