@@ -1,0 +1,57 @@
+[bottombar]
+name = "LEMONBAR"
+blocks = "|  | temp network battery date"
+height = 16
+areas = 16
+foreground = "#ffffff"
+background = "#000000"
+line-color = "#555555"
+line-width = 2
+font = "Iosevka Fixed Medium Extended:size=10"
+width = 1366
+bottom = true
+
+[bottomrightbar]
+name = "LEMONBAR"
+blocks = "|  | temp network battery date"
+height = 16
+foreground = "#ffffff"
+background = "#000000"
+line-color = "#555555"
+line-width = 2
+bottom = true
+font = "Iosevka Fixed Medium Extended:size=10"
+width = 1440
+left = 1366
+bottom = true
+
+[default]
+label-foreground = "#dddddd"
+affix-foreground = "#555555"
+margin = 8
+padding-left = 1
+prefix = "" 
+suffix = ""
+underline = false
+
+[title]
+command = xtitle
+margin-left = 8
+live = true
+
+[date]
+command = "date '+%T'"
+mouse-right = 'st -g 60x20+760+320 -e calcurse'
+live = true
+
+[network]
+command = "sb-disk"
+interval = 1
+min-width = 15
+margin = 5
+
+[temp]
+command = "sb-memory"
+
+[battery]
+command = "sb-battery"

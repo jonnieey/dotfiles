@@ -1,0 +1,92 @@
+# wm independent hotkeys
+#
+# terminal emulator
+super + Return
+	st
+
+# program launcher
+super + d
+    dmenu_run -i -b
+
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd
+
+# dwm
+# super + {k,j}
+	# dwmc focusstack {-,+}1
+
+super + {h,l,k,j}
+	dwmc focusdir {0,1,2,3}
+
+super + shift + {k,j}
+	dwmc movestack {-,+}1
+
+super + {comma,period}
+	dwmc focusmon {-,+}
+
+super + shift + {comma,period}
+	dwmc tagmon {-,+}
+
+super + ctrl + {Up,Down}
+	dwmc movestack {-,+}1
+
+super + alt + {h,l}
+	dwmc setmfact {-,+}0.05
+
+super + alt + {k,j}
+	dwmc setcfact {-,+}0.5
+	
+super + KP_{Home,Up,Prior,Left,Begin,Right,End,Down,Next}
+	dwmc moveplace {0-8}
+
+super + ctrl + {j,k,l,h}
+	dwm-msg --ignore-reply run_command moveresize {'0x 25y 0w 0h','0x -25y 0w 0h','25x 0y 0w 0h','-25x 0y 0w 0h'}
+
+super +  ctrl + alt + {j,k,l,h}
+	dwm-msg --ignore-reply run_command moveresize {'0x 0y 0w 25h','0x 0y 0w -25h','0x 0y 25w 0h','0x 0y -25w 0h'}
+
+super + b
+	dwmc togglebar
+
+super + shift + p
+	dwmc togglefloating
+
+super + w
+	dwmc killclient
+
+super + shift + {q,r} 
+	dwmc quit {0,1}
+
+super + Tab
+	dwmc view
+
+super + {t,f,m}
+	dwmc setlayoutex {0,1,2}
+
+super + {_,ctrl +}{_,shift +} {1-9}
+	dwmc {_,toggle}{viewex,tagex} {0-8}
+
+super + 0
+	dwmc viewall
+
+super + {minus,plus}
+	dwmc setgaps {-,+}1
+
+super + {shift+space,space}
+	dwmc cyclelayout {-1,+1}
+
+super + semicolon; {e,g,w,v,m,z,x,n}
+	{st aerc,~/.local/myscripts-bin/dmenu-sites,st w3m -B,st clifm,~/.local/myscripts-bin/udisks-dmenu,st -e nchat -d "$HOME/.config/nchat/telegram", st -e nchat -d "$HOME/.config/nchat/whatsapp",st bash -c ncmpcpp}
+
+ctrl + shift + Escape
+  st btm --network_use_bytes --regex
+
+XF86PowerOff ; {l,p,s,r}
+  {/usr/local/bin/slock, /usr/bin/systemctl poweroff, /usr/bin/systemctl suspend, /usr/bin/systemctl reboot}
+
+Print
+  ~/.local/myscripts-bin/takescreenshot -w
+
+shift + Print
+  ~/.local/myscripts-bin/takescreenshot -p

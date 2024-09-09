@@ -1,0 +1,69 @@
+[topbar]
+name = "LEMONBAR"
+blocks = "volume mpd | | root home pomopy"
+height = 16
+areas = 16
+bottom=false
+foreground = "#ffffff"
+background = "#000000"
+line-color = "#555555"
+line-width = 2
+font = "Iosevka Fixed Medium Extended:size=10"
+width = 1366
+bottom=false
+
+[toprightbar]
+name = "LEMONBAR"
+blocks = "volume mpd | | root home pomopy"
+height = 16
+areas = 16
+foreground = "#ffffff"
+background = "#000000"
+line-color = "#555555"
+line-width = 2
+font = "Iosevka Fixed Medium Extended:size=10"
+width = 1440
+left = 1366
+bottom=false
+
+[default]
+label-foreground = "#dddddd"
+affix-foreground = "#555555"
+margin = 8
+padding-left = 1
+prefix = "" 
+suffix = ""
+underline = false
+
+[mpd]
+command = "mpc current"
+mouse-right = "mpc toggle"
+mouse-left = 'st -g 100x20+0+0 -e ncmpcpp'
+interval= 1
+
+[volume]
+command = 'volume-pulse -mu -w 0%'
+interval = 1
+scroll-up = 'pamixer -i 5'
+scroll-down = 'pamixer -d 5'
+mouse-right = 'pamixer -t'
+mouse-left = 'st -g 100x20+0+0 -e pulsemixer'
+
+[pomoctl]
+command = "potd -fN '+%b%p %t'"
+mouse-right = "potctl -t"
+mouse-middle = "potctl -r"
+interval = 1
+
+[pomopy]
+command = "pomopyc -f"
+mouse-right = "pomopyc -T"
+mouse-middle = "pomopyc -s"
+
+[root]
+command = "disk-statvfs -d / -f %FG"
+margin = 1
+
+[home]
+command = "disk-statvfs -d ~ -f %FG"
+margin = 1

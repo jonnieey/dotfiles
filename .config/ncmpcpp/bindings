@@ -1,0 +1,245 @@
+##Navigation
+#def_key "u"
+#  dummy
+
+#def_key "up"
+#  dummy
+
+#def_key "down"
+#  dummy
+
+#def_key "left"
+#    seek_backward
+
+#def_key "right"
+#    seek_forward
+
+#def_key "k"
+#   scroll_up
+
+def_key "K"
+ select_item
+ scroll_up
+
+#def_key "j"
+#   scroll_down
+
+def_key "J"
+ select_item
+ scroll_down
+
+#def_key "g"
+#    move_home
+
+#def_key "G"
+#    move_end
+
+#def_key "t"
+#  select_item
+
+#def_key "l"
+#    enter_directory
+
+#def_key "d"
+#    delete_playlist_items
+
+#def_key "d"
+# delete_browser_items
+
+#def_key "d"
+#  delete_stored_playlist
+
+#def_key "l"
+#  next_column
+
+#def_key "l"
+#  slave_screen
+
+#def_key "0"
+#   volume_up
+
+#def_key "h"
+#  previous_column
+
+#def_key "9"
+#   volume_down
+
+#def_key "h"
+#  jump_to_parent_directory
+
+#def_key "f"
+#  dummy
+
+#def_key "ctrl-g"
+#    jump_to_position_in_song
+
+#def_key "|"
+#  show_lyrics
+
+#def_key "b"
+#  jump_to_browser
+
+#def_key "e"
+#  edit_song
+
+#def_key "e"
+#  edit_library_tag
+
+#def_key "e"
+#  edit_library_album
+
+#def_key "e"
+#  edit_directory_name
+
+#def_key "e"
+#  edit_playlist_name
+
+#def_key "e"
+#  edit_lyrics
+
+#def_key "ctrl-e"
+#  jump_to_playlist_editor
+
+def_command "volume" [deferred]
+    set_volume
+
+def_command "update" [deferred]
+    update_database
+
+def_key "f7"
+    run_external_command "mpc toggleoutput recorder 2>&1 >/dev/null"
+    run_external_command "notify-send -t 4000 $(echo recorder `mpc outputs | grep recorder | cut -d' ' -f 5`)"
+
+def_key "up"
+ volume_up
+
+def_key "down"
+ volume_down
+
+# vim like key binding
+def_key "/"
+  find
+def_key "/"
+  find_item_forward
+
+def_key "?"
+ find
+def_key "?"
+ find_item_backward
+
+def_key "j"
+  scroll_down
+def_key "k"
+  scroll_up
+
+def_key "ctrl-u"
+  page_up
+def_key "ctrl-d"
+  page_down
+
+def_key "h"
+  previous_column
+def_key "l"
+  next_column
+
+def_key "|"
+  show_lyrics
+
+def_key "n"
+ move_selected_items_down
+
+def_key "m"
+ move_selected_items_up
+
+def_key "n"
+    next_found_item
+
+def_key "N"
+  previous_found_item
+
+def_key "b"
+ jump_to_browser
+
+def_key "h"
+ jump_to_parent_directory
+
+def_key "l"
+   enter_directory
+
+# not used but bound
+def_key "J"
+  move_sort_order_down
+
+def_key "K"
+  move_sort_order_up
+
+def_key "g"
+  move_home
+
+def_key "G"
+  move_end
+
+def_key "d"
+  delete_playlist_items
+
+def_key "d"
+  delete_browser_items
+
+def_key "d"
+  delete_stored_playlist
+
+# def_key "space"
+#  pause
+
+def_key "down"
+ volume_down
+
+def_key "0"
+  volume_up
+
+def_key "9"
+  volume_down
+
+def_key "ctrl-g"
+   jump_to_position_in_song
+
+def_key "left"
+   seek_backward
+
+def_key "right"
+   seek_forward
+
+# Views
+
+def_key "2"
+  show_browser
+
+def_key "2"
+  change_browse_mode
+
+def_key "3"
+  show_search_engine
+
+def_key "3"
+  reset_search_engine
+
+def_key "4"
+  show_media_library
+
+def_key "4"
+  toggle_media_library_columns_mode
+
+def_key "5"
+  show_playlist_editor
+
+def_key "6"
+  show_tag_editor
+
+def_key "7"
+  show_outputs
+
+def_key "8"
+  show_visualizer
+
+def_key "u"
+ dummy

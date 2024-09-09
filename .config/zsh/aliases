@@ -1,0 +1,7 @@
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias restartnm="sudo systemctl restart NetworkManager"
+alias tchat='nchat -d $HOME/.config/nchat/telegram' "$@"
+alias wchat='nchat -d $HOME/.config/nchat/whatsapp' "$@"
+alias kchat='nchat -d $HOME/.config/nchat/nekochat' "$@"
+alias ddgr='ddgr -n 5 --unsafe --colors ofglxy'

@@ -1,0 +1,40 @@
+[bar]
+name = "testbar"
+blocks = "| user | date time"
+height = 24
+underline = true
+font = "6x13"
+label-font = "-wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1"
+
+[default]
+margin = 4
+padding = 2
+foreground = "#dddddd"
+background = "#333333"
+label-foreground = "#333333"
+
+[desktop]
+command = "bspc query -D -d focused --names"
+trigger = "bspc subscribe"
+label = "  "
+label-background = "#e89a6a"
+margin-left = 8
+
+[user]
+command = "whoami"
+label = "  "
+label-background = "#5a8fcd"
+
+[date]
+command = "date +'%Y-%m-%d'"
+interval = 1
+label = "  "
+label-background = "#7da464"
+
+[time]
+command = "date +'%H:%M:%S'"
+interval = 1
+label = "  "
+label-background = "#b683c3"
+mouse-left = xclock
+margin-right = 8

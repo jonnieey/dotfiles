@@ -1,0 +1,16 @@
+### This is the bookmarks file for clifm ###
+
+# Empty and commented lines are omitted.
+# Make your changes, save, and exit.
+# To remove a bookmark, delete the corresponding line, save, and exit
+# Changes are applied automatically at exit (to cancel just quit the editor).
+
+# The bookmarks syntax is: name:path
+# Example:
+[C]clifm:~/.config/clifm
+[D]Downloads:~/Downloads
+[w]Wera:~/.local/share/transcriptor4/
+[h]Home:~/
+[c]config:~/.config
+Dropbox:~/Downloads/Dropbox
+vimb:~/Downloads/vimb

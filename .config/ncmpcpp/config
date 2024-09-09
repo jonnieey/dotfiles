@@ -1,0 +1,51 @@
+ncmpcpp_directory = ~/.config/ncmpcpp
+lyrics_directory = ~/.config/ncmpcpp/lyrics
+mpd_music_dir = ~/.config/mpd/music
+allow_for_physical_item_deletion = no
+
+mpd_connection_timeout = 5
+mpd_crossfade_time = 5
+audio_output {
+        type            "fifo"
+        name            "my_fifo"
+        path            "/tmp/mpd.fifo"
+        format          "44100:16:1"
+}
+
+external_editor = /usr/local/bin/vim
+message_delay_time = 5
+mouse_support = no
+playlist_show_mpd_host = yes
+regular_expressions = extended
+song_window_title_format = ncmpcpp
+
+execute_on_song_change = notify-send -t 4000 "Playing ""$(mpc current)"
+
+#aesthetics
+
+startup_slave_screen = clock
+user_interface = alternative
+progressbar_look = ♩♫
+
+current_item_prefix = $(243)$r
+now_playing_prefix = $b
+now_playing_suffix = $/b
+window_border_color=white
+active_window_border=white
+
+#song_columns_list_format = (1f)[]{} (20)[blue]{a} (6f)[red]{NE} (50)[blue]{t|f:Title} (20)[red]{b} (7f)[blue]{l}
+song_columns_list_format = (1f)[243]{} (30)[246]{t|f:Title} (20)[246]{a} (20)[243]{b} (10)[243]{g} (7f)[243]{l}
+empty_tag_color = 240
+header_window_color = 250
+volume_color = 246
+state_flags_color = 246:b
+main_window_color = 246
+color2 = 240
+progressbar_elapsed_color = 248:b
+statusbar_color = 246
+
+#visualizer
+visualizer_data_source = /tmp/mpd.fifo
+visualizer_type = spectrum
+visualizer_look = ||
+visualizer_color = 240, 242, 244, 246, 248

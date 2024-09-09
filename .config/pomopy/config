@@ -1,0 +1,14 @@
+[pomodoro]
+pomodoro = 25m
+short_break = 5m
+long_break = 15m
+idle_msg = Not working
+pomodoro_msg = Resume Work
+paused_msg = Paused
+short_break_msg = Take Short Break
+long_break_msg = Take Long Break
+pomodoro_end = "paplay /usr/share/sounds/freedesktop/stereo/complete.oga"
+short_break_end = "paplay /usr/share/sounds/freedesktop/stereo/trash-empty.oga"
+long_break_end = "paplay /usr/share/sounds/freedesktop/stereo/trash-empty.oga"
+long_break_every = 4
+

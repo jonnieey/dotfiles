@@ -1,0 +1,59 @@
+[bottombar]
+name = "LEMONBAR"
+blocks = "tags symbol | title | temp network battery date"
+height = 16
+areas = 16
+line-width = 2
+font = "Iosevka Fixed Medium Extended:size=10"
+width = 1366
+bottom=true
+
+[bottomrightbar]
+name = "LEMONBAR"
+blocks = "tags symbol | title | temp network battery date"
+height = 16
+areas = 16
+line-width = 2
+font = "Iosevka Fixed Medium Extended:size=10"
+width = 1440
+left = 1366
+bottom=true
+
+[default]
+label-foreground = "#dddddd"
+affix-foreground = "#555555"
+margin = 8
+padding-left = 1
+prefix = "" 
+suffix = ""
+underline = false
+
+[tags]
+command = "dwm-tags"
+raw = true
+
+[symbol]
+command = "dwm-symbol"
+raw = true
+
+[date]
+command = "date +'%A %d %B %R'"
+mouse-right = 'st -g 60x20+760+320 -e calcurse'
+interval = 1
+
+[battery]
+command = "sb-battery"
+interval = 3
+
+[network]
+command="net-sysclass -I  $(ip -o -4 route show to default | awk '{print $5}') -msk -g k -f '%TK %RK'"
+interval = 1
+margin = 5
+
+[temp]
+command = "temp-sensors -m -c core -f 0 -mu"
+interval = 1
+
+[title]
+command = "dwm-title"
+interval = 1
