@@ -29,3 +29,15 @@
 !.w3m/menu
 !.w3m/mailcap
 
+Downloads/archpack/*/*.o
+Downloads/archpack/*/*.rej
+Downloads/archpack/*/*.orig
+Downloads/archpack/dmenu-flexipatch/patches.h
+Downloads/archpack/dmenu-flexipatch/dmenu
+Downloads/archpack/dmenu-flexipatch/stest
+
+Downloads/archpack/dwm-flexipatch/dwm
+Downloads/archpack/dwm-flexipatch/dwm-msg
+
+Downloads/archpack/st-flexipatch/*.o
+Downloads/archpack/st-flexipatch/st
