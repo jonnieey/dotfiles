@@ -1,0 +1,89 @@
+#!/bin/bash
+#scanimage --resolution 300 -p -d 'pixma:04A9183A_92F56B' --format=tiff
+#mogrify  -rotate 90 filename
+#./multicrop -b white -f 20 -u 1 -g 40 "out.tiff" "o.tiff"
+#mogrify  -format jpg @filename
+
+#scan photo
+#rotate and save split photos
+#split photo
+
+#!/bin/bash
+
+# autoscan.sh - A script for automatically scanning from a printer/scanner and saving to a random file.
+
+# Must be set to your printer's address. Use `scanimage -L` to get a list of printers.
+#scanimage --resolution 300 -p -d 'pixma:04A9183A_92F56B' --format=tiff
+
+PRINTER="pixma:04A9183A_000000"
+
+# Optional variables, feel free to adjust.
+TIME=0   	# TIME to wait before scanning again (in seconds), 0 meas wait for input (enter).
+FORMAT=tiff	# FORMAT must be understood by mogrify. Ex: jpg, png, tiff, bmp.
+QUALITY=300	# QUALITY must be supported by your printer. Common ones are 300, 200, 150, and 75.
+
+for cmd in scanimage mogrify; do
+    command -v $cmd >/dev/null 2>&1 || {
+        echo "This script requires the \`$cmd\` command, which was not found. Exiting."
+        exit 1
+    }
+done
+
+while true; do
+    clear
+
+    TMPFILE=$(mktemp --suffix=.tiff)
+
+    echo
+    echo "Scanning and saving to $TMPFILE... "
+    scanimage --progress -d "$PRINTER" --mode Color --resolution "$QUALITY" --format tiff > "$TMPFILE" # 2>/dev/null
+
+    echo "Rotating 90 degrees"
+    mogrify -rotate 90 "$TMPFILE"
+
+    echo "Cropping multiple photos"
+    multicrop -b white -f 20 -u 1 -g 40 "$TMPFILE" "$TMPFILE"
+    
+    echo "Convert tiff to jpg and Removing tiff files"
+    mogrify -format jpg "$TMPFILE" && rm "$TMPFILE"
+
+    echo
+    if [ $TIME -gt 0 ]; then
+        echo "Sleeping for $TIME seconds..."
+        sleep $TIME
+    else
+        read -n 1 -r -p "Scan next photo [Press Enter]" _
+    fi
+done
+
+# # ======= OLD CODE ===
+# if [ ! -f /usr/bin/scanimage ]; then
+#     echo "This script requires the \`scanimage\` command, which was not found. Exiting. "
+#     exit 1
+# fi
+# if [ ! -f /usr/bin/mogrify ]; then
+#     echo "This script requires the \`mogrify\` command from the \`imagemagick\` package, which was not found. Exiting. "
+#     exit 2
+# fi
+#
+# while true; do
+#     clear
+#     FILENAME=$(mktemp -u XXXXXX)
+#     echo
+#     echo "Scanning and saving to $FILENAME.$FORMAT... "
+#     scanimage --progress -d $PRINTER --mode Color --resolution $QUALITY --format tiff > $FILENAME.tiff # 2>/dev/null
+#
+#     echo "Rotating 90 degrees"
+#     mogrify  -rotate 90 "$FILENAME.tiff"
+#
+#     echo "Cropping multiple photos"
+#     multicrop -b white -f 20 -u 1 -g 40 "$FILENAME.tiff" "$FILENAME.tiff"
+#     rm $FILENAME.tiff
+#
+#     echo "Convert tiff to jpg and Removing tiff files"
+#     find . -type f -name "*.tiff" -exec mogrify -format jpg {} \; -exec rm {} \;
+#
+#     echo
+#     read -n 1 -p "Scan next photo [Press Enter]" cont
+# done
+#

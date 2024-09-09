@@ -1,0 +1,9 @@
+#!/bin/bash
+
+LINK="$1"
+DIR="$HOME/Downloads/"
+
+echo -n "Enter name of file to save to: "
+read file_name
+
+lynx -dump -listonly -nonumbers "$LINK" > "$DIR/$file_name" &

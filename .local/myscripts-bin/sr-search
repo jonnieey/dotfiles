@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+surfraw -browser=$BROWSER $(sr -elvi | awk -F'-' '{ print $1 }' | sed '/:/d' | awk '{ $1=$1 };1' | sed '/:/d' | awk '{ $1=$1 };1'| dmenu -l 10 -p "Search: ")

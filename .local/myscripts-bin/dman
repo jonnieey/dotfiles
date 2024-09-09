@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+if [ "$1" ]; then
+  man -Tpdf "$1" | zathura -
+else
+  man -k . | dmenu | awk '{print $1}' | xargs -r man -Tpdf | zathura -
+fi

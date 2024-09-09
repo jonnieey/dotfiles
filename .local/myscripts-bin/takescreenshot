@@ -1,0 +1,46 @@
+#!/bin/bash
+DIR="$HOME/Pictures/screenshots/"
+[ ! -d "$DIR" ] && mkdir -p "$DIR"
+name=$(date +"%Y-%m-%d-%H%M%S")
+extension=".png"
+fullname="$name$extension"
+
+full_window_screenshot(){
+    #Capture the screenshot of the current active window
+    import -window "$(xdotool getactivewindow)" "$DIR$fullname"
+}
+
+part_window_screenshot(){
+    #Capture the selected part
+    import "$DIR$fullname"
+}
+
+usage() {
+    echo "Usage: $0 [-w|-p]"
+    echo " -w Full window screenshot"
+    echo " -p Window screenshot"
+    return 1
+}
+
+if [ $# -eq 0 ]; then
+  usage
+  exit 1
+fi
+
+while getopts "wp" opt; do
+    case "${opt}" in 
+        w) shift
+            full_window_screenshot
+            ;;
+        p) shift
+            part_window_screenshot
+            ;;
+        *)
+            usage
+            exit 1
+    esac
+done
+
+
+
+

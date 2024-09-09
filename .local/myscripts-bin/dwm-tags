@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+base00=#282828
+base01=#3c3836
+base02=#504945
+base03=#665c54
+base04=#bdae93
+base05=#d5c4a1
+base06=#ebdbb2
+base07=#fbf1c7
+base08=#fb4934
+base09=#fe8019
+base0A=#fabd2f
+base0B=#b8bb26
+base0C=#8ec07c
+base0D=#83a598
+base0E=#d3869b
+base0F=#d65d0e
+base0G=#4169E1
+
+init_out=""
+for tag in {0..8}; do
+    init_out="${init_out}%{F$base07} $((tag + 1)) "
+done
+echo -e "$init_out"
+
+dwm-msg --ignore-reply subscribe tag_change_event |
+    jq --unbuffered '.tag_change_event.new_state | .selected, .occupied' |
+    while IFS=$'\n' read -r selected && read -r occupied
+    do
+        out=""
+
+        for tag in {0..8}
+        do
+            bit=$((1 << tag))
+            selected_and_bit=$((selected & bit))
+            occupied_and_bit=$((occupied & bit))
+
+            if [[ $selected_and_bit -ne 0 && $occupied_and_bit -ne 0 ]]
+            then
+                out="${out}%{F$base07}%{B$base02} $((tag + 1))%{B-} "
+            elif [[ $selected_and_bit -ne 0 ]]
+            then
+                out="${out}%{F$base07}%{B$base02} $((tag + 1))%{B-} "
+            elif [[ $occupied_and_bit -ne 0 ]]
+            then
+                out="${out}%{F$base07} $((tag + 1)) "
+            else
+                out="${out}%{F$base07} $(( tag  + 1)) "
+            fi
+        done
+
+         echo -e "%{F-}%{B-}$out%{F-}%{B-}"
+    done

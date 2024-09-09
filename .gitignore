@@ -3,6 +3,8 @@
 .config/clifm/profiles/default/dirhist.clifm
 .config/clifm/profiles/default/history.clifm
 .config/clifm/profiles/default/jump.clifm
+.config/clifm/profiles/default/selbox.clifm
+
 .config/aerc/accounts*
 .config/aerc/mailbook.txt
 .config/gh/hosts*
@@ -41,3 +43,5 @@ Downloads/archpack/dwm-flexipatch/dwm-msg
 
 Downloads/archpack/st-flexipatch/*.o
 Downloads/archpack/st-flexipatch/st
+
+.local/myscripts-bin/myscripts-bin-bak

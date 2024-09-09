@@ -1,0 +1,68 @@
+#!/bin/sh
+
+action=$(echo -e "Create Hotspot\nList Instances\nStop Instance\nConnected Devices" | dmenu -i -l 4 -p "Action") || exit
+
+function create_hotspot() {
+	msg= echo "$1" | sudo -S create_ap --daemon "$2" "$3" "$4" "$5"
+	echo "$msg"
+}
+
+function get_interfaces() {
+	echo "$(ip -o link show | awk -F': ' '{print $2}' | sort )"
+}
+
+function no_interfaces() {
+	echo "$(get_interfaces | wc -l)"
+}
+
+function running_instances() {
+	instances="$(echo "$1" | sudo -S create_ap --list-running)"
+
+	if [[  -z "$instances" ]]; then
+		msg="No instances Running"
+	else
+		msg="$instances"
+	fi
+	echo "$msg"
+}
+
+function connected_devices() {
+	echo "$(echo "$1" | sudo -S create_ap --list-clients $(running_instances "$1") )"
+}
+function stop_instance() {
+	echo "$(echo "$1" | sudo -S create_ap --stop $(running_instances "$1") )"
+}
+
+function main() {
+	admin_password=$(echo -en "" | dmenu -p "Enter Admin password (Sudo access)" -P) || exit
+
+	if [[ $action =~ "Create Hotspot" ]]; then
+		# password=$(echo -en "" | dmenu -p "Enter password" -P)
+		wifi_interface=$(get_interfaces | dmenu -i -p "Choose Wifi Interface" -l $(no_interfaces)) || exit
+		internet_interface=$(get_interfaces | dmenu -i -p "Choose Internet Interface" -l $(no_interfaces))
+		name=$(echo -en "" | dmenu -p "Enter hotspot name")
+		enable_password=$(echo -e "Yes\nNo" | dmenu -l 2 -i -p "Enable password")
+
+		if [[ $enable_password == "Yes" ]]; then
+			wifi_password=$(echo -en "" | dmenu -p "Enter wifi" -P)
+			create_hotspot "$admin_password" "$wifi_interface" "$internet_interface" "$name" "$wifi_password"
+		else
+			if [[ $enable_password == "No" ]]; then
+			create_hotspot "$admin_password" "$wifi_interface" "$internet_interface" "$name" ""
+			fi
+		fi
+	fi
+
+	if [[ $action =~ "List Instances" ]]; then
+		running_instances "$admin_password" | dmenu -i -l 2 -p "Running Instances:"
+	fi
+
+	if [[ $action =~ "Connected Devices" ]]; then
+		connected_devices "$admin_password" | dmenu -i -l 3 -p "Connected Devices:"
+	fi
+
+	if [[ $action =~ "Stop Instance" ]]; then
+		stop_instance "$admin_password"
+	fi
+}
+main

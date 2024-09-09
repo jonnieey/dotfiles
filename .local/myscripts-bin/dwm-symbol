@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+dwm-msg --ignore-reply subscribe layout_change_event |
+jq --unbuffered '.layout_change_event.new_symbol' |
+while IFS=$'\n' read -r symbol
+    do
+      echo "${symbol}"
+  done

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# dwm-msg --ignore-reply subscribe client_focus_change_event monitor_focus_change_event |
+#     jq --unbuffered '.client_focus_change_event.new_win_id,.monitor' |
+#     while IFS=$'\n' read -r winid
+#     do
+#         if [[ $winid == "null" ]]
+#         then
+#             echo
+#         else
+#             class=$(xprop -id $winid | awk -F'"' '/^WM_CLASS/{print $(NF-1)}')
+#             echo "$class" | awk 'length > 20{$0=substr($0,0,21)"..."}1'
+#         fi
+#     done 
+dwm-msg --ignore-reply subscribe client_focus_change_event monitor_focus_change_event |
+    jq --unbuffered '.client_focus_change_event.new_win_id,.monitor_focus_change_event.new_monitor_number' |
+    while IFS=$'\n' read -r winid && read -r mon_id
+    do
+        xtitle -t 40
+    done

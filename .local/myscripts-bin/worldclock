@@ -1,0 +1,12 @@
+#!/bin/bash
+while true; do
+    clear
+    echo "Tokyo: $(TZ=Asia/Tokyo date '+%c')"
+    echo "Kenya: $(TZ=Africa/Nairobi date '+%c')"
+    echo "SA   : $(TZ=Africa/Johannesburg date '+%c')"
+    echo "UK   : $(TZ=Europe/London date '+%c')"
+    echo "US   : $(TZ=America/New_York date '+%c')"
+    echo "NIG  : $(TZ=Africa/Luanda date '+%c')"
+    echo "UTC  : $(TZ=UTC date '+%c')"
+    sleep 5
+done

@@ -1,0 +1,83 @@
+#!/bin/bash
+
+BASE_DIR="$HOME/Downloads/youtubedl"
+year_month=$(date +"%Y-%m")
+batch_file=""
+
+down_video() {
+  DOWNLOAD_DIR="${BASE_DIR}/videos/${year_month}"
+  BATCH_FILE="${batch_file:=$HOME/Music/todownload_video}"
+  yt-dlp -ciw \
+    --no-playlist \
+    --merge-output-format=mp4 \
+    --batch-file="$BATCH_FILE" \
+    -P "$DOWNLOAD_DIR" \
+    -f 'bestvideo[height<=720][vcodec^=avc1]+bestaudio[ext=m4a]/best[height<=720]' \
+    -o  "%(title)s.%(ext)s"
+}
+
+down_audio() {
+  DOWNLOAD_DIR="${BASE_DIR}/audios/${year_month}"
+  BATCH_FILE="${batch_file:=$HOME/Music/todownload_audio}"
+  yt-dlp -ciw  \
+    --batch-file "$BATCH_FILE" \
+    -P "$DOWNLOAD_DIR" \
+    -f 'best*[vcodec=none]' \
+    -o "%(title)s.%(ext)s"
+
+}
+
+add_video() {
+    BATCH_FILE="${HOME}/Music/todownload_video"
+    touch "$BATCH_FILE"
+    if [ -s "$BATCH_FILE" ]; then
+        sed -i "1i$1" "$BATCH_FILE"
+    else
+        echo "$1" > "$BATCH_FILE"
+    fi
+}
+add_audio() {
+    BATCH_FILE="${HOME}/Music/todownload_audio"
+    touch "$BATCH_FILE"
+    if [ -s "$BATCH_FILE" ]; then
+        sed -i "1i$1" "$BATCH_FILE"
+    else
+        echo "$1" > "$BATCH_FILE"
+    fi
+}
+
+usage() {
+    echo "Usage: $0 [-A|-V] [-a|-v] [-b FILE]"
+    echo "Download YouTube content using youtube-dl from batch file."
+    echo "Default batch in $HOME/Music/todownload_[audio|video]"
+    return 1
+}
+
+if [ $# -eq 0 ]; then
+  usage
+  exit 1
+fi
+
+while getopts "AVa:v:b:" opt; do
+    case "${opt}" in
+        A)
+        down_audio
+            ;;
+        V)
+        down_video
+            ;;
+        a)
+            add_audio "${OPTARG}"
+            ;;
+        v)
+            add_video "${OPTARG}"
+            ;;
+        b)
+            batch_file=${OPTARG}
+            ;;
+        *)
+            usage
+            exit 1
+            ;;
+    esac
+done

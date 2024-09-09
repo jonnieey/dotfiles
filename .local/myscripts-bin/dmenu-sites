@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+urlencode() {
+  local string="$1"
+  local length="${#string}"
+  local encoded=""
+  
+  for ((i = 0; i < length; i++)); do
+    local char="${string:i:1}"
+    
+    case $char in
+      [a-zA-Z0-9.~_-])
+        encoded+="$char"
+        ;;
+      *)
+        encoded+="$(printf '%%%02X' "'$char")"
+        ;;
+    esac
+  done
+  
+  echo "$encoded"
+}
+# BROWSER="google-chrome-stable %U --force-dark-mode $@"
+BROWSER="qutebrowser $@"
+# BROWSER=brave
+# PRIVBROWSER="$BROWSER --incognito $@"
+PRIVBROWSER="qutebrowser -T -C $HOME/.config/qutebrowser/config-priv.py $@"
+
+sites=("Duck" "Youtube" "Gmail" "Github" "Temi" "Temp-mail" "ALX" "ChatGPT" "Bard" )
+
+site=$(printf '%s\n' "${sites[@]}" | dmenu -Y 350 -W 700 -X 300 -i -l 5 -g 2 -p "Sites")
+
+case $site in
+  "Duck")
+    search="$(echo -en '' | dmenu -Y 350 -W 700 -X 300  -i -l 3 -p 'Search keyword')" || exit
+    browsers=("qutebrowser" "chrome" "vimb")
+    browser=$(printf '%s\n' "${browsers[@]}" | dmenu -Y 350 -W 700 -X 300 -i -l 5 -g 2 -p "Browsers") || exit
+    case $browser in
+      "qutebrowser")
+        qutebrowser "$search"
+        ;;
+      "vimb")
+        tabbed -n 'vimb' -c vimb "$search" -e
+        ;;
+      "chrome")
+        query=$(urlencode "$search")
+        google-chrome-stable "https://www.google.com/search?q=$query"
+    esac
+	# s=$(urlencode "$search")
+    ;;
+  "Youtube")
+    search=$(echo -en "" | dmenu -Y 350 -W 700 -X 300 -i -l 3 -p "Search keyword") || exit
+	s=$(urlencode "$search")
+	# tabbed -n 'vimb' -c vimb "https://www.youtube.com/results?search_query=$s" -e
+    $BROWSER "https://www.youtube.com/results?search_query=$s"
+    ;;
+  "Gmail")
+    account=$(echo -en "" | dmenu -Y 350 -W 700 -X 300 -i -l 3 -p "Enter account number") || exit
+    # tabbed -n 'vimb' -c vimb "https://mail.google.com/mail/u/$account/" -e
+    $BROWSER "https://mail.google.com/mail/u/$account/"
+    ;;
+  "Github")
+	  search=$(echo -en "" | dmenu -Y 350 -W 700 -X 300 -l 3 -p "Search keyword") || exit 
+	  s="$(urlencode "$search")"
+
+    if [[ -z "$search" ]]; then
+      # tabbed -n 'vimb' -c vimb 'https://www.github.com' -e 
+      $BROWSER 'https://www.github.com'
+    else
+      # tabbed -n 'vimb' -c vimb "https://www.github.com/search?q=$s&type=repositories" -e 
+      $BROWSER "https://www.github.com/search?q=$s&type=repositories"
+    fi
+    ;;
+  "Temi")
+    # bash -c "qutebrowser -T -C '$HOME/.config/qutebrowser/config.py' 'https://www.temi.com'"
+    # tabbed -n 'vimb' -c vimb -i 'https://www.temi.com' -e
+    $PRIVBROWSER 'https://www.temi.com'
+    ;;
+  "Temp-mail")
+    # tabbed -n 'vimb' -c vimb -i 'https://mail.tm/en/' -e
+    $PRIVBROWSER --new-window 'https://mail.tm/en/'
+    ;;
+  "ALX")
+    # tabbed -n 'vimb' -c vimb  'https://alx-intranet.hbtn.io/' -e
+    $BROWSER 'https://alx-intranet.hbtn.io/'
+    ;;
+  "ChatGPT")
+    # tabbed -n 'vimb' -c vimb 'https://chat.openai.com/chat/' -e
+    $BROWSER 'https://chat.openai.com/chat/'
+    ;;
+  "Bard")
+    # tabbed -n 'vimb' -c vimb 'https://bard.google.com/' -e
+    $BROWSER 'https://bard.google.com/'
+    ;;
+  "Brave")
+    search="$(echo -en '' | dmenu -Y 350 -W 700 -X 300 -l 3 -p 'Search keyword')" || exit
+	# s=$(urlencode "$search")
+    $BROWSER "$search"
+    ;;
+esac

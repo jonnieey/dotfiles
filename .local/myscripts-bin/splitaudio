@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+# -i input_file.wav is the name of the input audio file.
+# -f segment tells ffmpeg to use the segment format to split the audio file.
+# -segment_time 40:00 is the minimum segment duration in the format HH:MM:SS.
+# -segment_time_delta 00:00:01.000 tells ffmpeg to split the audio file at one second after the minimum segment duration, so each segment will be at least 40 minutes and 1 second long.
+# -vn tells ffmpeg to disable video recording.
+# -acodec libmp3lame -qscale:a 2 sets the output audio codec to MP3 with a quality of 2 (range is 0-9, with 0 being the best).
+# -af "silenceremove=1:0.1:-30dB" is the split criteria. This tells ffmpeg to split the audio file whenever there is silence of at least 1 second, with a volume level below -30 decibels.
+# The output files will be named as output_file_01.mp3, output_file_02.mp3, and so on.
+# ffmpeg -i "$input_file" -f segment -segment_time 40:00 -segment_time_delta 00:00:01.000 -vn -acodec libmp3lame -qscale:a 2 "splits/part %02d.mp3"
+
+# Function to print the usage of the script
+usage() {
+    echo "Usage: $0 -i <input_file> [-s <segment_time>]"
+    echo "  -i <input_file>  Specify the input audio file to be split."
+    echo "  -s <segment_time> Specify the segment time in the format HH:MM:SS (default: 40:00)."
+    exit 1
+}
+
+# Initialize variables
+input_file=""
+segment_time="40:00"
+
+# Parse command-line arguments using getopts
+while getopts ":i:s:" opt; do
+    case "${opt}" in
+        i)
+            input_file=${OPTARG}
+            ;;
+        s)
+            segment_time=${OPTARG}
+            ;;
+        *)
+            usage
+            ;;
+    esac
+done
+
+# Check if input file is provided
+if [ -z "$input_file" ]; then
+    usage
+fi
+
+# Validate that the input file exists
+if [ ! -f "$input_file" ]; then
+    echo "Error: Input file ${input_file} does not exist."
+    exit 1
+fi
+
+# input_file="$1"
+# get absolute base dir path of input file
+input_file_base=$(dirname "$(readlink -f "$input_file")") 
+mkdir -p "$input_file_base/splits"
+ext=${input_file##*.}
+
+ffmpeg -i "$input_file" -f segment -segment_time "$segment_time" -segment_time_delta 00:00:01.000 -segment_start_number 1 -reset_timestamps 1 -map 0 -vn -acodec copy "splits/part %01d.${ext}"

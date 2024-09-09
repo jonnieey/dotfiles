@@ -1,0 +1,20 @@
+#!/bin/sh
+devices() {
+	lsblk -a -o 'PATH,LABEL,FSAVAIL,SIZE,MOUNTPOINT'
+}
+
+no_of_devices() {
+	devices | wc -l
+}
+
+device=$(devices | dmenu -i -l "$(no_of_devices)" | cut -d' ' -f1)
+
+if [ -n "$device" ] ; then
+	if mount | grep -q "$device" ; then
+		msg=$(udisksctl unmount -b "$device")
+		notify-send 'Unmount' "$msg"
+	else
+		msg=$(udisksctl mount -b "$device")
+		notify-send 'Mount' "$msg"
+	fi
+fi

@@ -1,0 +1,94 @@
+#!/bin/bash
+BITRATE="192K"
+DEL_ORIG="FALSE"
+
+convert_files(){
+	for i in "$@";
+		do abs_name="${i%.*}";
+		name=$(basename "$abs_name");
+
+		if [ -n "$DESTINATION" ]; then
+			if [ ! -d "$DESTINATION" ] ; then
+			  mkdir -p "$DESTINATION"
+			fi
+
+			if [[ "$DEL_ORIG" =~ "true" ]]; then
+				ffmpeg -i "$i" -ab "$BITRATE" "${DESTINATION}/${name}.mp3" && rm "$i";
+			else
+				ffmpeg -i "$i" -ab "$BITRATE" "${DESTINATION}/${name}.mp3";
+			fi
+
+		else
+			if [[ "$DEL_ORIG" =~ "true" ]]; then
+				ffmpeg -i "$i" -ab $BITRATE "$abs_name.mp3" && rm "$i";
+			else
+				ffmpeg -i "$i" -ab $BITRATE "$abs_name.mp3";
+			fi
+		fi
+	done
+
+}
+convert_dir(){
+	for i in $@/**;
+		do abs_name="${i%.*}";
+		name=$(basename "$abs_name");
+
+		if [ -n "$DESTINATION" ]; then
+			if [ ! -d "$DESTINATION" ] ; then
+			  mkdir -p "$DESTINATION"
+			fi
+
+			if [[ "$DEL_ORIG" =~ "true" ]]; then
+				ffmpeg -i "$i" -ab "$BITRATE" "${DESTINATION}/${name}.mp3" && rm "$i";
+			else
+				ffmpeg -i "$i" -ab "$BITRATE" "${DESTINATION}/${name}.mp3";
+			fi
+
+		else
+			if [[ "$DEL_ORIG" =~ "true" ]]; then
+				ffmpeg -i "$i" -ab $BITRATE "$abs_name.mp3" && rm "$i";
+			else
+				ffmpeg -i "$i" -ab $BITRATE "$abs_name.mp3";
+			fi
+		fi
+
+	done
+
+}
+usage() {
+	echo "	Convert to MP3
+Usage: convert_to_mp3 [-oxhb] [-df]
+	-d --dir	Directory to convert
+	-f --file	File to convert
+	-o --dest	Destination Folder
+	-b --bitrate	Bitrate
+	-x --del	Delete original
+	-h --help	Display Help"
+	return
+}
+
+(( $# )) || usage
+
+while [ "${1+defined}" ]; do
+	case $1 in 
+	-x | --del) shift
+		DEL_ORIG="$1"
+		;;
+	-o | --dest) shift
+		DESTINATION="$1"
+		;;
+	-f | --file) shift
+		convert_files "$@"
+		;;
+	-d | --dir) shift
+		convert_dir "$@"
+		;;
+	-b | --bitrate) shift
+		BITRATE="$1"
+		;;
+	-h | --help) shift
+		usage
+		;;
+	esac
+	shift
+done

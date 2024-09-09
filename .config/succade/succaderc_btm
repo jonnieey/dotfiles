@@ -36,24 +36,24 @@ raw = true
 command = "dwm-symbol"
 raw = true
 
+[title]
+command = "dwm-title"
+interval = 1
+
 [date]
 command = "date +'%A %d %B %R'"
 mouse-right = 'st -g 60x20+760+320 -e calcurse'
 interval = 1
 
 [battery]
-command = "sb-battery"
+command = "sb-modules -b"
 interval = 3
 
 [network]
-command="net-sysclass -I  $(ip -o -4 route show to default | awk '{print $5}') -msk -g k -f '%TK %RK'"
+command="sb-modules -B"
 interval = 1
 margin = 5
 
 [temp]
-command = "temp-sensors -m -c core -f 0 -mu"
-interval = 1
-
-[title]
-command = "dwm-title"
+command = "sb-modules -t"
 interval = 1

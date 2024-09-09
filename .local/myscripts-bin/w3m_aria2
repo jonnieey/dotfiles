@@ -1,0 +1,18 @@
+#!/bin/bash
+
+LINK="$1"
+
+aria2p -s aria2c add $LINK
+
+
+# save_link(){
+  # echo $LINK >> $(cat ~/.config/aria2/aria2.conf |grep -w 'dir=' | awk -F '=' '{print $2}')/download_links.txt 
+# }
+
+# notify(){
+#   notify-send -t 4000 -i package-x-generic "Aria2c: Downloading" "$LINK"
+# }
+
+# save_link
+# notify
+#bash -c 'TS_SOCKET=/tmp/w3m tsp aria2p -s aria2c add "$0" && echo "$0" >> "$(cat ~/.config/aria2/aria2.conf | grep -w dir= | awk -F'=' '{print $2}')/download_links" && notify-send -t 5000 -i package-x-generic "Aria2c: Downloading" "$0"'

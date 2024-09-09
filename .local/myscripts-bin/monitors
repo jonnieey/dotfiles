@@ -1,0 +1,63 @@
+#!/bin/bash
+
+extramonitor() {
+  IFS=$'\n' mapfile -t  array< <(xrandr |grep -B 1 '+$' | awk -F ' ' '{print $1}'| sed 's/--//'| grep -v '^$')
+
+  # array=(monitor resolution monitor resolution)
+  if [ $(( ${#array[@]} % 2 )) -ne 0 ]; then
+    echo "Array size is not even. Ensure each monitor has a corresponding resolution"
+	  echo "Ex. array=(monitor resolution monitor resolution)"
+    exit 1
+  fi
+
+  previous_monitor=""
+
+  for ((i=0; i<${#array[@]}; i+=2)); do
+    current_monitor="${array[i]}"
+    resolution="${array[i+1]}"
+
+    xrandr_command="xrandr --output ${current_monitor} --mode ${resolution} --auto"
+
+    if [ -n "$previous_monitor" ]; then
+      xrandr_command+=" --right-of ${previous_monitor}"
+    fi
+    eval "$xrandr_command"
+    previous_monitor="${current_monitor}"
+  done
+
+}
+
+onlymonitor () {
+  PRIMARY=$(xrandr| grep " primary" | awk -F ' ' '{print $1}')
+  IFS=$'\n' mapfile -t OTHERS < <(xrandr | grep " connected" | grep -v "$PRIMARY" | awk -F ' ' '{print $1}')
+
+  for OUTPUT in "${OTHERS[@]}"; do
+    xrandr --output "$OUTPUT" --off
+  done
+}
+usage () {
+  echo "Usage: $0 [-o] [-e]"
+  echo "  -o  Only primary monitor"
+  echo "  -e  Extra monitor"
+  return 1
+}
+
+if [ $# -eq 0 ]; then
+  usage
+  exit 1
+fi
+
+while getopts "oe" opt; do
+    case "${opt}" in
+        o)
+        onlymonitor
+            ;;
+        e)
+	  extramonitor
+            ;;
+        *)
+            usage
+            exit 1
+            ;;
+    esac
+done

@@ -1,0 +1,62 @@
+#!/usr/bin/bash -x
+replace() {
+    FILE=$1
+    FIND=$2
+    REPLACE=$3
+
+    unzip -oq "$FILE" -d ./tmp
+    sed -i "s/$FIND/$REPLACE/g" ./tmp/word/document.xml
+    (cd tmp && zip -qr "../$FILE" ./*)
+    rm -rf ./tmp
+}
+# find_and_replace "$@"
+function show_help() {
+    echo "Usage: $0 -d directory -o oldword -n newword"
+    echo
+    echo " -d DIRECTORY   The directory containing .docx files for the replacements."
+    echo " -o OLDWORD     The word to be replaced."
+    echo " -n NEWWORD     The new word that will replace the old word."
+    echo
+}
+
+directory=""
+oldword=""
+newword=""
+
+# Parse command-line options
+while getopts ":d:o:n:" opt; do
+    case "${opt}" in
+        d)
+            directory=${OPTARG}
+            ;;
+        o)
+            oldword=${OPTARG}
+            ;;
+        n)
+            newword=${OPTARG}
+            ;;
+        *)
+            show_help
+            exit 1
+            ;;
+    esac
+done
+
+if [[ -z "$directory" || -z "$oldword" || -z "$newword" ]]; then
+    show_help
+    exit 1
+fi
+
+function main() {
+    if [[ -d "$directory" ]]; then
+        for file in "$directory"/*.docx; do
+            replace "$file" "$oldword" "$newword"
+        done
+    elif [[ -f "$directory" ]]; then
+         replace "$directory" "$oldword" "$newword"
+    else
+        echo "Error occured, $1 not a dir or file"
+
+    fi
+}
+main "$@"
