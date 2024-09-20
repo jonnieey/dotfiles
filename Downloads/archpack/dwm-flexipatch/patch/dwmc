@@ -97,6 +97,7 @@ case $# in
 	shiftview) ;&
 	shiftviewclients) ;&
 	focusmon) ;&
+	placedir) ;&
 	focusdir) ;&
 	tagmon)
 		signal $1 i $2

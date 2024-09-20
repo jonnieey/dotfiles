@@ -1,157 +1,318 @@
-# --- Colors ---
-# Match with Xresources
-base00 = "#101010"
-base01 = "#d0484e"
-base02 = "#25c192"
-base03 = "#f28735"
-base04 = "#49a6d0"
-base05 = "#f74e8b"
-base06 = "#d8a89a"
-base07 = "#fdeadb"
-base08 = "#121012"
-base09 = "#c0383e"
-base0A = "#15b082"
-base0B = "#e27725"
-base0C = "#3996c0"
-base0D = "#f74e8b"
-base0E = "#c8988a"
-base0F = "#fdeadb"
+clr = {
+    "bg": "#1D252C", # bg, gunmetal
+    "bg-alt": "#171D22", #bg-alt, eerie-black
+    # "rich-black": "#001021", # rich black FOGRA 29 (extra)
+    "smoky-black": "#0F110C", # smoky black (extra)
+    "bg-selected": "#10151C", #bg-selected
+    "bg-lightened": "#41505e", #bg-lightened
+    "fg-disabled": "#56697a", #fg-disabled
+    "fg": "#a0b3c5", #base05 (white-ish, cadet-blue-crayola)
+    # "cbc-alt": "#9CAABB", # base08 (white-ish, cadet-blue alt)
+    # "fg-alt": "#728ca0", #base06 (bright white, light-slate-gray)
+    "maya-blue": "#5ec4ff", # blue
+    "paradise-pink": "#d95468", # red
+    # "lava-red": "#C81D25", # red (extra)
+    "persian-orange": "#D98E48", # orange
+    "gold-crayola": "#EBBF83", # yellow
+    "celadon": "#8BD49C", # green
+    "dark-cyan": "#008b94", # dark cyan
+    "cornflower-blue": "#539AFC", # bright blue
+    "shimmering-blush": "#e27e8d", # magenta
+    "maroon-x11": "#b62d65", # violet
+    "electric-blue": "#70E1E8", # cyan (extra)
+    "midnight-green-eagle": "#114B5F" # unused (extra)
+}
 
-# May be a single color to use for
+## COMPLETION
+
+# Text color of the completion widget. May be a single color to use for
 # all columns or a list of three colors, one for each column.
-c.colors.completion.fg = "#88fdeadb"
-c.colors.completion.odd.bg = "#88101010"
-c.colors.completion.even.bg = "#88100000"
+c.colors.completion.fg = clr["fg"]
 
-# onfig Foreground color of completion widget category headers.
-c.colors.completion.category.fg = base0F
-c.colors.completion.category.bg = "#77101010"
-c.colors.completion.category.border.top = "#8849a6d0"
-c.colors.completion.category.border.bottom = "#8849a6d0"
-c.colors.completion.item.selected.fg = base00
-c.colors.completion.item.selected.bg = "#ccf74e8b"
-c.colors.completion.item.selected.border.top = "#aaefdfef"
-c.colors.completion.item.selected.border.bottom = "#bbe73d7b"
-c.colors.completion.item.selected.match.fg = base0F
-c.colors.completion.match.fg = base0A
-# onfig Color of the scrollbar handle in the completion view.
-c.colors.completion.scrollbar.fg = "#aaf28735"
-# onfig Color of the scrollbar in the completion view.
-c.colors.completion.scrollbar.bg = "#55101010"
+# Background color of the completion widget for odd rows.
+c.colors.completion.odd.bg = clr["bg-alt"]
 
-# onfig --- Context menu ---
+# Background color of the completion widget for even rows.
+c.colors.completion.even.bg = clr["bg"]
 
-c.colors.contextmenu.disabled.bg = "#77000000"
-c.colors.contextmenu.disabled.fg = base01
-# onfig Background color of the context menu. If set to null, the Qt default is used.
-c.colors.contextmenu.menu.bg = "#99101010"
-c.colors.contextmenu.menu.fg = base0F
-c.colors.contextmenu.selected.bg = "#ddf74e8b"
-c.colors.contextmenu.selected.fg = base00
+# Foreground color of completion widget category headers.
+c.colors.completion.category.fg = clr["cornflower-blue"]
 
+# Background color of the completion widget category headers.
+c.colors.completion.category.bg = clr["bg-alt"]
 
-# --- Downloads ---
+# Top border color of the completion widget category headers.
+c.colors.completion.category.border.top = clr["smoky-black"]
 
-c.colors.downloads.bar.bg = "#88101010"
-# onfig c.colors.downloads.start.fg = base00
-# onfig c.colors.downloads.start.bg = base0D
-c.colors.downloads.start.fg = base0D
-c.colors.downloads.start.bg = "#00101010"
-c.colors.downloads.stop.fg = base0C
-c.colors.downloads.stop.bg = "#77101010"
-c.colors.downloads.error.fg = base09
-c.colors.downloads.system.bg = "hsv"
+# Bottom border color of the completion widget category headers.
+c.colors.completion.category.border.bottom = clr["smoky-black"]
 
-# onfig --- Hints ---
+# Foreground color of the selected completion item.
+c.colors.completion.item.selected.fg = clr["electric-blue"]
 
-c.colors.hints.fg = base0E
-# onfig Note that you can use a `rgba(...)` value for transparency.
-c.colors.hints.bg = "#88101010"
-c.colors.hints.match.fg = base05
-c.colors.keyhint.fg = base05
-# onfig Highlight color for keys to complete the current keychain.
-c.colors.keyhint.suffix.fg = base05
-c.colors.keyhint.bg = "#88101010"
+# Background color of the selected completion item.
+c.colors.completion.item.selected.bg = clr["bg-selected"]
 
-# onfig --- Messages ---
+# Top border color of the selected completion item.
+c.colors.completion.item.selected.border.top = clr["bg-selected"]
 
-c.colors.messages.error.fg = base09
-c.colors.messages.error.bg = "#66101010"
-c.colors.messages.error.border = base09
-c.colors.messages.warning.fg = base09
-c.colors.messages.warning.bg = "#77101010"
-c.colors.messages.warning.border = base09
-c.colors.messages.info.fg = base01
-c.colors.messages.info.bg = "#66101010"
-c.colors.messages.info.border = "#99101010"
+# Bottom border color of the selected completion item.
+c.colors.completion.item.selected.border.bottom = clr["bg-selected"]
 
+# Foreground color of the matched text in the selected completion item.
+c.colors.completion.item.selected.match.fg = clr["persian-orange"]
 
-# --- Prompts ---
+# Foreground color of the matched text in the completion.
+c.colors.completion.match.fg = clr["gold-crayola"]
 
-c.colors.prompts.fg = base0F
-# onfig Border used around UI elements in prompts.
-c.colors.prompts.border = "#25c192"
-c.colors.prompts.bg = "#ef101010"
-c.colors.prompts.selected.bg = "#ef101010"
-c.colors.prompts.selected.fg = base00
+# Color of the scrollbar handle in the completion view.
+c.colors.completion.scrollbar.fg = clr["fg"]
 
+# Color of the scrollbar in the completion view.
+c.colors.completion.scrollbar.bg = clr["bg"]
 
-# --- Status bar ---
+## CONTEXT MENU
 
-c.colors.statusbar.normal.fg = base05
-c.colors.statusbar.normal.bg = "#88101010"
-c.colors.statusbar.insert.fg = base08
-c.colors.statusbar.insert.bg = "#aa25c192"
-c.colors.statusbar.passthrough.fg = base0A
-c.colors.statusbar.passthrough.bg = "#88101010"
-# onfig Foreground color of the statusbar in private browsing mode.
-c.colors.statusbar.private.fg = base0E
-# onfig Background color of the statusbar in private browsing mode.
-c.colors.statusbar.private.bg = "#88101010"
-c.colors.statusbar.command.fg = base04
-c.colors.statusbar.command.bg = "#88101004"
-c.colors.statusbar.command.private.fg = base0E
-c.colors.statusbar.command.private.bg = "#88101010"
-c.colors.statusbar.caret.fg = base0D
-c.colors.statusbar.caret.bg = "#77101010"
-c.colors.statusbar.caret.selection.fg = base0D
-c.colors.statusbar.caret.selection.bg = "#77101010"
-c.colors.statusbar.progress.bg = base0D
+# Background color of disabled items in the context menu.
+c.colors.contextmenu.disabled.bg = clr["bg-alt"]
 
-# onfig --- Status bar URL ---
+# Foreground color of disabled items in the context menu.
+c.colors.contextmenu.disabled.fg = clr["fg-disabled"]
 
-c.colors.statusbar.url.fg = base05
-c.colors.statusbar.url.error.fg = base08
-# onfig Foreground color of the URL in the statusbar for hovered links.
-c.colors.statusbar.url.hover.fg = base0B
-c.colors.statusbar.url.success.http.fg = base0C
-c.colors.statusbar.url.success.https.fg = base0C
-c.colors.statusbar.url.warn.fg = base09
+# Background color of the context menu. If set to null, the Qt default is used.
+c.colors.contextmenu.menu.bg = clr["bg"]
 
+# Foreground color of the context menu. If set to null, the Qt default is used.
+c.colors.contextmenu.menu.fg =  clr["fg"]
 
-# --- Tabs ---
+# Background color of the context menu’s selected item. If set to null, the Qt default is used.
+c.colors.contextmenu.selected.bg = clr["bg-selected"]
 
-c.colors.tabs.bar.bg = "#10101010"
-c.colors.tabs.indicator.start = base03
-c.colors.tabs.indicator.stop = base0B
-c.colors.tabs.indicator.error = base08
-c.colors.tabs.odd.fg = base02
-c.colors.tabs.odd.bg = "#66101010"
-c.colors.tabs.even.fg = base03
-c.colors.tabs.even.bg = "#66101010"
-c.colors.tabs.pinned.even.bg = "#66101002"
-c.colors.tabs.pinned.even.fg = base00
-c.colors.tabs.pinned.odd.bg = "#66101002"
-c.colors.tabs.pinned.odd.fg = base00
-c.colors.tabs.pinned.selected.even.bg = "#aaf74e8b"
-c.colors.tabs.pinned.selected.even.fg = base00
-c.colors.tabs.pinned.selected.odd.bg = "#aaf74e8b"
-c.colors.tabs.pinned.selected.odd.fg = base00
+#Foreground color of the context menu’s selected item. If set to null, the Qt default is used.
+c.colors.contextmenu.selected.fg = clr["fg"]
 
-# onfig --- Selected tabs ---
-c.colors.tabs.selected.odd.fg = base0A
-c.colors.tabs.selected.odd.bg = "#77101010"
-c.colors.tabs.selected.even.fg = base0A
-c.colors.tabs.selected.even.bg = "#77101010"
-# onfig Default page background when there is none
-c.colors.webpage.bg = base0F
+## DOWNLOADS
+
+# Background color for the download bar.
+c.colors.downloads.bar.bg = clr["bg"]
+
+# Color gradient start for download text.
+c.colors.downloads.start.fg = clr["bg"]
+
+# Color gradient start for download backgrounds.
+c.colors.downloads.start.bg = clr["cornflower-blue"]
+
+# Color gradient end for download text.
+c.colors.downloads.stop.fg = clr["bg"]
+
+# Color gradient stop for download backgrounds.
+c.colors.downloads.stop.bg = clr["dark-cyan"]
+
+# Foreground color for downloads with errors.
+c.colors.downloads.error.fg = clr["paradise-pink"]
+
+## HINTS
+
+# Font color for hints.
+c.colors.hints.fg = clr["bg"]
+
+# Background color for hints. Note that you can use a `rgba(...)` value
+# for transparency.
+c.colors.hints.bg = clr["gold-crayola"]
+
+# Font color for the matched part of hints.
+c.colors.hints.match.fg = clr["fg"]
+
+# Text color for the keyhint widget.
+c.colors.keyhint.fg = clr["fg"]
+
+# Highlight color for keys to complete the current keychain.
+c.colors.keyhint.suffix.fg = clr["gold-crayola"]
+
+# Background color of the keyhint widget.
+c.colors.keyhint.bg = clr["bg"]
+
+## MESSAGES
+
+# Foreground color of an error message.
+c.colors.messages.error.fg = clr["paradise-pink"]
+
+# Background color of an error message.
+c.colors.messages.error.bg = clr["bg"]
+
+# Border color of an error message.
+c.colors.messages.error.border = clr["paradise-pink"]
+
+# Foreground color of a warning message.
+c.colors.messages.warning.fg = clr["persian-orange"]
+
+# Background color of a warning message.
+c.colors.messages.warning.bg = clr["bg"]
+
+# Border color of a warning message.
+c.colors.messages.warning.border = clr["persian-orange"]
+
+# Foreground color of an info message.
+c.colors.messages.info.fg = clr["electric-blue"]
+
+# Background color of an info message.
+c.colors.messages.info.bg = clr["bg"]
+
+# Border color of an info message.
+c.colors.messages.info.border = clr["electric-blue"]
+
+## PROMPTS
+
+# Foreground color for prompts.
+c.colors.prompts.fg = clr["fg"]
+
+# Border used around UI elements in prompts.
+c.colors.prompts.border = clr["bg"]
+
+# Background color for prompts.
+c.colors.prompts.bg = clr["bg"]
+
+# Background color for the selected item in filename prompts.
+c.colors.prompts.selected.bg = clr["bg-selected"]
+
+# Foreground color for the selected item in filename prompts.
+c.colors.prompts.selected.fg = clr["fg"]
+
+## STATUSBAR
+
+# Foreground color of the statusbar.
+c.colors.statusbar.normal.fg = clr["celadon"]
+
+# Background color of the statusbar.
+c.colors.statusbar.normal.bg = clr["bg"]
+
+# Foreground color of the statusbar in insert mode.
+c.colors.statusbar.insert.fg = clr["bg"]
+
+# Background color of the statusbar in insert mode.
+c.colors.statusbar.insert.bg = clr["cornflower-blue"]
+
+# Foreground color of the statusbar in passthrough mode.
+c.colors.statusbar.passthrough.fg = clr["bg"]
+
+# Background color of the statusbar in passthrough mode.
+c.colors.statusbar.passthrough.bg = clr["dark-cyan"]
+
+# Foreground color of the statusbar in private browsing mode.
+c.colors.statusbar.private.fg = clr["bg"]
+
+# Background color of the statusbar in private browsing mode.
+c.colors.statusbar.private.bg = clr["bg-alt"]
+
+# Foreground color of the statusbar in command mode.
+c.colors.statusbar.command.fg = clr["fg"]
+
+# Background color of the statusbar in command mode.
+c.colors.statusbar.command.bg = clr["bg"]
+
+# Foreground color of the statusbar in private browsing + command mode.
+c.colors.statusbar.command.private.fg = clr["fg"]
+
+# Background color of the statusbar in private browsing + command mode.
+c.colors.statusbar.command.private.bg = clr["bg"]
+
+# Foreground color of the statusbar in caret mode.
+c.colors.statusbar.caret.fg = clr["bg"]
+
+# Background color of the statusbar in caret mode.
+c.colors.statusbar.caret.bg = clr["maroon-x11"]
+
+# Foreground color of the statusbar in caret mode with a selection.
+c.colors.statusbar.caret.selection.fg = clr["bg"]
+
+# Background color of the statusbar in caret mode with a selection.
+c.colors.statusbar.caret.selection.bg = clr["cornflower-blue"]
+
+# Background color of the progress bar.
+c.colors.statusbar.progress.bg = clr["cornflower-blue"]
+
+# Default foreground color of the URL in the statusbar.
+c.colors.statusbar.url.fg = clr["fg"]
+
+# Foreground color of the URL in the statusbar on error.
+c.colors.statusbar.url.error.fg = clr["paradise-pink"]
+
+# Foreground color of the URL in the statusbar for hovered links.
+c.colors.statusbar.url.hover.fg = clr["electric-blue"] # ex. cadet blue crayola
+
+# Foreground color of the URL in the statusbar on successful load
+# (http).
+c.colors.statusbar.url.success.http.fg = clr["fg"]
+
+# Foreground color of the URL in the statusbar on successful load
+# (https).
+c.colors.statusbar.url.success.https.fg = clr["celadon"]
+
+# Foreground color of the URL in the statusbar when there's a warning.
+c.colors.statusbar.url.warn.fg = clr["shimmering-blush"]
+
+## TABS
+
+# Background color of the tab bar.
+c.colors.tabs.bar.bg = clr["bg"]
+
+# Color gradient start for the tab indicator.
+c.colors.tabs.indicator.start = clr["cornflower-blue"]
+
+# Color gradient end for the tab indicator.
+c.colors.tabs.indicator.stop = clr["dark-cyan"]
+
+# Color for the tab indicator on errors.
+c.colors.tabs.indicator.error = clr["paradise-pink"]
+
+# Foreground color of unselected odd tabs.
+c.colors.tabs.odd.fg = clr["fg"]
+
+# Background color of unselected odd tabs.
+c.colors.tabs.odd.bg = clr["bg-selected"]
+
+# Foreground color of unselected even tabs.
+c.colors.tabs.even.fg = clr["fg"]
+
+# Background color of unselected even tabs.
+c.colors.tabs.even.bg = clr["bg-selected"]
+
+# Background color of pinned unselected even tabs.
+c.colors.tabs.pinned.even.bg = clr["bg-selected"]
+
+# Foreground color of pinned unselected even tabs.
+c.colors.tabs.pinned.even.fg = clr["fg"]
+
+# Background color of pinned unselected odd tabs.
+c.colors.tabs.pinned.odd.bg = clr["bg-selected"]
+
+# Foreground color of pinned unselected odd tabs.
+c.colors.tabs.pinned.odd.fg = clr["fg"]
+
+# Background color of pinned selected even tabs.
+c.colors.tabs.pinned.selected.even.bg = clr["bg-lightened"]
+
+# Foreground color of pinned selected even tabs.
+c.colors.tabs.pinned.selected.even.fg = clr["fg"]
+
+# Background color of pinned selected odd tabs.
+c.colors.tabs.pinned.selected.odd.bg = clr["bg-lightened"]
+
+# Foreground color of pinned selected odd tabs.
+c.colors.tabs.pinned.selected.odd.fg = clr["fg"]
+
+# Foreground color of selected odd tabs.
+c.colors.tabs.selected.odd.fg = clr["fg"]
+
+# Background color of selected odd tabs.
+c.colors.tabs.selected.odd.bg = clr["bg-lightened"]
+
+# Foreground color of selected even tabs.
+c.colors.tabs.selected.even.fg = clr["fg"]
+
+# Background color of selected even tabs.
+c.colors.tabs.selected.even.bg = clr["bg-lightened"]
+
+# Background color for webpages if unset (or empty to use the theme's
+# color).
+# c.colors.webpage.bg = clr["bg"]

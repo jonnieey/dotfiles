@@ -1,3 +1,9 @@
 return {
-  { 'Exafunction/codeium.vim', lazy = true },
+  {
+    'Exafunction/codeium.vim',
+    lazy = false,
+    config = function()
+      require 'custom.configs.codeium'
+    end,
+  },
 }

@@ -332,13 +332,13 @@ Icons=false
 # 4 = 'wcp', and 5 = 'rsync -avP'
 # 2-5 include a progress bar.
 # Only 0 and 2 will prompt before overwrite.
-;cpCmd=0
+cpCmd=5
 
 # Set the default move command. Available options are:
 # 0 = 'mv -i', 1 = 'mv', 2 = 'advmv -gi', and 3 = 'advmv -g'
 # 2 and 3 include a progress bar.
 # Only 0 and 2 will prompt before overwrite.
-;mvCmd=0
+mvCmd=2
 
 # How should the 'l' command create symbolic links. Possible values:
 # absolute = Make the target an absolute path
@@ -390,7 +390,7 @@ TerminalCmd="st"
 #=====================================#
 
 # Send errors, warnings, and notices to the notification daemon.
-;DesktopNotifications=false
+DesktopNotifications=true
 
 # Log errors and warnings.
 ;LogMsgs=false
@@ -469,7 +469,7 @@ TerminalCmd="st"
 ;Tips=true
 
 # Just a kind welcome message at startup.
-;WelcomeMessage=true
+WelcomeMessage=false
 
 # Set a custom welcome message.
 # Colors are available via escape codes. E.g.: "\e[34mWelcome!\e[0m".
@@ -495,6 +495,7 @@ TerminalCmd="st"
 #alias vtd='cd $CLIFM_VIRTUAL_DIR'
 # Replace the built-in bulk rename function (br) by vidir(1).
 #br='vidir'
+bcp='rysnc -avP'
 
 #=====================================#
 #         7. PROMPT COMMANDS          #
@@ -530,4 +531,4 @@ autocmd ~/Downloads/** st=5,mf=30,sr=0
 
 # I want files in the third workspace to be listed in long view.
 #autocmd @ws3 lv=1
-export EDITOR=nvim
+EDITOR=nvim

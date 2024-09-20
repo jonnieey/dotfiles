@@ -52,7 +52,7 @@ return {
         require 'custom.configs.vim-ledger'
       end,
     },
-    { 'junegunn/vim-easy-align', lazy = true },
+    { 'junegunn/vim-easy-align', lazy = true, ft = { 'ledger' } },
     {
       'robitx/gp.nvim',
       config = function()

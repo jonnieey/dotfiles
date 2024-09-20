@@ -25,7 +25,7 @@ BROWSER="qutebrowser $@"
 # PRIVBROWSER="$BROWSER --incognito $@"
 PRIVBROWSER="qutebrowser -T -C $HOME/.config/qutebrowser/config-priv.py $@"
 
-sites=("Duck" "Youtube" "Gmail" "Github" "Temi" "Temp-mail" "ALX" "ChatGPT" "Bard" )
+sites=("Duck" "Youtube" "Gmail" "Github" "Temi" "Temp-mail" "ALX" "ChatGPT" "Bard" "Aur" )
 
 site=$(printf '%s\n' "${sites[@]}" | dmenu -Y 350 -W 700 -X 300 -i -l 5 -g 2 -p "Sites")
 
@@ -36,7 +36,7 @@ case $site in
     browser=$(printf '%s\n' "${browsers[@]}" | dmenu -Y 350 -W 700 -X 300 -i -l 5 -g 2 -p "Browsers") || exit
     case $browser in
       "qutebrowser")
-        qutebrowser "$search"
+        $BROWSER "$search"
         ;;
       "vimb")
         tabbed -n 'vimb' -c vimb "$search" -e
@@ -95,5 +95,9 @@ case $site in
     search="$(echo -en '' | dmenu -Y 350 -W 700 -X 300 -l 3 -p 'Search keyword')" || exit
 	# s=$(urlencode "$search")
     $BROWSER "$search"
+    ;;
+  "Aur")
+    search="$(echo -en '' | dmenu -Y 350 -W 700 -X 300  -i -l 3 -p 'Search keyword')" || exit
+    $BROWSER "https://wiki.archlinux.org/index.php?title=Special%3ASearch&search=$search"
     ;;
 esac

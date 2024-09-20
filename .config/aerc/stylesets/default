@@ -1,144 +1,79 @@
 # vim: ft=dosini
-; *.default=true
-; *.normal=true
-;
-; #border.bg=#BD93F9
-; title.bg=#BD93F9
-;
-; title.fg=black
-; title.bold=true
-;
-; header.bold=true
-; header.fg=#BD93F9
-;
-; tab.selected.fg=black
-; tab.selected.bg=#BD93F9
-; tab.selected.bold=false
-; dirlist*.selected.bg=#44475A
-; dirlist*.selected.fg=white
-; dirlist*.selected.bold=false
-; dirlist*.selected.italic=false
-;
-; *error.bold=true
-; *error.fg=red
-; *warning.fg=yellow
-; *success.fg=green
-;
-; statusline_default.bg=#303030
-; statusline_error.fg=red
-;
-; msglist_unread.fg=#ffffff
-; msglist_unread.bold=true
-; msglist_deleted.fg=#666666
-; msglist_*.selected.bg=#44475A
-; msglist_result.bg=#6272A4
-; msglist_marked.fg=black
-; msglist_marked.selected.fg=black
-; msglist_marked.bg=#BD93F9
-; msglist_marked.selected.bg=#9956f5
-; msglist_pill.reverse=true
-;
-; part_*.fg=#ffffff
-; part_mimetype.fg=#44475A
-; part_*.selected.fg=#ffffff
-; part_*.selected.bg=#44475A
-; part_filename.selected.bold=true
-;
-; completion_pill.reverse=false
-; selector_focused.bold=false
-; selector_focused.bg=#44475A
-; selector_focused.fg=white
-; selector_chooser.bold=false
-; selector_chooser.bg=#44475A
-; selector_chooser.fg=white
-; default.selected.bold=false
-; default.selected.fg=white
-; default.selected.bg=#44475A
-;
-; completion_default.selected.bg=#44475A
-; completion_default.selected.fg=white
-;
-; [viewer]
-; url.underline=true
-; header.bold=true
-; signature.dim=true
-; diff_meta.bold=true
-; diff_chunk.dim=true
-; diff_add.fg=2
-; diff_del.fg=1
-; quote_*.fg=6
-; quote_*.dim=true
-; quote_1.dim=false
-;
+#
+# aerc default styleset
+#
+# This styleset uses the terminal defaults as its base.
+# More information on how to configure the styleset can be found in
+# the aerc-stylesets(7) manpage. Please read the manual before
+# modifying or creating a styleset.
 
-*.default=true
-*.normal=true
+# Uncomment these two lines to reset all attributes (except in the [viewer]
+# section) and start from scratch.
+*.default = true
+*.normal = true
 
-border.bg=#005f87
-title.bg=#005f87
+*.selected.bg = 8
+*.selected.fg = 0
+*.selected.bold = true
 
-title.fg=white
-title.bold=true
+statusline_*.dim = true
+statusline_*.bg = 0
+statusline_*.fg = 7
 
-header.bold=true
-header.fg=#005f87
+*warning.fg = 3
+*success.fg = 2
+*error.fg = 1
+*error.bold = true
 
-tab.selected.fg=white
-tab.selected.bg=#005f87
-tab.selected.bold=true
-dirlist*.selected.bg=#005f87
-dirlist*.selected.fg=white
-dirlist*.selected.bold=true
+border.fg = 0
+border.bold = true
+title.bg = 0
+title.fg = 8
+title.bold = true
 
-*error.bold=true
-*error.fg=red
-*warning.fg=yellow
-*success.fg=green
+header.fg = 4
+header.bold = true
 
-statusline_default.bg=#303030
-statusline_error.fg=red
+msglist_unread.bold = true
+msglist_unread.fg = 4
+msglist_deleted.dim = true
+msglist_marked.bg = 0
+msglist_marked.fg = 10
+msglist_pill.bg = 0
+msglist_pill.fg = 8
 
-msglist_unread.fg=#ffffff
-msglist_unread.bold=true
-msglist_deleted.fg=#666666
-msglist_*.selected.bg=#303030
-msglist_marked.fg=white
-msglist_marked.selected.fg=white
-msglist_marked.bg=#005f87
-msglist_marked.selected.bg=#005fff
-msglist_pill.reverse=true
+part_mimetype.fg = 4
 
-part_*.fg=#ffffff
-part_mimetype.fg=#005f87
-part_*.selected.fg=#ffffff
-part_*.selected.bg=#005f87
-part_filename.selected.bold=true
+selector_chooser.bold = true
+selector_focused.bold = true
+selector_focused.bg = 0
+selector_focused.fg = 8
 
-completion_pill.reverse=true
-selector_focused.bold=true
-selector_focused.bg=#005f87
-selector_focused.fg=white
-selector_chooser.bold=true
-selector_chooser.bg=#005f87
-selector_chooser.fg=white
-default.selected.bold=true
-default.selected.fg=white
-default.selected.bg=#005f87
+completion_pill.bg = 4
+completion_default.bg = 0
+completion_default.fg = 8
 
-completion_default.selected.bg=#005f87
-
-#[viewer]
-#url.fg=#ffffaf
-#url.underline=true
-#header.fg=#af87ff
-#signature.fg=#af87ff
-#diff_meta.fg=#ffffff
-#diff_meta.bold=true
-#diff_chunk.fg=#00cdcd
-#diff_add.fg=#00cd00
-#diff_del.fg=#cd0000
-#quote_1.fg=#5fafff
-#quote_2.fg=#ff8700
-#quote_3.fg=#af87ff
-#quote_4.fg=#ff5fd7
-#quote_x.fg=#808080
+[viewer]
+# Uncomment these two lines to reset all attributes in the [viewer] section.
+*.default = true
+*.normal = true
+url.underline = true
+url.fg = 3
+header.bold = true
+header.fg = 4
+signature.dim = true
+signature.fg = 4
+diff_meta.bold = true
+diff_chunk.fg = 6
+diff_chunk_func.fg = 6
+diff_chunk_func.dim = true
+diff_add.fg = 2
+diff_del.fg = 1
+quote_1.fg = 6
+quote_2.fg = 4
+quote_3.fg = 6
+quote_3.dim = true
+quote_4.fg = 4
+quote_4.dim = true
+quote_x.fg = 5
+quote_x.dim = true

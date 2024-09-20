@@ -3,6 +3,10 @@
 BASE_DIR="$HOME/Downloads/youtubedl"
 year_month=$(date +"%Y-%m")
 batch_file=""
+down_video_flag=false
+down_audio_flag=false
+audio_files=()
+video_files=()
 
 down_video() {
   DOWNLOAD_DIR="${BASE_DIR}/videos/${year_month}"
@@ -17,6 +21,7 @@ down_video() {
 }
 
 down_audio() {
+    echo "Using $batch_file"
   DOWNLOAD_DIR="${BASE_DIR}/audios/${year_month}"
   BATCH_FILE="${batch_file:=$HOME/Music/todownload_audio}"
   yt-dlp -ciw  \
@@ -61,19 +66,19 @@ fi
 while getopts "AVa:v:b:" opt; do
     case "${opt}" in
         A)
-        down_audio
+            down_audio_flag=true
             ;;
         V)
-        down_video
+            down_video_flag=true
             ;;
         a)
-            add_audio "${OPTARG}"
+            audio_files+=("${OPTARG}")
             ;;
         v)
-            add_video "${OPTARG}"
+            video_files+=("${OPTARG}")
             ;;
         b)
-            batch_file=${OPTARG}
+            batch_file="${OPTARG}"
             ;;
         *)
             usage
@@ -81,3 +86,19 @@ while getopts "AVa:v:b:" opt; do
             ;;
     esac
 done
+
+for file in "${audio_files[@]}"; do
+  add_audio "$file"
+done
+  
+for file in "${video_files[@]}"; do
+  add_video "$file"
+done
+
+if $download_audio_flag; then
+  down_audio
+fi
+
+if $download_video_flag; then
+  down_video
+fi

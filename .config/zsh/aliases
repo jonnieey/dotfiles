@@ -5,3 +5,6 @@ alias tchat='nchat -d $HOME/.config/nchat/telegram' "$@"
 alias wchat='nchat -d $HOME/.config/nchat/whatsapp' "$@"
 alias kchat='nchat -d $HOME/.config/nchat/nekochat' "$@"
 alias ddgr='ddgr -n 5 --unsafe --colors ofglxy'
+alias mntand='jmtpfs ~/.android_mount/'
+alias mpvc="mpvc -S $XDG_RUNTIME_DIR/.umpv_socket"
+alias spt="spotify_player"

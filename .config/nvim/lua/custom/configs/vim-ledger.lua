@@ -55,7 +55,7 @@ local function insert_next_day_entry(offset)
   local last_date = get_last_date()
   if last_date then
     local next_date = get_next_day(last_date, offset)
-    local entry = { next_date .. ' *', '  Assets:Checking:Mpesa' }
+    local entry = { next_date .. ' *', '    Assets:Checking:Mpesa' }
     vim.api.nvim_put(entry, 'l', true, true)
   else
     print 'No date found in the ledger file.'
@@ -76,10 +76,6 @@ end
 autocmd('FileType', {
   pattern = 'ledger',
   callback = function()
-    vim.cmd ':set foldmethod=marker'
-    vim.cmd ':set noexpandtab'
-    vim.cmd ':Lazy load vim-easy-align'
-
     vim.api.nvim_set_keymap('n', '{', [[?^\d<cr>]], { noremap = true, silent = true })
     vim.api.nvim_set_keymap('n', '}', [[/^\d<cr>]], { noremap = true, silent = true })
     vim.api.nvim_set_keymap('n', '<leader>al', [[:%EasyAlign /\-\?[(0-9]\+\.[0-9]\+ [A-Z]\{3\}/ {'lm': 5}<CR>]], { silent = true })

@@ -1,3 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/bash
+export DISPLAY=:0
 feh --no-fehbg --bg-fill --randomize ~/Pictures/wallpapers/*
 

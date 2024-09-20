@@ -159,18 +159,18 @@ return {
         pylsp = {
           plugins = {
             -- formatter options
-            black = { enabled = false, line_length = 79 },
+            black = { enabled = true, line_length = 79 },
             -- autopep8 = { enabled = false },
-            yapf = { enabled = false },
-            mccabe = { enabled = false },
+            -- yapf = { enabled = false },
+            -- mccabe = { enabled = false },
             -- -- linter options
-            pylint = { enabled = false, executable = 'pylint' },
-            pyflakes = { enabled = false },
-            pycodestyle = { enabled = false },
-            ruff = {
-              enabled = true, -- Enable the plugin
-              lineLength = 79, -- Line length to pass to ruff checking and formatting
-            },
+            -- pylint = { enabled = false, executable = 'pylint' },
+            -- pyflakes = { enabled = false },
+            -- pycodestyle = { enabled = false },
+            -- ruff = {
+            --   enabled = true, -- Enable the plugin
+            --   lineLength = 79, -- Line length to pass to ruff checking and formatting
+            -- },
             -- -- type checker
             pylsp_mypy = { enabled = true },
             -- -- auto-completion options

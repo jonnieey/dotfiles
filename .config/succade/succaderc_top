@@ -8,7 +8,7 @@ foreground = "#ffffff"
 background = "#000000"
 line-color = "#555555"
 line-width = 2
-font = "Iosevka Fixed Medium Extended:size=10"
+font = "Source Code Pro:style=Semibold:size=10"
 width = 1366
 bottom=false
 
@@ -21,7 +21,7 @@ foreground = "#ffffff"
 background = "#000000"
 line-color = "#555555"
 line-width = 2
-font = "Iosevka Fixed Medium Extended:size=10"
+font = "Source Code Pro:style=Semibold:size=10"
 width = 1440
 left = 1366
 bottom=false
@@ -61,9 +61,11 @@ mouse-right = "pomopyc -T"
 mouse-middle = "pomopyc -s"
 
 [root]
-command = "disk-statvfs -d / -f %FG"
+command = "sb-modules -d '${gb_free}G' '/$'"
 margin = 1
+interval = 5
 
 [home]
-command = "disk-statvfs -d ~ -f %FG"
+command = "sb-modules -d '${gb_free}G' '/home$'"
 margin = 1
+interval = 5

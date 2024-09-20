@@ -13,23 +13,20 @@ super + Escape
 	pkill -USR1 -x sxhkd
 
 # dwm
-# super + {k,j}
-	# dwmc focusstack {-,+}1
+super + {o,i}
+	dwmc focusstack {-,+}1
 
 super + {h,l,k,j}
 	dwmc focusdir {0,1,2,3}
 
-super + shift + {k,j}
-	dwmc movestack {-,+}1
+super + shift + {h,l,k,j}
+	dwmc placedir {0,1,2,3}
 
 super + {comma,period}
 	dwmc focusmon {-,+}
 
 super + shift + {comma,period}
 	dwmc tagmon {-,+}
-
-super + ctrl + {Up,Down}
-	dwmc movestack {-,+}1
 
 super + alt + {h,l}
 	dwmc setmfact {-,+}0.05
@@ -70,14 +67,14 @@ super + {_,ctrl +}{_,shift +} {1-9}
 super + 0
 	dwmc viewall
 
-super + {minus,plus}
-	dwmc setgaps {-,+}1
+super + alt + {minus,plus}
+	dwmc incrgaps {-,+}3
 
 super + {shift+space,space}
 	dwmc cyclelayout {-1,+1}
 
 super + semicolon; {e,g,w,v,m,z,x,n}
-	{st aerc,~/.local/myscripts-bin/dmenu-sites,st w3m -B,st clifm,~/.local/myscripts-bin/udisks-dmenu,st -e nchat -d "$HOME/.config/nchat/telegram", st -e nchat -d "$HOME/.config/nchat/whatsapp",st bash -c ncmpcpp}
+	{st aerc,"$HOME/.local/myscripts-bin/dmenu-sites",st w3m -B,st clifm,"$HOME/.local/myscripts-bin/udisks-dmenu",st -e nchat -d "$HOME/.config/nchat/telegram", st -e nchat -d "$HOME/.config/nchat/whatsapp",st bash -c ncmpcpp}
 
 ctrl + shift + Escape
   st btm --network_use_bytes --regex
