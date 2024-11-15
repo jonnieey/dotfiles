@@ -55,6 +55,7 @@ eval "$(zoxide init zsh)"
 export DISABLE_AUTO_TITLE="true"
 # export BROWSER="qutebrowser"
 export PRIVATE_BROWSER="qutebrowser -T -C ${HOME}/.config/qutebrowser/config-priv.py $@" 
+export PAGER="less -R"
 
 source ~/.config/zsh/aliases
 source ~/.config/zsh/private_aliases_envs

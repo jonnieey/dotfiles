@@ -496,6 +496,7 @@ WelcomeMessage=false
 # Replace the built-in bulk rename function (br) by vidir(1).
 #br='vidir'
 bcp='rysnc -avP'
+alias qmv='qmv -e nvim $@'
 
 #=====================================#
 #         7. PROMPT COMMANDS          #

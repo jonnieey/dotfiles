@@ -1,4 +1,4 @@
-#!/usr/bin/bash -x
+#!/usr/bin/bash
 replace() {
     FILE=$1
     FIND=$2

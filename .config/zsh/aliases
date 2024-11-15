@@ -8,3 +8,7 @@ alias ddgr='ddgr -n 5 --unsafe --colors ofglxy'
 alias mntand='jmtpfs ~/.android_mount/'
 alias mpvc="mpvc -S $XDG_RUNTIME_DIR/.umpv_socket"
 alias spt="spotify_player"
+
+anit() {
+  command anit "$@" | column -t -s - -o - | colorize -c cyan
+}

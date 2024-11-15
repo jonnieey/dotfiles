@@ -25,7 +25,7 @@ urlencode() {
 }
 
 mydmenu() {
-  dmenu -fn 'JetBrainsMono Nerd Font' -nb '#282c34' -nf '#abb2bf' -sb '#61afef' -sf '#282c34' -Y 350 -W 700 -X 300 -i -l 5 -g 2 -p "$1"
+  dmenu -nb '#282c34' -nf '#abb2bf' -sb '#61afef' -sf '#282c34' -Y 350 -W 700 -X 300 -i -l 5 -g 2 -p "$1"
 }
 
 sites=("Duck" "Youtube" "Gmail" "Github" "Temi" "Temp-mail" "ALX" "ChatGPT" "Bard" "Aur" )
