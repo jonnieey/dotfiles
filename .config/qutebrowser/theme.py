@@ -316,3 +316,18 @@ c.colors.tabs.selected.even.bg = clr["bg-lightened"]
 # Background color for webpages if unset (or empty to use the theme's
 # color).
 # c.colors.webpage.bg = clr["bg"]
+c.fonts.default_family = "JetBrains Mono Nerd Font"
+c.fonts.default_size = "10pt"
+c.fonts.completion.entry = "10pt JetBrains Mono Nerd Font"
+c.fonts.completion.category = "bold 10pt JetBrains Mono Nerd Font"
+c.fonts.contextmenu = "10pt JetBrains Mono Nerd Font"
+c.fonts.downloads = "10pt JetBrains Mono Nerd Font"
+c.fonts.hints = "10pt JetBrains Mono Nerd Font"
+c.fonts.keyhint = "10pt JetBrains Mono Nerd Font"
+c.fonts.messages.error = "italic 10pt JetBrains Mono Nerd Font"
+c.fonts.messages.info = "italic 10pt JetBrains Mono Nerd Font"
+c.fonts.messages.warning = "italic 10pt JetBrains Mono Nerd Font"
+c.fonts.prompts = "10pt JetBrains Mono Nerd Font"
+c.fonts.statusbar = "10pt JetBrains Mono Nerd Font"
+c.fonts.tabs.selected = "italic 10pt JetBrains Mono Nerd Font"
+c.fonts.tabs.unselected = "10pt JetBrains Mono Nerd Font"

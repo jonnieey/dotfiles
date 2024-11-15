@@ -4,7 +4,7 @@ blocks = "tags symbol | title | temp network battery date"
 height = 16
 areas = 16
 line-width = 2
-font = "Source Code Pro:style=Semibold:size=10"
+font = "JetBrainsMono Nerd Font:style=Medium:size=10"
 width = 1366
 bottom=true
 
@@ -14,7 +14,7 @@ blocks = "tags symbol | title | temp network battery date"
 height = 16
 areas = 16
 line-width = 2
-font = "Source Code Pro:style=Semibold:size=10"
+font = "JetBrainsMono Nerd Font:style=Medium:size=10"
 width = 1440
 left = 1366
 bottom=true
@@ -50,7 +50,7 @@ command = "sb-modules -b"
 interval = 3
 
 [network]
-command="sb-modules -B"
+command="sb-modules -B -u KB -t 1 "
 interval = 1
 margin = 5
 

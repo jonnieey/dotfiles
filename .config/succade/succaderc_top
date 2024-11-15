@@ -8,7 +8,7 @@ foreground = "#ffffff"
 background = "#000000"
 line-color = "#555555"
 line-width = 2
-font = "Source Code Pro:style=Semibold:size=10"
+font = "JetBrainsMono Nerd Font:style=Medium:size=10"
 width = 1366
 bottom=false
 
@@ -36,8 +36,8 @@ suffix = ""
 underline = false
 
 [mpd]
-command = "mpc current"
-mouse-right = "mpc toggle"
+command = "playerctl metadata --format '{{artist}} - {{title}}'"
+mouse-right = "playerctl play-pause"
 mouse-left = 'st -g 100x20+0+0 -e ncmpcpp'
 interval= 1
 
@@ -48,12 +48,6 @@ scroll-up = 'pamixer -i 5'
 scroll-down = 'pamixer -d 5'
 mouse-right = 'pamixer -t'
 mouse-left = 'st -g 100x20+0+0 -e pulsemixer'
-
-[pomoctl]
-command = "potd -fN '+%b%p %t'"
-mouse-right = "potctl -t"
-mouse-middle = "potctl -r"
-interval = 1
 
 [pomopy]
 command = "pomopyc -f"

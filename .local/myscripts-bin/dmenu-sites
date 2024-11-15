@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+
+BROWSER=${BROWSER:-qutebrowser}
+PRIVBROWSER=${PRIVBROWSER:-qutebrowser -T -C $HOME/.config/qutebrowser/config-priv.py}
+
 urlencode() {
   local string="$1"
   local length="${#string}"
@@ -19,47 +23,47 @@ urlencode() {
   
   echo "$encoded"
 }
-# BROWSER="google-chrome-stable %U --force-dark-mode $@"
-BROWSER="qutebrowser $@"
-# BROWSER=brave
-# PRIVBROWSER="$BROWSER --incognito $@"
-PRIVBROWSER="qutebrowser -T -C $HOME/.config/qutebrowser/config-priv.py $@"
+
+mydmenu() {
+  dmenu -fn 'JetBrainsMono Nerd Font' -nb '#282c34' -nf '#abb2bf' -sb '#61afef' -sf '#282c34' -Y 350 -W 700 -X 300 -i -l 5 -g 2 -p "$1"
+}
 
 sites=("Duck" "Youtube" "Gmail" "Github" "Temi" "Temp-mail" "ALX" "ChatGPT" "Bard" "Aur" )
 
-site=$(printf '%s\n' "${sites[@]}" | dmenu -Y 350 -W 700 -X 300 -i -l 5 -g 2 -p "Sites")
+site=$(printf '%s\n' "${sites[@]}" | mydmenu "Sites") 
 
 case $site in
   "Duck")
-    search="$(echo -en '' | dmenu -Y 350 -W 700 -X 300  -i -l 3 -p 'Search keyword')" || exit
-    browsers=("qutebrowser" "chrome" "vimb")
-    browser=$(printf '%s\n' "${browsers[@]}" | dmenu -Y 350 -W 700 -X 300 -i -l 5 -g 2 -p "Browsers") || exit
-    case $browser in
-      "qutebrowser")
-        $BROWSER "$search"
-        ;;
-      "vimb")
-        tabbed -n 'vimb' -c vimb "$search" -e
-        ;;
-      "chrome")
-        query=$(urlencode "$search")
-        google-chrome-stable "https://www.google.com/search?q=$query"
-    esac
+    search="$(echo -en '' | mydmenu 'Search keyword')" || exit
+    $BROWSER "$search"
+    # browsers=("qutebrowser" "chrome" "vimb")
+    # browser=$(printf '%s\n' "${browsers[@]}" | mydmenu "Browsers") || exit
+    # case $browser in
+    #   "qutebrowser")
+    #     $BROWSER "$search"
+    #     ;;
+    #   "vimb")
+    #     tabbed -n 'vimb' -c vimb "$search" -e
+    #     ;;
+    #   "chrome")
+    #     query=$(urlencode "$search")
+    #     google-chrome-stable "https://www.google.com/search?q=$query"
+    # esac
 	# s=$(urlencode "$search")
     ;;
   "Youtube")
-    search=$(echo -en "" | dmenu -Y 350 -W 700 -X 300 -i -l 3 -p "Search keyword") || exit
+    search=$(echo -en "" | mydmenu "Search keyword") || exit
 	s=$(urlencode "$search")
 	# tabbed -n 'vimb' -c vimb "https://www.youtube.com/results?search_query=$s" -e
     $BROWSER "https://www.youtube.com/results?search_query=$s"
     ;;
   "Gmail")
-    account=$(echo -en "" | dmenu -Y 350 -W 700 -X 300 -i -l 3 -p "Enter account number") || exit
+    account=$(echo -en "" | mydmenu "Enter account number") || exit
     # tabbed -n 'vimb' -c vimb "https://mail.google.com/mail/u/$account/" -e
     $BROWSER "https://mail.google.com/mail/u/$account/"
     ;;
   "Github")
-	  search=$(echo -en "" | dmenu -Y 350 -W 700 -X 300 -l 3 -p "Search keyword") || exit 
+	  search=$(echo -en "" | mydmenu "Search keyword") || exit 
 	  s="$(urlencode "$search")"
 
     if [[ -z "$search" ]]; then
@@ -92,12 +96,12 @@ case $site in
     $BROWSER 'https://bard.google.com/'
     ;;
   "Brave")
-    search="$(echo -en '' | dmenu -Y 350 -W 700 -X 300 -l 3 -p 'Search keyword')" || exit
+    search="$(echo -en '' | mydmenu 'Search keyword')" || exit
 	# s=$(urlencode "$search")
     $BROWSER "$search"
     ;;
   "Aur")
-    search="$(echo -en '' | dmenu -Y 350 -W 700 -X 300  -i -l 3 -p 'Search keyword')" || exit
+    search="$(echo -en '' | mydmenu 'Search keyword')" || exit
     $BROWSER "https://wiki.archlinux.org/index.php?title=Special%3ASearch&search=$search"
     ;;
 esac
