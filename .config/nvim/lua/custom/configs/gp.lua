@@ -1,9 +1,44 @@
-require('gp').setup {
+local config = {
   cmd_prefix = 'Gp',
-  openai_api_key = os.getenv 'OPENAI_API_KEY',
+  default_command_agent = 'CodeGemini',
+  default_chat_agent = 'CodeGemini',
   providers = {
-    openai = {
-      endpoint = 'https://api.openai.com/v1/chat/completions',
+    -- openai = {
+    --   endpoint = 'https://api.openai.com/v1/chat/completions',
+    --   secret = os.getenv 'OPENAI_API_KEY',
+    -- },
+    googleai = {
+      endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/{{model}}:streamGenerateContent?key={{secret}}',
+      secret = os.getenv 'GEMINI_API_KEY',
+    },
+    deepseek = {
+      endpoint = 'https://api.deepseek.com/chat/completions',
+      secret = os.getenv 'DEEPSEEK_API_KEY',
+    },
+  },
+  agents = {
+    {
+      provider = 'googleai',
+      name = 'CodeGemini',
+      chat = false,
+      command = true,
+      -- string with model name or table with model name and parameters
+      model = { model = 'gemini-2.0-flash', temperature = 0.8, top_p = 1 },
+      system_prompt = require('gp.defaults').code_system_prompt,
+    },
+    {
+      name = 'DeepSeekChat',
+      provider = 'deepseek',
+      chat = false,
+      command = true,
+      -- string with model name or table with model name and parameters
+      model = {
+        model = 'deepseek-chat',
+        temperature = 0.6,
+        top_p = 1,
+        min_p = 0.05,
+      },
+      system_prompt = require('gp.defaults').code_system_prompt,
     },
   },
   hooks = {
@@ -109,6 +144,8 @@ require('gp').setup {
         ```
 
         Please respond by writing table driven unit tests for the code above.
+
+        {{command}}
         ]]
       local agent = gp.get_command_agent()
       -- gp.info('Creating unit tests for selection with agent: ' .. agent.name)
@@ -129,27 +166,38 @@ require('gp').setup {
       -- gp.info('Debugging selection with agent: ' .. agent.name)
       gp.Prompt(params, gp.Target.vnew, agent, template, nil, nil)
     end,
-    -- CommitMsg = function(gp, params)
-    --   local futils = require 'parrot.file_utils'
-    --   if futils.find_git_root() == '' then
-    --     gp.warning 'Not in a git repository'
-    --     return
-    --   else
-    --     local template = [[
-    -- 	I want you to act as a commit message generator. I will provide you
-    -- 	with information about the task and the prefix for the task code, and
-    -- 	I would like you to generate an appropriate commit message using the
-    -- 	conventional commit format. Do not write any explanations or other
-    -- 	words, just reply with the commit message.
-    -- 	Start with a short headline as summary but then list the individual
-    -- 	changes in more detail.
-    --
-    -- 	Here are the changes that should be considered by this message:
-    -- 	]] .. vim.fn.system 'git diff --no-color --no-ext-diff --staged'
-    --     local agent = gp.get_command_agent()
-    --     gp.Prompt(params, gp.ui.Target.append, nil, agent.model, template, agent.system_prompt, agent.provider)
-    --   end
-    -- end,
+    CommitMsg = function(gp, params)
+      local find_git_root = function()
+        local handle = io.popen 'git rev-parse --show-toplevel 2>/dev/null'
+        if handle then
+          local result = handle:read '*a'
+          handle:close()
+          if result and result ~= '' then
+            return result:gsub('\n', '')
+          end
+        end
+        return ''
+      end
+      if find_git_root() == '' then
+        gp.warning 'Not in a git repository'
+        return
+      else
+        local template = [[
+    	I want you to act as a commit message generator. I will provide you
+    	with information about the task and the prefix for the task code, and
+    	I would like you to generate an appropriate commit message using the
+    	conventional commit format. Do not write any explanations or other
+    	words, just reply with the commit message.
+    	Start with a short headline as summary but then list the individual
+    	changes in more detail.
+
+    	Here are the changes that should be considered by this message:
+    	]] .. vim.fn.system 'git diff --no-color --no-ext-diff --staged'
+        local agent = gp.get_command_agent()
+        -- gp.Prompt(params, gp.ui.Target.append, nil, agent.model, template, agent.system_prompt, agent.provider)
+        gp.Prompt(params, gp.Target.vnew, agent, template, nil, nil)
+      end
+    end,
     DocStr = function(gp, params)
       local template = [[
             I want you to act as {{filetype}} expert.
@@ -170,9 +218,10 @@ require('gp').setup {
              {{selection}}
              ```
 
-             The code with a really good docstring added is below:
-
+             Respond with the the name of the functions or classes and the docstring. 
              ```{{filetype}}",
+
+             {{command}}
 
         ]]
       local agent = gp.get_chat_agent()
@@ -195,3 +244,4 @@ require('gp').setup {
     end,
   },
 }
+require('gp').setup(config)

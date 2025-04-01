@@ -134,6 +134,7 @@ return {
       { '<leader>dt', dap.toggle_breakpoint, desc = 'Toggle Breakpoint' },
       { '<leader>du', dap.step_out, desc = 'Step Out' },
       { '<leader>dx', dap.terminate, desc = 'Terminate' },
+      { '<leader>dX', dap.clear_breakpoints, desc = 'Clear all breakpoints' },
       { '<F5>', dap.continue, desc = 'Continue' },
       { '<F6>', dap.step_over, desc = 'Step Over' },
       { '<F7>', dap.step_into, desc = 'Step Into' },

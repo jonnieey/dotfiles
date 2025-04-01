@@ -157,26 +157,44 @@ return {
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         pylsp = {
-          plugins = {
-            -- formatter options
-            black = { enabled = true, line_length = 79 },
-            -- autopep8 = { enabled = false },
-            -- yapf = { enabled = false },
-            -- mccabe = { enabled = false },
-            -- -- linter options
-            -- pylint = { enabled = false, executable = 'pylint' },
-            -- pyflakes = { enabled = false },
-            -- pycodestyle = { enabled = false },
-            -- ruff = {
-            --   enabled = true, -- Enable the plugin
-            --   lineLength = 79, -- Line length to pass to ruff checking and formatting
-            -- },
-            -- -- type checker
-            pylsp_mypy = { enabled = true },
-            -- -- auto-completion options
-            -- jedi_completion = { fuzzy = true },
-            -- -- import sorting
-            isort = { enabled = true },
+          cmd = { 'pylsp', '-vvv', '--log-file', '/tmp/lsp.log' },
+          settings = {
+            pylsp = {
+              plugins = {
+                -- formatter options
+                black = { enabled = false, line_length = 79 },
+                autopep8 = { enabled = false },
+                yapf = { enabled = false },
+                mccabe = { enabled = false },
+                -- -- linter options
+                pylint = { enabled = false, executable = 'pylint' },
+                pyflakes = { enabled = false },
+                flake8 = {
+                  enabled = true,
+                  maxLineLength = 120,
+                  maxComplexity = 15,
+                },
+                pycodestyle = { enabled = false },
+                ruff = {
+                  enabled = true,
+                  formatEnabled = false,
+                  extendSelect = { 'I' },
+                  extendIgnore = { 'C90' },
+                  format = { 'I' },
+                  severities = { ['D212'] = 'I' },
+                  unsafeFixes = false,
+                  lineLength = 79,
+                  perFileIgnores = { ['__init__.py'] = 'CPY001' },
+                  preview = true,
+                },
+                -- -- type checker
+                pylsp_mypy = { enabled = false },
+                -- -- auto-completion options
+                -- jedi_completion = { fuzzy = true },
+                -- -- import sorting
+                isort = { enabled = true },
+              },
+            },
           },
         },
         -- clangd = {},
@@ -228,7 +246,7 @@ return {
         'debugpy',
         'python-lsp-server',
         -- 'black',
-        'isort',
+        -- 'isort',
         -- 'ruff',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }

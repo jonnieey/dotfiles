@@ -25,7 +25,6 @@ wk.add {
   { '<leader>fk', '<cmd>Telescope keymaps<cr>', desc = 'Find Keymaps' },
   { '<leader>fs', '<cmd>Telescope builtin<cr>', desc = 'Telescope builtins' },
   { '<leader>fw', '<cmd>Telescope grep_string<cr>', desc = 'Find current word' },
-  { '<leader>fg', '<cmd>Telescope live_grep<cr>', desc = 'Find by grep' },
   { '<leader>fd', '<cmd>Telescope diagnostics<cr>', desc = 'Find Diagnostics' },
   { '<leader>fr', '<cmd>Telescope resume<cr>', desc = 'Find Resume' },
   { '<leader>f.', '<cmd>Telescope oldfiles<cr>', desc = 'Find Recent Files ("." for repeat)' },
@@ -44,6 +43,16 @@ wk.add {
 
   -- It's also possible to pass additional configuration options.
   -- --  See `:help telescope.builtin.live_grep()` for information about particular keys
+  {
+    '<leader>fg',
+    function()
+      require('telescope.builtin').live_grep {
+        prompt_title = 'Live Grep',
+        additional_args = { '--glob', './*' },
+      }
+    end,
+    desc = 'Find by grep',
+  },
   {
     '<leader>f/',
     function()
@@ -69,6 +78,11 @@ wk.add {
   { '<C-l>', '<C-w><C-l>', desc = 'Move focus to the right window' },
   { '<C-j>', '<C-w><C-j>', desc = 'Move focus to the lower window' },
   { '<C-k>', '<C-w><C-k>', desc = 'Move focus to the upper window' },
+
+  { '<A-Left>', '<cmd>vertical resize -5<CR>', desc = 'Minimize split to the left' },
+  { '<A-Right>', '<cmd>vertical resize +5<CR>', desc = 'Maximize split to the right' },
+  { '<A-Up>', '<cmd>resize +5<CR>', desc = 'Maximize split upwards' },
+  { '<A-Down>', '<cmd> resize -5<CR>', desc = 'Minimize split downwards' },
 
   { '<left>', '<cmd>echo "Use h to move!!"<CR>' },
   { '<right>', '<cmd>echo "Use l to move!!"<CR>' },
