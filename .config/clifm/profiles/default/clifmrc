@@ -174,12 +174,12 @@ MarkTimestamp=true
 MaxFilenameLen=50
 
 # Trim file names longer than MaxFilenameLen.
-TrimNames=false
+TruncateNames=false
 
 # Minimum length at which a file name can be trimmed in long view mode.
 # When running in long mode, this setting overrides MaxFilenameLen
 # whenever MaxFilenameLen is smaller than MinFilenameTrim.
-MinFilenameTrim=45
+MinNameTruncate=45
 
 # A comma separated list of workspace names in the form NUM=NAME.
 # Example: "1=MAIN,2=EXTRA,3=GIT" or "1=α,2=β,3=γ"
