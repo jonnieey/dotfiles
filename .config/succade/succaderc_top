@@ -1,6 +1,6 @@
 [topbar]
 name = "LEMONBAR"
-blocks = "volume mpd | | root home pomopy"
+blocks = "volume mpd | | cpu mem root home pomopy"
 height = 16
 areas = 16
 bottom=false
@@ -14,14 +14,14 @@ bottom=false
 
 [toprightbar]
 name = "LEMONBAR"
-blocks = "volume mpd | | root home pomopy"
+blocks = "volume mpd | | cpu mem root home pomopy"
 height = 16
 areas = 16
 foreground = "#ffffff"
 background = "#000000"
 line-color = "#555555"
 line-width = 2
-font = "Source Code Pro:style=Semibold:size=10"
+font = "JetBrainsMono Nerd Font:style=Medium:size=10"
 width = 1440
 left = 1366
 bottom=false
@@ -63,3 +63,13 @@ interval = 5
 command = "sb-modules -d '${gb_free}G' '/home$'"
 margin = 1
 interval = 5
+
+[mem]
+command = "sb-modules -m"
+margin = 1
+interval = 1
+
+[cpu]
+command = "sb-modules -c"
+margin = 1
+interval = 1

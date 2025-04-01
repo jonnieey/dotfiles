@@ -1,7 +1,17 @@
 #!/bin/bash
 battery() {
-        BATTERY_LEVEL=$(cat /sys/class/power_supply/BAT0/capacity)
-        echo "$BATTERY_LEVEL%"
+        BATTERY_LEVEL=$(cat /sys/class/power_supply/BAT0/capacity 2>/dev/null)
+        BATTERY2_LEVEL=$(cat /sys/class/power_supply/BAT1/capacity 2>/dev/null)
+
+        if [ -n "$BATTERY_LEVEL" ] && [ -n "$BATTERY2_LEVEL" ]; then
+                echo "$BATTERY_LEVEL% $BATTERY2_LEVEL%"
+        elif [ -n "$BATTERY_LEVEL" ]; then
+                echo "$BATTERY_LEVEL%"
+        elif [ -n "$BATTERY2_LEVEL" ]; then
+                echo "$BATTERY2_LEVEL%"
+        else
+                echo "No battery info"
+        fi
 }
 usage() {
         echo "usage: $0 [-b]"
@@ -147,9 +157,21 @@ function disk_usage() {
         done
 }
 
-while getopts "bBtd" opt; do
-        case ${opt} in
-            b)
+function mem_usage() {
+    # show free mem as a percentage
+    # (free * 100) / $total
+    free -m | awk 'NR==2{printf "%.2f%%", $3*100/$2}'
+}
+
+function cpu_usage() {
+    # show user,sys,iowait metrics
+    # %user + %sys + %iowait
+    mpstat -u | tail -n 1 | awk '{printf "%.2f%%", $4+$6+$7}'
+
+}
+
+
+while getopts "bBtdmc" opt; do case ${opt} in b)
                 battery
                 ;;
 
@@ -163,6 +185,14 @@ while getopts "bBtd" opt; do
             t)
                 shift
                 temperature "$@"
+                ;;
+            m)
+                shift
+                mem_usage
+                ;;
+            c)
+                shift
+                cpu_usage
                 ;;
             *)
                 usage
