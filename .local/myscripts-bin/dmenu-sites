@@ -28,7 +28,7 @@ mydmenu() {
   dmenu -nb '#282c34' -nf '#abb2bf' -sb '#61afef' -sf '#282c34' -Y 350 -W 700 -X 300 -i -l 5 -g 2 -p "$1"
 }
 
-sites=("Duck" "Youtube" "Gmail" "Github" "Temi" "Temp-mail" "ALX" "ChatGPT" "Bard" "Aur" )
+sites=("Duck" "Youtube" "Gmail" "Github" "Temi" "Temp-mail" "ALX" "ChatGPT" "Gemini" "Aur" )
 
 site=$(printf '%s\n' "${sites[@]}" | mydmenu "Sites") 
 
@@ -81,7 +81,7 @@ case $site in
     ;;
   "Temp-mail")
     # tabbed -n 'vimb' -c vimb -i 'https://mail.tm/en/' -e
-    $PRIVBROWSER --new-window 'https://mail.tm/en/'
+    $PRIVBROWSER 'https://mail.tm/en/'
     ;;
   "ALX")
     # tabbed -n 'vimb' -c vimb  'https://alx-intranet.hbtn.io/' -e
@@ -91,9 +91,10 @@ case $site in
     # tabbed -n 'vimb' -c vimb 'https://chat.openai.com/chat/' -e
     $BROWSER 'https://chat.openai.com/chat/'
     ;;
-  "Bard")
+  "Gemini")
     # tabbed -n 'vimb' -c vimb 'https://bard.google.com/' -e
-    $BROWSER 'https://bard.google.com/'
+    # $BROWSER 'https://bard.google.com/'
+    $BROWSER 'https://gemini.google.com/app'
     ;;
   "Brave")
     search="$(echo -en '' | mydmenu 'Search keyword')" || exit
