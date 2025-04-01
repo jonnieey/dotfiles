@@ -5,7 +5,7 @@ replace() {
     REPLACE=$3
 
     unzip -oq "$FILE" -d ./tmp
-    sed -i "s/$FIND/$REPLACE/g" ./tmp/word/document.xml
+    sed -i "s|$FIND|$REPLACE|gI" ./tmp/word/document.xml
     (cd tmp && zip -qr "../$FILE" ./*)
     rm -rf ./tmp
 }
