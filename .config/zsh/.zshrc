@@ -74,3 +74,6 @@ export FZF_DEFAULT_OPTS=" \
 --color=marker:#b7bdf8,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796 \
 --color=selected-bg:#494d64 \
 --multi"
+
+export PATH=/home/sato/bin:$PATH
+export DOCKER_HOST=unix:///run/user/1000/docker.sock
