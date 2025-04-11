@@ -36,7 +36,7 @@ suffix = ""
 underline = false
 
 [mpd]
-command = "playerctl metadata --format '{{artist}} - {{title}}'"
+command = "playerctl -F metadata --format '{{artist}} - {{title}}'"
 mouse-right = "playerctl play-pause"
 mouse-left = 'st -g 100x20+0+0 -e ncmpcpp'
 interval= 1
@@ -53,6 +53,7 @@ mouse-left = 'st -g 100x20+0+0 -e pulsemixer'
 command = "pomopyc -f"
 mouse-right = "pomopyc -T"
 mouse-middle = "pomopyc -s"
+margin = 12
 
 [root]
 command = "sb-modules -d '${gb_free}G' '/$'"

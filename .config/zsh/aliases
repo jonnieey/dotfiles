@@ -8,7 +8,6 @@ alias ddgr='ddgr -n 5 --unsafe --colors ofglxy'
 alias mntand='jmtpfs ~/.android_mount/'
 alias mpvc="mpvc -S $XDG_RUNTIME_DIR/.umpv_socket"
 alias spt="spotify_player"
-alias gramps="flatpak run org.gramps_project.Gramps"
 
 anit() {
   command anit "$@" | sed 's/\(.*\)-\(.*\)/\1\t\2/' | column -t -s $'\t' -o - | colorize -c cyan

@@ -82,6 +82,12 @@ ctrl + shift + Escape
 XF86PowerOff ; {l,p,s,r}
   {/usr/bin/slock, /usr/bin/systemctl poweroff, /usr/bin/systemctl suspend, /usr/bin/systemctl reboot}
 
+XF86MonBrightnessDown
+  xbacklight -dec 5
+
+XF86MonBrightnessUp
+  xbacklight -inc 5
+
 Print
   ~/.local/myscripts-bin/takescreenshot -w
 
