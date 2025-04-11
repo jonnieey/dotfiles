@@ -1,7 +1,7 @@
 return {
   {
     'Exafunction/codeium.vim',
-    lazy = true,
+    lazy = false,
     config = function()
       require 'custom.configs.codeium'
     end,

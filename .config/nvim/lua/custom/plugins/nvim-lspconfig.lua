@@ -226,6 +226,7 @@ return {
         },
         bashls = {},
         shellharden = {},
+        shfmt = {},
       }
 
       -- Ensure the servers and tools above are installed

@@ -1,4 +1,5 @@
 local wk = require 'which-key'
+local Snacks = require 'snacks'
 wk.add {
   { '<leader>c', group = '[C]ode' },
   { '<leader>c_', hidden = true },
@@ -20,57 +21,46 @@ wk.add {
 
 wk.add {
   mode = { 'n' },
-  { '<leader>ff', '<cmd>Telescope find_files<cr>', desc = 'Find files' },
-  { '<leader>fh', '<cmd>Telescope help_tags<cr>', desc = 'Find help tags' },
-  { '<leader>fk', '<cmd>Telescope keymaps<cr>', desc = 'Find Keymaps' },
-  { '<leader>fs', '<cmd>Telescope builtin<cr>', desc = 'Telescope builtins' },
-  { '<leader>fw', '<cmd>Telescope grep_string<cr>', desc = 'Find current word' },
-  { '<leader>fd', '<cmd>Telescope diagnostics<cr>', desc = 'Find Diagnostics' },
-  { '<leader>fr', '<cmd>Telescope resume<cr>', desc = 'Find Resume' },
-  { '<leader>f.', '<cmd>Telescope oldfiles<cr>', desc = 'Find Recent Files ("." for repeat)' },
-  { '<leader><leader>', '<cmd>Telescope buffers<cr>', desc = 'Find existing buffers' },
+  { '<leader>ff', '<cmd>lua Snacks.picker.smart()<cr>', desc = 'Find files' },
+  { '<leader>fk', '<cmd>lua Snacks.picker.keymaps()<cr>', desc = 'Find Keymaps' },
+  { '<leader>fw', '<cmd>lua Snacks.picker.grep_word()<cr>', desc = 'Find current word' },
+  { '<leader>fd', '<cmd>lua Snacks.picker.diagnostics()<cr>', desc = 'Find Diagnostics' },
+  { '<leader>fr', '<cmd>lua Snacks.picker.resume()<cr>', desc = 'Find Resume' },
+  { '<leader>f.', '<cmd>lua Snacks.picker.recent()<cr>', desc = 'Find Recent Files ("." for repeat)' },
+  { '<leader><leader>', '<cmd>lua Snacks.picker.buffers()<cr>', desc = 'Find existing buffers' },
+  { '<leader>fg', '<cmd>lua Snacks.picker.grep()<cr>', desc = 'Find by grep' },
+  { '<leader>f/', '<cmd>lua Snacks.picker.grep_buffers()<cr>', desc = 'Find [/] in Open Files' },
+  { '<leader>fb', '<cmd>lua Snacks.explorer()<cr>' },
   {
     '<leader>/',
     function()
-      -- You can pass additional configuration to Telescope to change the theme, layout, etc.
-      require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-        winblend = 10,
-        previewer = false,
-      })
+      Snacks.picker.colorschemes()
+    end,
+    desc = 'Fuzzily search in current buffer',
+  },
+  {
+    '<leader>fT',
+    function()
+      require('aerial').snacks_picker()
     end,
     desc = 'Fuzzily search in current buffer',
   },
 
-  -- It's also possible to pass additional configuration options.
-  -- --  See `:help telescope.builtin.live_grep()` for information about particular keys
-  {
-    '<leader>fg',
-    function()
-      require('telescope.builtin').live_grep {
-        prompt_title = 'Live Grep',
-        additional_args = { '--glob', './*' },
-      }
-    end,
-    desc = 'Find by grep',
-  },
-  {
-    '<leader>f/',
-    function()
-      require('telescope.builtin').live_grep {
-        grep_open_files = true,
-        prompt_title = 'Live Grep in Open Files',
-      }
-    end,
-    desc = 'Find [/] in Open Files',
-  },
   {
     '<leader>fc',
     function()
-      require('telescope.builtin').find_files { cwd = vim.fn.stdpath 'config' }
+      Snacks.picker.files { cwd = vim.fn.stdpath 'config' }
     end,
     desc = 'Find Neovim files',
   },
-  { '<leader>fb', '<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr>' },
+  {
+    '<A-/>',
+    function()
+      Snacks.terminal()
+    end,
+    desc = 'Toggle Terminal',
+  },
+  { '<leader>lt', '<cmd>AerialToggle<cr>', desc = 'Toggle Aerial' },
   { '<leader>e', vim.diagnostic.open_float, desc = 'Show diagnostic [E]rror messages' },
   { '<leader>q', vim.diagnostic.setloclist, desc = 'Open diagnostic [Q]uickfix list' },
   { '<Esc>', '<cmd>nohlsearch<CR>', desc = 'remove search highlight' },
@@ -92,7 +82,7 @@ wk.add {
   {
     '<leader>rl',
     function()
-      require('telescope.builtin').find_files { cwd = '~/Documents/Accounts/' }
+      Snacks.picker.files { cwd = '~/Documents/Accounts/' }
     end,
     desc = 'Ledger Accounts',
   },
@@ -106,7 +96,7 @@ wk.add {
   {
     '<leader>fC',
     function()
-      require('telescope.builtin').find_files { cwd = '~/.config' }
+      Snacks.picker.files { cwd = '~/.config' }
     end,
     desc = 'Find Configuration files',
   },
