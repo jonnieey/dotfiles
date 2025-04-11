@@ -1,0 +1,21 @@
+#!/bin/bash
+today=$(date +"%A")
+dow="${1:-$today}"
+movies=$(curl -s "https://api.jikan.moe/v4/schedules?filter=$dow" | jq -r '.data[] | (.title | gsub("-"; "@@@")) + " - " + (.broadcast.time // "N/A")')
+
+
+counter=1
+while read -r line; do
+  title=$(echo "$line" | awk -F ' - ' '{print $1}')
+  utc_time=$(echo "$line" | awk -F ' - ' '{print $2}')
+
+  if [[ -z "$utc_time" || "$utc_time" == "null" ]]; then
+    local_time=""
+  else 
+    local_time=$(date -d "$utc_time" +"%H:%M")
+  fi
+  title="${title//@@@/-}"
+
+  printf "%02d. %s - %s %s\n" "$counter" "$title" "${dow^}" "$local_time"
+  ((counter++))
+done <<< "$movies"

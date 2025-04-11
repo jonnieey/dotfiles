@@ -1,22 +1,38 @@
 #!/bin/bash
 battery() {
+    {
         BATTERY_LEVEL=$(cat /sys/class/power_supply/BAT0/capacity 2>/dev/null)
         BATTERY2_LEVEL=$(cat /sys/class/power_supply/BAT1/capacity 2>/dev/null)
+        BATTERY_STATUS=$(cat /sys/class/power_supply/BAT0/status 2>/dev/null)
+        BATTERY2_STATUS=$(cat /sys/class/power_supply/BAT1/status 2>/dev/null)
+    }
 
-        if [ -n "$BATTERY_LEVEL" ] && [ -n "$BATTERY2_LEVEL" ]; then
-                echo "$BATTERY_LEVEL% $BATTERY2_LEVEL%"
-        elif [ -n "$BATTERY_LEVEL" ]; then
-                echo "$BATTERY_LEVEL%"
-        elif [ -n "$BATTERY2_LEVEL" ]; then
-                echo "$BATTERY2_LEVEL%"
-        else
-                echo "No battery info"
-        fi
+    # Initialize charging icons to empty strings.
+    BAT_CHARGING_ICON=""
+    BAT2_CHARGING_ICON=""
+
+    # Use simpler `if` statements with direct assignment.
+    if [ "$BATTERY2_STATUS" == "Charging" ]; then
+        BAT2_CHARGING_ICON='⚡︎'
+    fi
+    if [ "$BATTERY_STATUS" == "Charging" ]; then
+        BAT_CHARGING_ICON='⚡︎'
+    fi
+
+    if [ -n "$BATTERY_LEVEL" ] && [ -n "$BATTERY2_LEVEL" ]; then
+        echo "$BAT_CHARGING_ICON$BATTERY_LEVEL% $BAT2_CHARGING_ICON$BATTERY2_LEVEL%"
+    elif [ -n "$BATTERY_LEVEL" ]; then
+        echo "$BAT_CHARGING_ICON$BATTERY_LEVEL%"
+    elif [ -n "$BATTERY2_LEVEL" ]; then
+        echo "$BAT2_CHARGING_ICON$BATTERY2_LEVEL%"
+    else
+        echo "No battery info"
+    fi
 }
 usage() {
-        echo "usage: $0 [-b]"
-        echo "  -b: show battery level"
-        return 1
+    echo "usage: $0 [-b]"
+    echo "  -b: show battery level"
+    return 1
 }
 
 bandwidth() {
@@ -43,13 +59,13 @@ bandwidth() {
 
     while getopts i:t:u:p:lh opt; do
         case "$opt" in
-            i) iface="$OPTARG" ;;
-            t) dt="$OPTARG" ;;
-            u) unit="$OPTARG" ;;
-            p) printf_command="$OPTARG" ;;
-            l) list_interfaces && exit 0 ;;
-            h|*) printf \
-    "Usage: bandwidth3 [-i interface] [-t time] [-u unit] [-p printf_command] [-l] [-h]
+        i) iface="$OPTARG" ;;
+        t) dt="$OPTARG" ;;
+        u) unit="$OPTARG" ;;
+        p) printf_command="$OPTARG" ;;
+        l) list_interfaces && exit 0 ;;
+        h | *) printf \
+            "Usage: bandwidth3 [-i interface] [-t time] [-u unit] [-p printf_command] [-l] [-h]
     Options:
     -i\tNetwork interface to measure. Default determined using \`ip route\`.
     -t\tTime interval in seconds between measurements. Default: 3
@@ -61,7 +77,7 @@ bandwidth() {
     \tExposed variables: rx, wx, tx, unit, iface
     -l\tList available interfaces in /proc/net/dev
     -h\tShow this help text
-    " && exit 0;;
+    " && exit 0 ;;
         esac
     done
 
@@ -75,29 +91,32 @@ bandwidth() {
     done
 
     case "$unit" in
-        Kb|Kbit|Kbits)   bytes_per_unit=$((1024 / 8));;
-        KB|KByte|KBytes) bytes_per_unit=$((1024));;
-        Mb|Mbit|Mbits)   bytes_per_unit=$((1024 * 1024 / 8));;
-        MB|MByte|MBytes) bytes_per_unit=$((1024 * 1024));;
-        Gb|Gbit|Gbits)   bytes_per_unit=$((1024 * 1024 * 1024 / 8));;
-        GB|GByte|GBytes) bytes_per_unit=$((1024 * 1024 * 1024));;
-        Tb|Tbit|Tbits)   bytes_per_unit=$((1024 * 1024 * 1024 * 1024 / 8));;
-        TB|TByte|TBytes) bytes_per_unit=$((1024 * 1024 * 1024 * 1024));;
-        *) echo Bad unit "$unit" && exit 1;;
+    Kb | Kbit | Kbits) bytes_per_unit=$((1024 / 8)) ;;
+    KB | KByte | KBytes) bytes_per_unit=$((1024)) ;;
+    Mb | Mbit | Mbits) bytes_per_unit=$((1024 * 1024 / 8)) ;;
+    MB | MByte | MBytes) bytes_per_unit=$((1024 * 1024)) ;;
+    Gb | Gbit | Gbits) bytes_per_unit=$((1024 * 1024 * 1024 / 8)) ;;
+    GB | GByte | GBytes) bytes_per_unit=$((1024 * 1024 * 1024)) ;;
+    Tb | Tbit | Tbits) bytes_per_unit=$((1024 * 1024 * 1024 * 1024 / 8)) ;;
+    TB | TByte | TBytes) bytes_per_unit=$((1024 * 1024 * 1024 * 1024)) ;;
+    *) echo Bad unit "$unit" && exit 1 ;;
     esac
 
     scalar=$((bytes_per_unit * dt))
-    init_line=$(grep "^[ ]*$iface:" /proc/net/dev )
+    init_line=$(grep "^[ ]*$iface:" /proc/net/dev)
     if [ -z "$init_line" ]; then
         echo Interface not found in /proc/net/dev: "$iface"
         exit 1
     fi
 
-    init_received=$(awk '{print $2}' <<< "$init_line")
-    init_sent=$(awk '{print $10}' <<< "$init_line")
+    init_received=$(awk '{print $2}' <<<"$init_line")
+    init_sent=$(awk '{print $10}' <<<"$init_line")
 
-    (while true; do cat /proc/net/dev; sleep "$dt"; done) |\
-        stdbuf -oL grep "^[ ]*$iface:" |\
+    (while true; do
+        cat /proc/net/dev
+        sleep "$dt"
+    done) |
+        stdbuf -oL grep "^[ ]*$iface:" |
         awk -v scalar="$scalar" -v unit="$unit" -v iface="$iface" '
     BEGIN{old_received='"$init_received"';old_sent='"$init_sent"'}
     {
@@ -120,9 +139,8 @@ temperature() {
 
     c=
     path=/sys/class/thermal/thermal_zone0/temp
-    if [ -f $path ]
-    then
-        read -r c < $path
+    if [ -f $path ]; then
+        read -r c <$path
     else
         echo "could not get temperature" >&2
         exit 1
@@ -137,9 +155,8 @@ function disk_usage() {
     : "${FU_SCALE=0}"
     [ -z "$1" ] && set -- '${gb_free}G' '/$'
 
-    df | awk -v pattern="$2" '$0 ~ pattern {print}' | \
-        while read -r fs kb_total kb_used kb_free _ mnt
-        do
+    df | awk -v pattern="$2" '$0 ~ pattern {print}' |
+        while read -r fs kb_total kb_used kb_free _ mnt; do
             # Use shell arithmetic to avoid calling 'dc' multiple times
             # b_free=$((kb_free * 1024))
             # b_used=$((kb_used * 1024))
@@ -160,44 +177,44 @@ function disk_usage() {
 function mem_usage() {
     # show free mem as a percentage
     # (free * 100) / $total
-    free -m | awk 'NR==2{printf "%.2f%%", $3*100/$2}'
+    free -m | awk 'NR==2{printf "%.0f%%", $3*100/$2}'
 }
 
 function cpu_usage() {
     # show user,sys,iowait metrics
     # %user + %sys + %iowait
-    mpstat -u | tail -n 1 | awk '{printf "%.2f%%", $4+$6+$7}'
+    mpstat -u | tail -n 1 | awk '{printf "%.0f%%", $4+$6+$7}'
 
 }
 
+while getopts "bBtdmc" opt; do
+    case ${opt} in b)
+        battery
+        ;;
 
-while getopts "bBtdmc" opt; do case ${opt} in b)
-                battery
-                ;;
-
-            B)
-                bandwidth "$@"
-                ;;
-            d)
-                shift
-                disk_usage "$@"
-                ;;
-            t)
-                shift
-                temperature "$@"
-                ;;
-            m)
-                shift
-                mem_usage
-                ;;
-            c)
-                shift
-                cpu_usage
-                ;;
-            *)
-                usage
-                exit 1
-        esac
+    B)
+        bandwidth "$@"
+        ;;
+    d)
+        shift
+        disk_usage "$@"
+        ;;
+    t)
+        shift
+        temperature "$@"
+        ;;
+    m)
+        shift
+        mem_usage
+        ;;
+    c)
+        shift
+        cpu_usage
+        ;;
+    *)
+        usage
+        exit 1
+        ;;
+    esac
 
 done
-

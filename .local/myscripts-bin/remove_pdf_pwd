@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# Check if the input file is provided
+if [ -z "$1" ]; then
+  echo "Usage: $0 <path-to-protected-filename>.pdf" "<protected-filename password>"
+  exit 1
+fi
+
+# Input PDF file
+INPUT_PDF="$1"
+INPUT_PASSWORD="$2"
+
+# Check if the input file exists
+if [ ! -f "$INPUT_PDF" ]; then
+  echo "Error: Input file '$INPUT_PDF' not found."
+  exit 1
+fi
+
+if [ -z "$INPUT_PASSWORD" ]; then
+  echo "Error: No password provided"
+  exit 1
+fi
+
+# Extract the filename without extension
+FILENAME=$(basename "$INPUT_PDF" .pdf)
+
+# Output PDF file with "_unlocked" suffix
+OUTPUT_PDF="${FILENAME}_unlocked.pdf"
+
+# Check if output path is absolute, if not add current directory
+if [[ "$OUTPUT_PDF" != /* ]]; then
+  OUTPUT_PDF="./${OUTPUT_PDF}"
+fi
+
+# Remove password using Ghostscript
+gs -dNOPAUSE -dBATCH -q -dPDFSTOPONERROR -sDEVICE=pdfwrite -sPDFPassword="$INPUT_PASSWORD" -sOutputFile="$OUTPUT_PDF" -f "$INPUT_PDF" >/dev/null 2>&1
+
+# Check if the command was successful
+if [ $? -eq 0 ]; then
+  echo "Password removed successfully. Output saved to '$OUTPUT_PDF'"
+else
+  echo "Error: Failed to remove password."
+  exit 1
+fi
+
+exit 0
