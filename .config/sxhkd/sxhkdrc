@@ -1,8 +1,10 @@
 # wm independent hotkeys
 #
 # terminal emulator
-super + Return
-	st
+
+# Used in window manager
+# super + Return
+	# st
 
 # program launcher
 super + d

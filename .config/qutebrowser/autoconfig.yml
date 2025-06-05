@@ -6,7 +6,5 @@
 
 config_version: 2
 settings:
-  content.blocking.enabled:
-    global: true
-  content.register_protocol_handler:
-    https://mail.google.com?extsrc=mailto&url=%25s: true
+  colors.webpage.darkmode.enabled:
+    global: false

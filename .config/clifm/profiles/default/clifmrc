@@ -332,7 +332,7 @@ Icons=false
 # 4 = 'wcp', and 5 = 'rsync -avP'
 # 2-5 include a progress bar.
 # Only 0 and 2 will prompt before overwrite.
-cpCmd=5
+cpCmd=2
 
 # Set the default move command. Available options are:
 # 0 = 'mv -i', 1 = 'mv', 2 = 'advmv -gi', and 3 = 'advmv -g'
@@ -524,7 +524,7 @@ alias qmv='qmv -e nvim $@'
 #autocmd ~/Downloads/** !/usr/share/clifm/plugins/fzfnav.sh
 
 # sort by ctime, show last 30 files, (sort reverse)
-autocmd ~/Downloads/** st=5,mf=30,sr=0
+autocmd ~/Downloads/** st=5,mf=40,sr=0
 
 # Use the nord color scheme and disable hidden files in the ~/Documents
 # directory.
