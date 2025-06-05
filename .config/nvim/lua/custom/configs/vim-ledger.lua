@@ -101,10 +101,10 @@ autocmd('FileType', {
     create_count_based_command('InsertYesterday', insert_today, 0, true)
 
     -- Bind the function to a key combination (e.g., <leader>le for ledger entry)
-    vim.keymap.set('n', '<leader>ln', '<cmd>InsertNextDayEntry<cr>O', { noremap = true, silent = true })
-    vim.keymap.set('n', '<leader>lN', '<cmd>InsertPrevDayEntry<cr>O', { noremap = true, silent = true })
-    vim.keymap.set('n', '<leader>lt', '<cmd>InsertToday<cr>O', { noremap = true, silent = true })
-    vim.keymap.set('n', '<leader>lT', '<cmd>InsertYesterday<cr>O', { noremap = true, silent = true })
+    vim.keymap.set('n', '<leader>ln', '<cmd>InsertNextDayEntry<cr>o', { noremap = true, silent = true })
+    vim.keymap.set('n', '<leader>lN', '<cmd>InsertPrevDayEntry<cr>o', { noremap = true, silent = true })
+    vim.keymap.set('n', '<leader>lt', '<cmd>InsertToday<cr>o', { noremap = true, silent = true })
+    vim.keymap.set('n', '<leader>lT', '<cmd>InsertYesterday<cr>o', { noremap = true, silent = true })
   end,
 })
 autocmd('BufWritePost', {

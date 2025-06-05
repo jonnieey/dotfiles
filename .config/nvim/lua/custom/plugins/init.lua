@@ -44,30 +44,5 @@ return {
     --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
     --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
     { import = 'custom.plugins' },
-    --
-    {
-      'ledger/vim-ledger',
-      lazy = false,
-      config = function()
-        require 'custom.configs.vim-ledger'
-      end,
-    },
-    { 'junegunn/vim-easy-align', lazy = true, ft = { 'ledger' } },
-    {
-      'robitx/gp.nvim',
-      config = function()
-        require 'custom.configs.gp'
-      end,
-    },
-    {
-      'nvim-telescope/telescope-file-browser.nvim',
-      dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
-    },
-    {
-      'milanglacier/yarepl.nvim',
-      config = function()
-        require 'custom.configs.yarepl'
-      end,
-    },
   },
 }
