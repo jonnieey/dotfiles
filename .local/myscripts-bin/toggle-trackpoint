@@ -1,0 +1,48 @@
+#!/bin/bash
+
+TRACKPOINT_ID=$(xinput list | grep -Eio '(trackpoint|pointing stick)\s*id=[0-9]{1,2}' | grep -Eo '[0-9]{1,2}')
+
+function enable_trackpoint() {
+    xinput enable "$TRACKPOINT_ID"
+    notify-send -a 'Trackpoint' 'Trackpoint Enabled' -i input-mouse
+}
+function disable_trackpoint() {
+    xinput disable "$TRACKPOINT_ID"
+    notify-send -a 'Trackpoint' 'Trackpoint Disabled' -i input-mouse
+}
+
+function toggle_trackpoint() {
+    if [ ! -z "$TRACKPOINT_ID" ]; then
+        declare -i TRACKPOINT_STATE
+        TRACKPOINT_STATE=$(xinput list-props "$TRACKPOINT_ID" | grep 'Device Enabled' | awk '{print $4}')
+        if [ "$TRACKPOINT_STATE" -eq 1 ]; then
+            disable_trackpoint
+        else
+            enable_trackpoint
+        fi
+    fi
+}
+
+function usage() {
+    echo "Usage: $0 [-e] [-d] [-t]"
+    echo "  -e  Enable the trackpoint"
+    echo "  -d  Disable the trackpoint"
+    echo "  -t  Toggle the trackpoint"
+    exit 1
+}
+while getopts "edt" opt; do
+    case "$opt" in
+    e)
+        enable_trackpoint
+        ;;
+    d)
+        disable_trackpoint
+        ;;
+    t)
+        toggle_trackpoint
+        ;;
+    *)
+        usage
+        ;;
+    esac
+done

@@ -1,15 +1,44 @@
 #!/bin/bash
-
-declare -i ID
 ID=$(xinput list | grep -Eio '(touchpad|glidepoint)\s*id=[0-9]{1,2}' | grep -Eo '[0-9]{1,2}')
-declare -i STATE
-STATE=$(xinput list-props "$ID" | grep 'Device Enabled' | awk '{print $4}')
-if [ "$STATE" -eq 1 ]; then
-    xinput disable "$ID"
-    # echo "Touchpad disabled."
-    # notify-send -a 'Touchpad' 'Touchpad Disabled' -i input-touchpad
-else
+
+function enable_touchpad() {
     xinput enable "$ID"
-    # echo "Touchpad enabled."
-    # notify-send -a 'Touchpad' 'Touchpad Enabled' -i input-touchpad
-fi
+    notify-send -a 'Touchpad' 'Touchpad Enabled' -i input-touchpad
+}
+function disable_touchpad() {
+    xinput disable "$ID"
+    notify-send -a 'Touchpad' 'Touchpad Disabled' -i input-touchpad
+}
+
+function toggle_touchpad() {
+    STATE=$(xinput list-props "$ID" | grep 'Device Enabled' | awk '{print $4}')
+    if [ "$STATE" -eq 1 ]; then
+        disable_touchpad
+    else
+        enable_touchpad
+    fi
+}
+
+function usage() {
+    echo "Usage: $0 [-e] [-d] [-t]"
+    echo "  -e  Enable the touchpad"
+    echo "  -d  Disable the touchpad"
+    echo "  -t  Toggle the touchpad"
+    exit 1
+}
+while getopts "ed" opt; do
+    case "$opt" in
+    e)
+        enable_touchpad
+        ;;
+    d)
+        disable_touchpad
+        ;;
+    t)
+        toggle_touchpad
+        ;;
+    *)
+        usage
+        ;;
+    esac
+done
