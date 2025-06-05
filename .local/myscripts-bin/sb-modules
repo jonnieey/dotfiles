@@ -28,11 +28,11 @@ battery() {
     else
         echo "No battery info"
     fi
-}
-usage() {
-    echo "usage: $0 [-b]"
-    echo "  -b: show battery level"
-    return 1
+    usage() {
+        echo "usage: $0 [-b]"
+        echo "  -b: show battery level"
+        return 1
+    }
 }
 
 bandwidth() {
@@ -134,6 +134,10 @@ bandwidth() {
     }
     '
 }
+default_ssid() {
+    echo "$(iwgetid -r)"
+}
+
 temperature() {
     [ -z "$1" ] && set -- '${c}°C'
 
@@ -187,7 +191,7 @@ function cpu_usage() {
 
 }
 
-while getopts "bBtdmc" opt; do
+while getopts "bBtdmcs" opt; do
     case ${opt} in b)
         battery
         ;;
@@ -210,6 +214,10 @@ while getopts "bBtdmc" opt; do
     c)
         shift
         cpu_usage
+        ;;
+    s)
+        shift
+        default_ssid
         ;;
     *)
         usage

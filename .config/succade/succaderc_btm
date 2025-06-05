@@ -1,22 +1,31 @@
 [bottombar]
 name = "LEMONBAR"
-blocks = "tags symbol | title | temp network battery date"
+blocks = "tags symbol | title | temp network ssid battery date"
 height = 16
 areas = 16
-line-width = 2
-font = "JetBrainsMono Nerd Font:style=Medium:size=10"
 width = 1366
+line-width = 2
+background = "#000000"
+foreground = "#ffffff"
+line-color = "#555555"
+font = "Iosevka Term:style=Semibold:size=11"
+foreground = "#ffffff"
+background = "#000000"
+line-color = "#555555"
 bottom=true
 
 [bottomrightbar]
 name = "LEMONBAR"
-blocks = "tags symbol | title | temp network battery date"
+blocks = "tags symbol | title | temp network ssid battery date"
 height = 16
 areas = 16
-line-width = 2
-font = "JetBrainsMono Nerd Font:style=Medium:size=10"
 width = 1440
+line-width = 2
 left = 1366
+font = "Iosevka Term:style=Semibold:size=11"
+foreground = "#ffffff"
+background = "#000000"
+line-color = "#555555"
 bottom=true
 
 [default]
@@ -57,3 +66,8 @@ margin = 5
 [temp]
 command = "sb-modules -t"
 interval = 1
+
+[ssid]
+command = "sb-modules -s"
+interval = 5
+

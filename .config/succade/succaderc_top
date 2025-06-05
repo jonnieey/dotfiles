@@ -3,13 +3,12 @@ name = "LEMONBAR"
 blocks = "volume mpd | | cpu mem root home pomopy"
 height = 16
 areas = 16
-bottom=false
-foreground = "#ffffff"
-background = "#000000"
-line-color = "#555555"
-line-width = 2
-font = "JetBrainsMono Nerd Font:style=Medium:size=10"
 width = 1366
+line-width = 2
+font = "Iosevka Term:style=Semibold:size=11"
+background = "#000000"
+foreground = "#ffffff"
+line-color = "#555555"
 bottom=false
 
 [toprightbar]
@@ -17,12 +16,12 @@ name = "LEMONBAR"
 blocks = "volume mpd | | cpu mem root home pomopy"
 height = 16
 areas = 16
-foreground = "#ffffff"
-background = "#000000"
-line-color = "#555555"
-line-width = 2
-font = "JetBrainsMono Nerd Font:style=Medium:size=10"
 width = 1440
+line-width = 2
+font = "Iosevka Term:style=Semibold:size=11"
+background = "#000000"
+foreground = "#ffffff"
+line-color = "#555555"
 left = 1366
 bottom=false
 
