@@ -28,7 +28,7 @@ mydmenu() {
 	dmenu -nb '#282c34' -nf '#abb2bf' -sb '#61afef' -sf '#282c34' -Y 350 -W 700 -X 300 -i -l 7 -g 2 -p "$1"
 }
 
-sites=("Duck" "Aur" "ChatGPT" "DeepSeek" "Gemini" "Github" "Gmail" "Jumia" "Kilimall" "Temi" "Temp-mail" "Youtube")
+sites=("Duck" "Aur" "ChatGPT" "DeepSeek" "Gemini" "Github" "Gmail" "Jumia" "Kilimall" "Suno" "Temi" "Temp-mail" "Youtube")
 
 site=$(printf '%s\n' "${sites[@]}" | mydmenu "Sites")
 
@@ -98,7 +98,8 @@ case $site in
 	;;
 "Aur")
 	search="$(echo -en '' | mydmenu 'Search keyword')" || exit
-	$BROWSER "https://wiki.archlinux.org/index.php?title=Special%3ASearch&search=$search"
+	# $BROWSER "https://wiki.archlinux.org/index.php?title=Special%3ASearch&search=$search"
+	$BROWSER "https://aur.archlinux.org/packages?O=0&K=$search"
 	;;
 "DeepSeek")
 	$BROWSER "https://chat.deepseek.com/"
@@ -122,5 +123,8 @@ case $site in
 		echo "$s"
 		$BROWSER "https://m.kilimall.com/search?q=$s"
 	fi
+	;;
+"Suno")
+	$BROWSER "https://suno.com/home"
 	;;
 esac

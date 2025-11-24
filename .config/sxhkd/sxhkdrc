@@ -76,7 +76,7 @@ super + {shift+space,space}
 	dwmc cyclelayout {-1,+1}
 
 super + semicolon; {e,g,w,v,m,z,x,n,c}
-	{st aerc,"$HOME/.local/myscripts-bin/dmenu-sites",st w3m -B,st clifm,"$HOME/.local/myscripts-bin/udisks-dmenu",st -e nchat -d "$HOME/.config/nchat/telegram", st -e nchat -d "$HOME/.config/nchat/whatsapp",st bash -c ncmpcpp,nohup google-chat-linux}
+	{st aerc,"$HOME/.local/myscripts-bin/dmenu-sites",st w3m -B,st clifm,"$HOME/.local/myscripts-bin/udisks-dmenu",st -e nchat -d "$HOME/.local/share/nchat/telegram", st -e nchat -d "$HOME/.local/share/nchat/whatsapp",st bash -c ncmpcpp,nohup google-chat-linux}
 
 ctrl + shift + Escape
   st btm --network_use_bytes --regex

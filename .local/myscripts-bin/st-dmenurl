@@ -3,12 +3,13 @@
 # url=$(grep -Po "$regex" | dmenu -l 5 -p "Go:" -w "$WINDOWID") || exit
 # url=$(echo "$1" | dmenu -l 5 -p "Go") || exit
 
+PRIVBROWSER=${PRIVBROWSER:-qutebrowser -T -C $HOME/.config/qutebrowser/config-priv.py}
 urlregex="(((http|https|gopher|gemini|ftp|ftps|git)://|www\\.)[a-zA-Z0-9.]*[:]?[a-zA-Z0-9./@$&%?$\#=_~-]*)|((magnet:\\?xt=urn:btih:)[a-zA-Z0-9]*)"
 
-urls="$(sed 's/.*│//g' | tr -d '\n' |                         # First remove linebreaks and mutt sidebars:
-	grep -aEo "$urlregex" |                                      # grep only urls as defined above.
-	uniq |                                                       # Ignore neighboring duplicates.
-	sed "s/\(\.\|,\|;\|\!\\|\?\)$//;
+urls="$(sed 's/.*│//g' | tr -d '\n' |                            # First remove linebreaks and mutt sidebars:
+    grep -aEo "$urlregex" |                                      # grep only urls as defined above.
+    uniq |                                                       # Ignore neighboring duplicates.
+    sed "s/\(\.\|,\|;\|\!\\|\?\)$//;
 	s/^www./http:\/\/www\./")" # xdg-open will not detect url without http
 
 [ -z "$urls" ] && exit 1
@@ -22,62 +23,61 @@ todo() {
     option=$(echo -e "yank\nDownload\nGo-to" | rofi -dmenu -i -l 4 -p "Option") || exit
 
     case "$option" in
-        "Go-to")
-            browser=$(echo -e "qutebrowser\nchrome\nvimb\nw3m" | rofi -dmenu -i -l 3 -p "Browser") || exit
-            case "$browser" in
-                "qutebrowser") qutebrowser "${urlsarray[0]}" ;;
-                "chrome") google-chrome-stable "${urlsarray[0]}" ;;
-                "vimb") vimb "${urlsarray[0]}" ;;
-                "w3m") st -e w3m "${urlsarray[0]}" ;;
-            esac
+    "Go-to")
+        browser=$(echo -e "qutebrowser\nqutebrowser-private\nw3m" | rofi -dmenu -i -l 3 -p "Browser") || exit
+        case "$browser" in
+        "qutebrowser") qutebrowser "${urlsarray[0]}" ;;
+        "qutebrowser-private") $PRIVBROWSER "${urlsarray[0]}" ;;
+        "w3m") st -e w3m "${urlsarray[0]}" ;;
+        esac
+        ;;
+    "yank")
+        clipboard=$(echo -e "primary\nclipboard\nyoutube-dl-audio\nyoutube-dl-video" | rofi -dmenu -i -l 6 -p "Clipboard") || exit
+        case "$clipboard" in
+        "primary") echo "${urlsarray[0]}" | xclip ;;
+        "clipboard") echo "${urlsarray[0]}" | xclip -selection clipboard ;;
+        "youtube-dl-audio") echo -e "${urlsarray[0]}\t$date" >>"/home/kamikaze/Music/todownload_audio" ;;
+        "youtube-dl-video") echo -e "${urlsarray[0]}\t$date" >>"/home/kamikaze/Music/todownload_video" ;;
+        esac
+        ;;
+    "Download")
+        downloaders=$(echo -e "aria2p\nyoutube-dl\ndropbox\ndrive\n" | rofi -dmenu -i -l 4 -p "Downloader") || exit
+        case "$downloaders" in
+        "aria2p")
+            for url in "${urlsarray[@]}"; do
+                aria2p -s aria2c add "$url"
+            done
             ;;
-        "yank")
-            clipboard=$(echo -e "primary\nclipboard\nyoutube-dl-audio\nyoutube-dl-video" | rofi -dmenu -i -l 6 -p "Clipboard") || exit
-            case "$clipboard" in
-                "primary") echo "${urlsarray[0]}" | xclip ;;
-                "clipboard") echo "${urlsarray[0]}" | xclip -selection clipboard ;;
-                "youtube-dl-audio") echo -e "${urlsarray[0]}\t$date" >>"/home/kamikaze/Music/todownload_audio" ;;
-                "youtube-dl-video") echo -e "${urlsarray[0]}\t$date" >>"/home/kamikaze/Music/todownload_video" ;;
-            esac
+        "youtube-dl")
+            for url in "${urlsarray[@]}"; do
+                youtube-dl "$url"
+            done
             ;;
-        "Download")
-            downloaders=$(echo -e "aria2p\nyoutube-dl\ndropbox\ndrive\n" | rofi -dmenu -i -l 4 -p "Downloader") || exit
-            case "$downloaders" in
-                "aria2p")
-                    for url in "${urlsarray[@]}"; do
-                        aria2p -s aria2c add "$url"
-                    done
-                    ;;
-                "youtube-dl")
-                    for url in "${urlsarray[@]}"; do
-                        youtube-dl "$url"
-                    done
-                    ;;
-                "dropbox" | "drive")
-                    client=$(echo -e "Natalie\nChynna\nVictor\nOthers" | rofi -dmenu -i -l 3 -p "Client") || exit
-                    mkdir -p ~/Downloads/Dropbox/"$client" && cd "$_"
-                    for url in "${urlsarray[@]}"; do
-                        if [[ "$downloaders" == "dropbox" ]]; then
-                            curl -L -O -J --http1.1 "$(echo -e "$url" | sed 's/dl=0/dl=1/')"
-                        elif [[ "$downloaders" == "drive" ]]; then
-                            FILEID="$(echo "$url" | grep -oP '(?<=/d/)[^/]+')"
-                            curl -L -O -J "https://drive.usercontent.google.com/download?id=$FILEID&export=download&confirm=xxx"
-                        fi
-                    done
-                    cd -
-                    ;;
-            esac
+        "dropbox" | "drive")
+            client=$(echo -e "Natalie\nChynna\nVictor\nOthers" | rofi -dmenu -i -l 3 -p "Client") || exit
+            mkdir -p ~/Downloads/Dropbox/"$client" && cd "$_"
+            for url in "${urlsarray[@]}"; do
+                if [[ "$downloaders" == "dropbox" ]]; then
+                    curl -L -O -J --http1.1 "$(echo -e "$url" | sed 's/dl=0/dl=1/')"
+                elif [[ "$downloaders" == "drive" ]]; then
+                    FILEID="$(echo "$url" | grep -oP '(?<=/d/)[^/]+')"
+                    curl -L -O -J "https://drive.usercontent.google.com/download?id=$FILEID&export=download&confirm=xxx"
+                fi
+            done
+            cd -
             ;;
+        esac
+        ;;
     esac
 }
 
 while getopts "hoc" o; do case "${o}" in
-	h) printf "Optional arguments for custom use:\\n  -c: copy\\n  -o: xdg-open\\n  -h: Show this message\\n" && exit 1 ;;
-	o)
-		chosen="$(echo "$urls" | rofi -dmenu -i -p 'Follow which url?' -l 10)"
-		setsid xdg-open "$chosen" >/dev/null 2>&1 &
-		;;
-	# c) echo "$urls" | rofi -dmenu -i -p 'Copy url' -l 10 | tr -d '\n' | xclip -selection clipboard ;;
-	c) todo "$urls" ;;
-	*) echo "Invalid option" && exit 1 ;;
-	esac done
+    h) printf "Optional arguments for custom use:\\n  -c: copy\\n  -o: xdg-open\\n  -h: Show this message\\n" && exit 1 ;;
+    o)
+        chosen="$(echo "$urls" | rofi -dmenu -i -p 'Follow which url?' -l 10)"
+        setsid xdg-open "$chosen" >/dev/null 2>&1 &
+        ;;
+    # c) echo "$urls" | rofi -dmenu -i -p 'Copy url' -l 10 | tr -d '\n' | xclip -selection clipboard ;;
+    c) todo "$urls" ;;
+    *) echo "Invalid option" && exit 1 ;;
+    esac done

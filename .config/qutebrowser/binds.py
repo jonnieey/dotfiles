@@ -1,3 +1,4 @@
+config.unbind('d')
 config.bind(
     "M",
     'hint links spawn mpv --vo=gpu --hwdec=vaapi --ytdl-format="bestvideo[height<=720]+bestaudio" --script-opts=ytdl_hook-ytdl_path=yt-dlp "{hint-url}"',

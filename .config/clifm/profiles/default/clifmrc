@@ -174,7 +174,7 @@ MarkTimestamp=true
 MaxFilenameLen=50
 
 # Trim file names longer than MaxFilenameLen.
-TruncateNames=false
+TruncateNames=true
 
 # Minimum length at which a file name can be trimmed in long view mode.
 # When running in long mode, this setting overrides MaxFilenameLen
@@ -466,7 +466,7 @@ DesktopNotifications=true
 ;ShareSelbox=false
 
 # Print a usage tip at startup.
-;Tips=true
+Tips=true
 
 # Just a kind welcome message at startup.
 WelcomeMessage=false
@@ -524,7 +524,7 @@ alias qmv='qmv -e nvim $@'
 #autocmd ~/Downloads/** !/usr/share/clifm/plugins/fzfnav.sh
 
 # sort by ctime, show last 30 files, (sort reverse)
-autocmd ~/Downloads/** st=5,mf=40,sr=0
+autocmd ~/Downloads/** st=5,mf=50,sr=0
 
 # Use the nord color scheme and disable hidden files in the ~/Documents
 # directory.

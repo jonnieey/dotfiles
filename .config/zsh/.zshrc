@@ -77,3 +77,14 @@ export FZF_DEFAULT_OPTS=" \
 
 export PATH=/home/sato/bin:$PATH
 export DOCKER_HOST=unix:///run/user/1000/docker.sock
+eval "$(fnm env --use-on-cd --shell zsh)"
+
+activate_venv_on_cd() {
+    local venv_dir=".venv"
+    if [[ -d "$PWD/$venv_dir" ]]; then
+        source "$PWD/$venv_dir/bin/activate"
+    fi
+}
+ 
+autoload -U add-zsh-hook
+add-zsh-hook chpwd activate_venv_on_cd
