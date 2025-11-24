@@ -156,50 +156,63 @@ return {
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        pylsp = {
-          cmd = { 'pylsp', '-vvv', '--log-file', '/tmp/lsp.log' },
+        -- pylsp = {
+        --   cmd = { 'pylsp', '-vvv', '--log-file', '/tmp/lsp.log' },
+        --   settings = {
+        --     pylsp = {
+        --       plugins = {
+        --         -- formatter options
+        --         black = { enabled = false, line_length = 79 },
+        --         autopep8 = { enabled = false },
+        --         yapf = { enabled = false },
+        --         mccabe = { enabled = false },
+        --         -- -- linter options
+        --         pylint = { enabled = false, executable = 'pylint' },
+        --         pyflakes = { enabled = false },
+        --         flake8 = {
+        --           enabled = true,
+        --           maxLineLength = 120,
+        --           maxComplexity = 15,
+        --         },
+        --         pycodestyle = { enabled = false },
+        --         ruff = {
+        --           enabled = true,
+        --           formatEnabled = false,
+        --           extendSelect = { 'I' },
+        --           extendIgnore = { 'C90' },
+        --           format = { 'I' },
+        --           severities = { ['D212'] = 'I' },
+        --           unsafeFixes = false,
+        --           lineLength = 79,
+        --           perFileIgnores = { ['__init__.py'] = 'CPY001' },
+        --           preview = true,
+        --         },
+        --         -- -- type checker
+        --         pylsp_mypy = { enabled = false },
+        --         -- -- auto-completion options
+        --         -- jedi_completion = { fuzzy = true },
+        --         -- -- import sorting
+        --         isort = { enabled = true },
+        --       },
+        --     },
+        --   },
+        -- },
+        -- clangd = {},
+        -- gopls = {},
+        pyright = {
           settings = {
-            pylsp = {
-              plugins = {
-                -- formatter options
-                black = { enabled = false, line_length = 79 },
-                autopep8 = { enabled = false },
-                yapf = { enabled = false },
-                mccabe = { enabled = false },
-                -- -- linter options
-                pylint = { enabled = false, executable = 'pylint' },
-                pyflakes = { enabled = false },
-                flake8 = {
-                  enabled = true,
-                  maxLineLength = 120,
-                  maxComplexity = 15,
-                },
-                pycodestyle = { enabled = false },
-                ruff = {
-                  enabled = true,
-                  formatEnabled = false,
-                  extendSelect = { 'I' },
-                  extendIgnore = { 'C90' },
-                  format = { 'I' },
-                  severities = { ['D212'] = 'I' },
-                  unsafeFixes = false,
-                  lineLength = 79,
-                  perFileIgnores = { ['__init__.py'] = 'CPY001' },
-                  preview = true,
-                },
-                -- -- type checker
-                pylsp_mypy = { enabled = false },
-                -- -- auto-completion options
-                -- jedi_completion = { fuzzy = true },
-                -- -- import sorting
-                isort = { enabled = true },
+            python = {
+              analysis = {
+                typeChecking = 'basic',
+                autoImportCompletions = true,
+                useLibraryCodeForTypes = true,
+                autoSearch = true,
+                autoImport = true,
+                diagnosticMode = 'off',
               },
             },
           },
         },
-        -- clangd = {},
-        -- gopls = {},
-        -- pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -245,7 +258,7 @@ return {
         'lua-language-server',
         'bash-language-server',
         'debugpy',
-        'python-lsp-server',
+        -- 'python-lsp-server',
         -- 'black',
         -- 'isort',
         -- 'ruff',
