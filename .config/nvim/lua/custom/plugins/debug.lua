@@ -41,7 +41,17 @@ return {
     }
 
     require('dap').configurations.python = {
-      { type = 'python', request = 'launch', name = 'My custom launch configuration', justMyCode = false, program = '${file}' },
+      {
+        type = 'python',
+        request = 'launch',
+        name = 'Debug CLI Script',
+        justMyCode = false,
+        program = '${file}',
+        args = function()
+          local input = vim.fn.input '[Args]: '
+          return vim.fn.split(input, ' ', true)
+        end,
+      },
     }
 
     local dap_python = require 'dap-python' -- Cache module to avoid repeated require calls

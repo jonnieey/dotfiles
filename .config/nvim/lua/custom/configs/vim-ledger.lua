@@ -14,7 +14,7 @@ g.ledger_default_commodity = ''
 g.ledger_detailed_first = 1
 g.ledger_extra_options = '--pedantic --explicit'
 g.ledger_fillstring = '-'
-g.ledger_fold_blanks = 1
+g.ledger_fold_blanks = 0
 g.ledger_is_hledger = 0
 g.ledger_main = '%'
 g.ledger_maxwidth = 75
@@ -74,8 +74,9 @@ local function insert_today(offset)
 end
 
 autocmd('FileType', {
-  pattern = 'ledger',
+  pattern = { 'ledger', 'beancount', 'bean' },
   callback = function()
+    vim.cmd 'setlocal nowrap'
     vim.api.nvim_set_keymap('n', '{', [[?^\d<cr>]], { noremap = true, silent = true })
     vim.api.nvim_set_keymap('n', '}', [[/^\d<cr>]], { noremap = true, silent = true })
     vim.api.nvim_set_keymap('n', '<leader>al', [[:%EasyAlign /\-\?[(0-9]\+\.[0-9]\+ [A-Z]\{3\}/ {'lm': 5}<CR>]], { silent = true })
@@ -108,10 +109,70 @@ autocmd('FileType', {
   end,
 })
 autocmd('BufWritePost', {
-  pattern = '*.ledger',
+  pattern = { '*.ledger', '*.bean', '*.beancount' },
   callback = function()
     -- remove 2 or more empty lines
     vim.cmd [[:silent g/^\n\n/d]]
     vim.cmd [[:silent %s/\t/  /e]]
   end,
 })
+
+local function show_balance()
+  -- Get the account name under the cursor
+  local account = vim.fn.expand '<cWORD>'
+
+  -- Detect filetype and set appropriate command
+  local filetype = vim.bo.filetype
+  local result
+
+  if filetype == 'ledger' then
+    -- If filetype is ledger, use the current file
+    local current_file = vim.fn.expand '%:p'
+    -- Construct and run the Ledger command
+    local cmd = string.format(':Ledger bal %s', account)
+    -- Capture the output into a list
+    result = vim.fn.systemlist(string.format('ledger -f %s bal %s', current_file, account))
+  elseif filetype == 'beancount' then
+    -- If filetype is beancount, get the main file path
+    local current_file_path = vim.fn.expand '%:p:h'
+    local handle = io.popen('git -C "' .. current_file_path .. '" rev-parse --show-toplevel')
+    local main_file = handle:read '*l' .. '/main.beancount'
+
+    handle:close() -- Close the handle to free up resources
+
+    -- Construct the bean-query command
+    local cmd = string.format('bean-query %s "SELECT account, sum(position) WHERE account ~ \'%s\'"', main_file, account)
+    result = vim.fn.systemlist(cmd)
+  end
+
+  -- Check if there is a result to display
+  if result and #result > 0 then
+    -- Create a buffer for the floating window
+    local buf = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, result)
+
+    -- Define window size and position
+    local width = 50
+    local height = #result + 2
+    local opts = {
+      relative = 'cursor',
+      row = 1,
+      col = 0,
+      width = width,
+      height = height,
+      style = 'minimal',
+      border = 'rounded',
+    }
+
+    -- Open the window
+    local win = vim.api.nvim_open_win(buf, true, opts)
+
+    -- Keybinding to close the window with 'q'
+    vim.api.nvim_buf_set_keymap(buf, 'n', 'q', ':q<CR>', { noremap = true, silent = true })
+  else
+    print('No balance found for account: ' .. account)
+  end
+end
+
+-- Map it to a key (e.g., <leader>bb for Balance)
+vim.keymap.set('n', '<leader>bb', show_balance, { desc = 'Show balance in float' })

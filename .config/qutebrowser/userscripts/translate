@@ -2,24 +2,24 @@
 
 while [[ $# > 0 ]]; do
     case $1 in
-        -s|--source)
-            QUTE_TRANS_SOURCE=$2
-            shift
-            shift
-            ;;
-        -t|--target)
-            QUTE_TRANS_TARGET=$2
-            shift
-            shift
-            ;;
-        --url)
-            QUTE_TRANS_URL="true"
-            shift
-            ;;
-        --text)
-            QUTE_TRANS_URL="false"
-            shift
-            ;;
+    -s | --source)
+        QUTE_TRANS_SOURCE=$2
+        shift
+        shift
+        ;;
+    -t | --target)
+        QUTE_TRANS_TARGET=$2
+        shift
+        shift
+        ;;
+    --url)
+        QUTE_TRANS_URL="true"
+        shift
+        ;;
+    --text)
+        QUTE_TRANS_URL="false"
+        shift
+        ;;
     esac
 done
 
@@ -44,4 +44,4 @@ else
     CONTENT=$QUTE_URL
 fi
 
-echo "open -t ${PAGE}sl=$QUTE_TRANS_SOURCE&tl=$QUTE_TRANS_TARGET&$CONT_KEY=$CONTENT" >> "$QUTE_FIFO"
+echo "open -t ${PAGE}sl=$QUTE_TRANS_SOURCE&tl=$QUTE_TRANS_TARGET&$CONT_KEY=$CONTENT" >>"$QUTE_FIFO"

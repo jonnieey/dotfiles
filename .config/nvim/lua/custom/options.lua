@@ -80,3 +80,12 @@ vim.opt.smartindent = true
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.colorcolumn = { 79 }
+
+-- Disable folding
+vim.opt.foldenable = false
+vim.opt.foldmethod = 'manual'
+vim.opt.foldlevel = 99
+vim.opt.shell = '/bin/zsh'
+vim.opt.shellcmdflag = '-c'
+vim.opt.shellredir = '>%s 2>&1'
+vim.opt.shellpipe = '2>&1 | tee %s'

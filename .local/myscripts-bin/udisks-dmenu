@@ -1,4 +1,7 @@
 #!/bin/sh
+mydmenu() {
+	rofi -dmenu -nb '#282c34' -nf '#abb2bf' -sb '#61afef' -sf '#282c34' -Y 350 -W 700 -X 300 -i -p "$1"
+}
 devices() {
 	lsblk -a -o 'PATH,LABEL,FSAVAIL,SIZE,MOUNTPOINT'
 }
@@ -7,10 +10,10 @@ no_of_devices() {
 	devices | wc -l
 }
 
-device=$(devices | dmenu -i -l "$(no_of_devices)" | cut -d' ' -f1)
+device=$(devices | mydmenu | cut -d' ' -f1)
 
-if [ -n "$device" ] ; then
-	if mount | grep -q "$device" ; then
+if [ -n "$device" ]; then
+	if mount | grep -q "$device"; then
 		msg=$(udisksctl unmount -b "$device")
 		notify-send 'Unmount' "$msg"
 	else

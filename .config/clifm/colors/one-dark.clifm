@@ -67,7 +67,7 @@ SizeShades="3,#e06c75-2,#56b6c2,#91b07b,#e5c07b,#d19a66,#e06c75"
 
 DirIconColor="Y"
 
-Prompt="spot"
+Prompt="cold-winter"
 Notifications=true
 EnableWarningPrompt=true
 WarningPrompt="\[\e[0;2;38;2;224;108;117m\](!)\[\e[0;2m\] > "

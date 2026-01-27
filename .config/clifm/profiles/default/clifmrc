@@ -171,7 +171,7 @@ MarkTimestamp=true
 # Set it to -1 (or empty) to remove this limit.
 # If running in long mode, this setting is overriden by MinFilenameTrim
 # whenever MaxFilenameLen is smaller than MinFilenameTrim.
-MaxFilenameLen=50
+MaxFilenameLen=42
 
 # Trim file names longer than MaxFilenameLen.
 TruncateNames=true
@@ -179,7 +179,7 @@ TruncateNames=true
 # Minimum length at which a file name can be trimmed in long view mode.
 # When running in long mode, this setting overrides MaxFilenameLen
 # whenever MaxFilenameLen is smaller than MinFilenameTrim.
-MinNameTruncate=45
+MinNameTruncate=40
 
 # A comma separated list of workspace names in the form NUM=NAME.
 # Example: "1=MAIN,2=EXTRA,3=GIT" or "1=α,2=β,3=γ"
@@ -246,7 +246,7 @@ Icons=false
 # Quoting styles: 'backslash' (default), 'single', or 'double' quotes.
 # Useful when using shells not supporting backslashes as quoting
 # mechanisms (ex: nushell or xonsh).
-;QuotingStyle=backslash
+QuotingStyle=double
 
 # Enable fuzzy matching for filename/path completions and suggestions.
 ;FuzzyMatching=false
@@ -332,7 +332,7 @@ Icons=false
 # 4 = 'wcp', and 5 = 'rsync -avP'
 # 2-5 include a progress bar.
 # Only 0 and 2 will prompt before overwrite.
-cpCmd=2
+cpCmd=5
 
 # Set the default move command. Available options are:
 # 0 = 'mv -i', 1 = 'mv', 2 = 'advmv -gi', and 3 = 'advmv -g'
@@ -496,7 +496,8 @@ WelcomeMessage=false
 # Replace the built-in bulk rename function (br) by vidir(1).
 #br='vidir'
 bcp='rysnc -avP'
-alias qmv='qmv -e nvim $@'
+#alias qmv='qmv -e nvim $@'
+alias ls='eza --color=auto'
 
 #=====================================#
 #         7. PROMPT COMMANDS          #

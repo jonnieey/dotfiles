@@ -1,16 +1,11 @@
+mpd_host = /home/sato/.socket
 ncmpcpp_directory = ~/.config/ncmpcpp
 lyrics_directory = ~/.config/ncmpcpp/lyrics
-mpd_music_dir = ~/.config/mpd/music
+mpd_music_dir = ~/Music
 allow_for_physical_item_deletion = no
 
 mpd_connection_timeout = 5
 mpd_crossfade_time = 5
-audio_output {
-        type            "fifo"
-        name            "my_fifo"
-        path            "/tmp/mpd.fifo"
-        format          "44100:16:1"
-}
 
 external_editor = /usr/local/bin/vim
 message_delay_time = 5

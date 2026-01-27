@@ -3,8 +3,8 @@ c.colors.webpage.darkmode.enabled = True
 c.downloads.location.directory = "~/Downloads/qutebrowser"
 c.downloads.location.prompt = False
 c.fileselect.handler = "external"
-c.fileselect.multiple_files.command = ["st", "-e", "clifm", "--sel-file={}"]
-c.fileselect.single_file.command = ["st", "-e", "clifm", "--sel-file={}"]
+c.fileselect.multiple_files.command = ["kitty", "clifm", "--sel-file={}"]
+c.fileselect.single_file.command = ["kitty", "clifm", "--sel-file={}"]
 c.url.searchengines = {
     "DEFAULT": "https://duckduckgo.com/?ia=web&q={}",
     "au": "https://wiki.archlinux.org/index.php?title=Special%3ASearch&search={}",

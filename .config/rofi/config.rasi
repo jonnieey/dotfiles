@@ -149,8 +149,5 @@ combi-modes: "window,drun,run";
       sorting-method:    "name";
   }
 }
-/*@theme "/usr/share/rofi/themes/dmenu.rasi"*/
 
-//@theme "/usr/share/rofi/themes/arthur.rasi"
-
-@theme "/usr/share/rofi/themes/Arc-Dark.rasi"
+@theme "~/.config/rofi/material.rasi"

@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "=== Arch Linux Safe Update (yay) ==="
+
+# ─────────────────────────────────────────────
+# 1. Prevent running as root
+# ─────────────────────────────────────────────
+if [[ $EUID -eq 0 ]]; then
+  echo "Do NOT run this script as root."
+  exit 1
+fi
+
+# ─────────────────────────────────────────────
+# 2. Refresh pacman keyring safely
+# ─────────────────────────────────────────────
+echo ">> Updating archlinux-keyring"
+sudo pacman -Sy --needed --noconfirm archlinux-keyring
+
+echo ">> Refreshing pacman keys"
+sudo pacman-key --init
+sudo pacman-key --populate archlinux
+sudo pacman-key --refresh-keys
+#
+# ─────────────────────────────────────────────
+# 3. Full system update (repo + AUR)
+# ─────────────────────────────────────────────
+echo ">> Updating system with yay"
+yay -Syu --needed --noconfirm
+
+# ─────────────────────────────────────────────
+# 4. Remove orphaned packages
+# ─────────────────────────────────────────────
+echo ">> Removing orphaned packages"
+orphans=$(pacman -Qtdq || true)
+if [[ -n "$orphans" ]]; then
+  sudo pacman -Rns --noconfirm $orphans
+else
+  echo "No orphaned packages found"
+fi
+
+# ─────────────────────────────────────────────
+# 5. Clean package cache (safe)
+# ─────────────────────────────────────────────
+echo ">> Cleaning package cache"
+sudo paccache -r    # keep last 3 versions
+sudo paccache -ruk0 # remove uninstalled package cache
+
+# ─────────────────────────────────────────────
+# 6. Yay cache cleanup
+# ─────────────────────────────────────────────
+echo ">> Cleaning yay cache"
+yay -Sc --noconfirm
+
+# ─────────────────────────────────────────────
+# 7. Optional systemd cleanup
+# ─────────────────────────────────────────────
+echo ">> Cleaning journal logs (keep 2 weeks)"
+sudo journalctl --vacuum-time=2weeks
+
+# ─────────────────────────────────────────────
+echo "=== Update Complete ==="
+echo "Reboot recommended if kernel, systemd, or glibc were updated."

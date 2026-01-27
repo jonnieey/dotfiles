@@ -1,12 +1,12 @@
 local config = {
   cmd_prefix = 'Gp',
-  default_command_agent = 'CodeGemini',
-  default_chat_agent = 'CodeGemini',
+  default_command_agent = 'CodeGPT',
+  default_chat_agent = 'CodeGPT',
   providers = {
-    -- openai = {
-    --   endpoint = 'https://api.openai.com/v1/chat/completions',
-    --   secret = os.getenv 'OPENAI_API_KEY',
-    -- },
+    openai = {
+      endpoint = 'https://api.openai.com/v1/chat/completions',
+      secret = os.getenv 'OPENAI_API_KEY',
+    },
     googleai = {
       endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/{{model}}:streamGenerateContent?key={{secret}}',
       secret = os.getenv 'GEMINI_API_KEY',
@@ -18,18 +18,27 @@ local config = {
   },
   agents = {
     {
+      provider = 'openai',
+      name = 'CodeGPT',
+      chat = true,
+      command = true,
+      model = { model = 'gpt-4o-mini', temperature = 1.1, top_p = 1 },
+      -- string with model name or table with model name and parameters
+      system_prompt = require('gp.defaults').code_system_prompt,
+    },
+    {
       provider = 'googleai',
       name = 'CodeGemini',
-      chat = false,
+      chat = true,
       command = true,
       -- string with model name or table with model name and parameters
-      model = { model = 'gemini-2.0-flash', temperature = 0.8, top_p = 1 },
+      model = { model = 'gemini-2.0-flash-lite', temperature = 0.8, top_p = 1 },
       system_prompt = require('gp.defaults').code_system_prompt,
     },
     {
       name = 'DeepSeekChat',
       provider = 'deepseek',
-      chat = false,
+      chat = true,
       command = true,
       -- string with model name or table with model name and parameters
       model = {

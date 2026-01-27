@@ -76,10 +76,10 @@ super + {shift+space,space}
 	dwmc cyclelayout {-1,+1}
 
 super + semicolon; {e,g,w,v,m,z,x,n,c}
-	{st aerc,"$HOME/.local/myscripts-bin/dmenu-sites",st w3m -B,st clifm,"$HOME/.local/myscripts-bin/udisks-dmenu",st -e nchat -d "$HOME/.local/share/nchat/telegram", st -e nchat -d "$HOME/.local/share/nchat/whatsapp",st bash -c ncmpcpp,nohup google-chat-linux}
+	{kitty --title aerc aerc,/home/sato/.dotfiles/.local/myscripts-bin/dmenu-sites,kitty w3m -B,kitty --title clifm clifm,/home/sato/.dotfiles/.local/myscripts-bin/udisks-dmenu,kitty --title 'nchat' nchat -d "/home/sato/.local/share/nchat/telegram",kitty --title 'nchat' nchat -d "/home/sato/.local/share/nchat/whatsapp",kitty bash -c ncmpcpp,nohup google-chat-linux}
 
 ctrl + shift + Escape
-  st btm --network_use_bytes --regex
+  kitty btm --network_use_bytes --regex
 
 XF86PowerOff ; {l,p,s,r}
   {/usr/bin/slock, /usr/bin/systemctl poweroff, /usr/bin/systemctl suspend, /usr/bin/systemctl reboot}
@@ -91,7 +91,7 @@ XF86MonBrightnessUp
   xbacklight -inc 5
 
 Print
-  ~/.local/myscripts-bin/takescreenshot -w
+  /home/sato/.dotfiles/.local/myscripts-bin/takescreenshot -w
 
 shift + Print
-  ~/.local/myscripts-bin/takescreenshot -p
+  /home/sato/.dotfiles/.local/myscripts-bin/takescreenshot -p

@@ -1,7 +1,8 @@
 #!/usr/bin/bash
+exec &>>/tmp/dmenu-sites.log
 
 BROWSER=${BROWSER:-qutebrowser}
-PRIVBROWSER=${PRIVBROWSER:-qutebrowser -T -C $HOME/.config/qutebrowser/config-priv.py}
+PRIVBROWSER=${PRIVBROWSER:-qutebrowser -T -C "$HOME/.config/qutebrowser/config-priv.py"}
 
 urlencode() {
 	local string="$1"
@@ -25,7 +26,7 @@ urlencode() {
 }
 
 mydmenu() {
-	dmenu -nb '#282c34' -nf '#abb2bf' -sb '#61afef' -sf '#282c34' -Y 350 -W 700 -X 300 -i -l 7 -g 2 -p "$1"
+	rofi -dmenu -nb '#282c34' -nf '#abb2bf' -sb '#61afef' -sf '#282c34' -Y 350 -W 700 -X 300 -i -l 7 -g 2 -columns 2 -p "$1"
 }
 
 sites=("Duck" "Aur" "ChatGPT" "DeepSeek" "Gemini" "Github" "Gmail" "Jumia" "Kilimall" "Suno" "Temi" "Temp-mail" "Youtube")
@@ -41,8 +42,7 @@ case $site in
 	# case $browser in
 	#   "qutebrowser")
 	#     $BROWSER "$search"
-	#     ;;
-	#   "vimb")
+	#     ;; "vimb")
 	#     tabbed -n 'vimb' -c vimb "$search" -e
 	#     ;;
 	#   "chrome")
@@ -80,8 +80,22 @@ case $site in
 	$PRIVBROWSER 'https://www.temi.com/'
 	;;
 "Temp-mail")
-	# tabbed -n 'vimb' -c vimb -i 'https://mail.tm/en/' -e
-	$PRIVBROWSER 'https://mail.tm/en/'
+	tempmailsites=("TemporaryMail.com" "tempmailo" "tempail")
+	tempmailsite=$(printf '%s\n' "${tempmailsites[@]}" | mydmenu "Tempmail sites")
+
+	case $tempmailsite in
+	"TemporaryMail.com")
+		# tabbed -n 'vimb' -c vimb -i 'https://mail.tm/en/' -e
+		$PRIVBROWSER 'https://temporarymail.com'
+		;;
+	"tempmailo")
+		# tabbed -n 'vimb' -c vimb -i 'https://tempmailo.com/' -e
+		$PRIVBROWSER 'https://tempmailo.com/'
+		;;
+	"tempail")
+		$PRIVBROWSER 'https://tempail.com/en/'
+		;;
+	esac
 	;;
 "ALX")
 	# tabbed -n 'vimb' -c vimb  'https://alx-intranet.hbtn.io/' -e

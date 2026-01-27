@@ -1,4 +1,4 @@
-alias ls='ls --color=auto'
+alias ls='eza --color=auto'
 alias grep='grep --color=auto'
 alias restartnm="sudo systemctl restart NetworkManager"
 alias tchat='nchat -d $HOME/.local/share/nchat/telegram' "$@"
