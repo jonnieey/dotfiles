@@ -21,3 +21,7 @@ _darcs
 ^/README.*
 ^/LICENSE.*
 ^/COPYING
+
+\.config\libreoffice\4_bak
+\.config\nushell\history.sqlite3-shm
+\.config\nushell\history.sqlite3-wal

@@ -1,0 +1,3 @@
+base_dir: /home/sato/.local/share/transcriptor
+date_format: '%Y-%m-%d'
+invoice_theme: blue

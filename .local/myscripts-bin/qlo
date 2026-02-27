@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+for f in "$@"; do
+    libreoffice --writer "$f" &
+    pid=$!
+    wait $pid
+done
