@@ -1,0 +1,20 @@
+{
+    "SHOW_QWERTY": true,
+    "SHOW_FINGERS": true,
+    "HARD_MODE": true,
+    "SHOW_STATS_ON_END": true,
+    "DRILL_DURATION": 300,
+    "SHUFFLE_AFTER": 5,
+    "SENTENCE_SOURCE": "local",
+    "CODE_SOURCE": "local",
+    "SENTENCES_FILE": "sentences.txt",
+    "CODE_FILE": "snippets.py",
+    "CODE_COMMAND": "",
+    "QUOTE_API_URL": "",
+    "AI_ENDPOINT": "http://localhost:8000",
+    "AI_API_TYPE": "ollama",
+    "AI_MODEL": "ollama-7b",
+    "AI_API_KEY": "",
+    "PRACTICE_MODE": "curriculum",
+    "CODE_LANGUAGES": "python,rust,c,cpp"
+}

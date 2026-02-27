@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="Module2" script:language="StarBasic" script:moduleType="normal">REM  *****  BASIC  *****
+
+Sub RunAll()
+    Dim text As String
+    text = &quot;This is Dr. Alzaaway $323.5232. Are you sure what you are doing? MR. HAYNES: Yes, Mr. Brocolli Yes? p.m. And the rest.&quot;
+    
+    text = ReplaceFullstops(text)
+    text = ReplaceQuestionMarks(text)
+    text = ReplaceDecimals(text)
+    
+    &apos; Create replacement dictionary
+    Dim replacements(5, 1) As String
+    replacements(0, 0) = &quot;p.  m&quot;
+    replacements(0, 1) = &quot;p.m&quot;
+    replacements(1, 0) = &quot;a.  m&quot;
+    replacements(1, 1) = &quot;a.  m&quot;
+    replacements(2, 0) = &quot;Mr.  &quot;
+    replacements(2, 1) = &quot;Mr. &quot;
+    replacements(3, 0) = &quot;MR.  &quot;
+    replacements(3, 1) = &quot;MR. &quot;
+    replacements(4, 0) = &quot;Ms.  &quot;
+    replacements(4, 1) = &quot;Ms. &quot;
+    replacements(5, 0) = &quot;MS.  &quot;
+    replacements(5, 1) = &quot;MS. &quot;
+    
+    text = MultipleReplace(text, replacements)
+    
+    MsgBox text, 0, &quot;Result&quot;
+End Sub
+
+Function ReplaceFullstops(text As String) As String
+    Dim regex As Object
+    regex = CreateObject(&quot;VBScript.RegExp&quot;)
+    
+    regex.Pattern = &quot;\.\s*&quot;
+    regex.Global = True
+    ReplaceFullstops = regex.Replace(text, &quot;.  &quot;)
+End Function
+
+Function ReplaceQuestionMarks(text As String) As String
+    Dim regex As Object
+    regex = CreateObject(&quot;VBScript.RegExp&quot;)
+    
+    regex.Pattern = &quot;\?\s*&quot;
+    regex.Global = True
+    ReplaceQuestionMarks = regex.Replace(text, &quot;?  &quot;)
+End Function
+
+Function ReplaceDecimals(text As String) As String
+    Dim regex As Object
+    regex = CreateObject(&quot;VBScript.RegExp&quot;)
+    
+    regex.Pattern = &quot;([0-9]+)\.\s{2}([0-9]+)&quot;
+    regex.Global = True
+    ReplaceDecimals = regex.Replace(text, &quot;$1.$2&quot;)
+End Function
+
+Function MultipleReplace(text As String, replacements As Variant) As String
+    Dim i As Integer
+    For i = LBound(replacements, 1) To UBound(replacements, 1)
+        text = Replace(text, replacements(i, 0), replacements(i, 1))
+    Next i
+    MultipleReplace = text
+End Function
+</script:module>

@@ -46,5 +46,29 @@ Downloads/archpack/st-flexipatch/st
 
 .local/myscripts-bin/myscripts-bin-bak
 
-.config/nushell/private_env.nu
 .config/nushell/history*
+.config/nushell/private_env.nu
+
+# Ignore everything under profile
+.config/libreoffice/4_bak/*
+.config/libreoffice/4/*
+
+# Allow user dir
+!.config/libreoffice/4/user/
+
+# Ignore everything in user
+.config/libreoffice/4/user/*
+
+# Allow Scripts
+!.config/libreoffice/4/user/Scripts/
+!.config/libreoffice/4/user/Scripts/**
+
+!.config/libreoffice/4/user/registrymodifications.xcu
+!.config/libreoffice/4/user/jonnieey*
+!.config/libreoffice/4/user/config/
+!.config/libreoffice/4/user/basic/
+!.config/libreoffice/4/user/template/
+!.config/libreoffice/4/user/uno_packages/
+
+.config/libreoffice/4/user/uno_packages/cache
+

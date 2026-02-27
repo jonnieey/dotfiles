@@ -1,0 +1,4 @@
+alias create ls show jobs
+alias create lsa show jobs -a
+macro create aj add job -f "{1}"
+macro create ujd update jobs -v status=Done -w id={1}
