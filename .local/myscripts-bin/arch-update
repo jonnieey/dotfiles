@@ -12,24 +12,48 @@ if [[ $EUID -eq 0 ]]; then
 fi
 
 # ─────────────────────────────────────────────
-# 2. Refresh pacman keyring safely
+# 2. Ask for the administrator password upfront
 # ─────────────────────────────────────────────
-echo ">> Updating archlinux-keyring"
-sudo pacman -Sy --needed --noconfirm archlinux-keyring
+# The script will prompt for the sudo password at the beginning and then
+# run all privileged commands without asking for the password again.
+sudo -v
 
-echo ">> Refreshing pacman keys"
-sudo pacman-key --init
-sudo pacman-key --populate archlinux
-sudo pacman-key --refresh-keys
-#
+# Keep-alive: update existing sudo time stamp until the script has finished.
+while true; do
+  sudo -n true
+  sleep 60
+  kill -0 "$$" || exit
+done 2>/dev/null &
+
 # ─────────────────────────────────────────────
-# 3. Full system update (repo + AUR)
+# 3. Update mirrorlist for faster downloads
+# ─────────────────────────────────────────────
+# if command -v reflector &>/dev/null; then
+#   echo ">> Updating mirrorlist with reflector"
+#   sudo reflector --latest 10 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+# else
+#   echo ">> reflector is not installed, skipping mirrorlist update."
+#   echo "   Install it with 'sudo pacman -S reflector' to enable this feature."
+# fi
+
+# ─────────────────────────────────────────────
+# 4. Refresh pacman keyring safely and quickly
+# ─────────────────────────────────────────────
+# echo ">> Updating archlinux-keyring package"
+# sudo pacman -Sy --needed --noconfirm archlinux-keyring
+#
+# echo ">> Refreshing pacman keys using WKD"
+# # This is much faster than 'pacman-key --refresh-keys'
+# sudo archlinux-keyring-wkd-sync
+
+# ─────────────────────────────────────────────
+# 5. Full system update (repo + AUR)
 # ─────────────────────────────────────────────
 echo ">> Updating system with yay"
 yay -Syu --needed --noconfirm
 
 # ─────────────────────────────────────────────
-# 4. Remove orphaned packages
+# 6. Remove orphaned packages
 # ─────────────────────────────────────────────
 echo ">> Removing orphaned packages"
 orphans=$(pacman -Qtdq || true)
@@ -40,20 +64,20 @@ else
 fi
 
 # ─────────────────────────────────────────────
-# 5. Clean package cache (safe)
+# 7. Clean package cache (safe)
 # ─────────────────────────────────────────────
 echo ">> Cleaning package cache"
 sudo paccache -r    # keep last 3 versions
 sudo paccache -ruk0 # remove uninstalled package cache
 
 # ─────────────────────────────────────────────
-# 6. Yay cache cleanup
+# 8. Yay cache cleanup
 # ─────────────────────────────────────────────
 echo ">> Cleaning yay cache"
 yay -Sc --noconfirm
 
 # ─────────────────────────────────────────────
-# 7. Optional systemd cleanup
+# 9. Optional systemd cleanup
 # ─────────────────────────────────────────────
 echo ">> Cleaning journal logs (keep 2 weeks)"
 sudo journalctl --vacuum-time=2weeks

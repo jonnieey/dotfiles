@@ -1,9 +1,16 @@
-
 [Default Applications]
 text/html=qutebrowser.desktop
 x-scheme-handler/http=qutebrowser.desktop
 x-scheme-handler/https=qutebrowser.desktop
 x-scheme-handler/about=qutebrowser.desktop
 x-scheme-handler/unknown=qutebrowser.desktop
-video/mp4=mpv.desktop
 x-scheme-handler/mailto=aerc.desktop
+x-scheme-handler/tonsite=org.telegram.desktop.desktop
+video/mp4=mpv.desktop
+image/jpeg=nsxiv.desktop
+image/png=nsxiv.desktop
+application/pdf=org.pwmt.zathura.desktop
+x-scheme-handler/figma=figma-linux.desktop
+
+[Added Associations]
+x-scheme-handler/tonsite=org.telegram.desktop.desktop;

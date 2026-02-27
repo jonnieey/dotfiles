@@ -45,3 +45,6 @@ Downloads/archpack/st-flexipatch/*.o
 Downloads/archpack/st-flexipatch/st
 
 .local/myscripts-bin/myscripts-bin-bak
+
+.config/nushell/private_env.nu
+.config/nushell/history*

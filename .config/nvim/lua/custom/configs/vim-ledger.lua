@@ -117,7 +117,9 @@ autocmd('BufWritePost', {
   end,
 })
 
-local function show_balance()
+local function show_balance(upto_date)
+  upto_date = upto_date or false
+
   -- Get the account name under the cursor
   local account = vim.fn.expand '<cWORD>'
 
@@ -137,12 +139,18 @@ local function show_balance()
     local current_file_path = vim.fn.expand '%:p:h'
     local handle = io.popen('git -C "' .. current_file_path .. '" rev-parse --show-toplevel')
     local main_file = handle:read '*l' .. '/main.beancount'
+    local last_date = get_last_date()
 
     handle:close() -- Close the handle to free up resources
 
-    -- Construct the bean-query command
-    local cmd = string.format('bean-query %s "SELECT account, sum(position) WHERE account ~ \'%s\'"', main_file, account)
-    result = vim.fn.systemlist(cmd)
+    if upto_date then
+      local cmd = string.format('bean-query %s "SELECT account, sum(position) WHERE account ~ \'%s\'"', main_file, account)
+      result = vim.fn.systemlist(cmd)
+    else
+      -- Construct the bean-query command
+      local cmd = string.format('bean-query %s "SELECT account, sum(position) WHERE account ~ \'%s\' AND date <= %s"', main_file, account, last_date)
+      result = vim.fn.systemlist(cmd)
+    end
   end
 
   -- Check if there is a result to display
@@ -175,4 +183,9 @@ local function show_balance()
 end
 
 -- Map it to a key (e.g., <leader>bb for Balance)
-vim.keymap.set('n', '<leader>bb', show_balance, { desc = 'Show balance in float' })
+vim.keymap.set('n', '<leader>bb', function()
+  show_balance(false)
+end, { desc = 'Show balance in float' })
+vim.keymap.set('n', '<leader>BB', function()
+  show_balance(true)
+end, { desc = 'Show balance in float' })

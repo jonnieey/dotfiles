@@ -51,7 +51,8 @@ mouse-left = 'st -g 100x20+0+0 -e pulsemixer'
 [pomopy]
 command = "pomopyc -f"
 mouse-right = "pomopyc -T"
-mouse-middle = "pomopyc -s"
+mouse-middle = "pomopyc -s -t $(rofi -dmenu -multi-select -p 'Tags' < ~/.config/pomopy/tags | paste -sd ',' -)"
+mouse-left = "pomopyc -r"
 margin = 12
 
 [root]

@@ -1,62 +1,96 @@
-#!/usr/bin/bash
-replace() {
-    FILE=$1
-    FIND=$2
-    REPLACE=$3
+#!/usr/bin/env python3
+"""
+Replace text in .docx files, converting '\n' into line breaks.
+Usage: docx_replace.py -d <directory_or_file> -o <old> -n <new>
+"""
 
-    unzip -oq "$FILE" -d ./tmp
-    sed -i "s|$FIND|$REPLACE|gI" ./tmp/word/document.xml
-    (cd tmp && zip -qr "../$FILE" ./*)
-    rm -rf ./tmp
-}
-# find_and_replace "$@"
-function show_help() {
-    echo "Usage: $0 -d directory -o oldword -n newword"
-    echo
-    echo " -d DIRECTORY   The directory containing .docx files for the replacements."
-    echo " -o OLDWORD     The word to be replaced."
-    echo " -n NEWWORD     The new word that will replace the old word."
-    echo
-}
+import os
+import sys
+import glob
+import argparse
+try:
+    from docx import Document
+    from docx.enum.text import WD_BREAK
+except ImportError:
+    print("This script requires the docx package.", file=sys.stderr)
+    print("try, pip install python-docx", file=sys.stderr)
+    sys.exit(1)
 
-directory=""
-oldword=""
-newword=""
+def replace_in_file(file_path, old_text, new_text):
+    """
+    Replace all occurrences of old_text in file_path with new_text.
+    In new_text, the literal sequence '\n' is converted to a Word line break.
+    Returns True if at least one replacement was made.
+    """
+    try:
+        doc = Document(file_path)
+    except Exception as e:
+        print(f"Error opening {file_path}: {e}", file=sys.stderr)
+        return False
 
-# Parse command-line options
-while getopts ":d:o:n:" opt; do
-    case "${opt}" in
-        d)
-            directory=${OPTARG}
-            ;;
-        o)
-            oldword=${OPTARG}
-            ;;
-        n)
-            newword=${OPTARG}
-            ;;
-        *)
-            show_help
-            exit 1
-            ;;
-    esac
-done
+    # Split on literal backslash-n (the two characters '\' and 'n')
+    parts = new_text.split('\\n')
+    modified = False
 
-if [[ -z "$directory" || -z "$oldword" || -z "$newword" ]]; then
-    show_help
-    exit 1
-fi
+    for paragraph in doc.paragraphs:
+        if old_text in paragraph.text:
+            # Clear the paragraph and rebuild with line breaks
+            paragraph.clear()
+            # Add the first part
+            run = paragraph.add_run(parts[0])
+            # Add subsequent parts, each preceded by a line break
+            for part in parts[1:]:
+                run.add_break(WD_BREAK.LINE)   # inserts <w:br/>
+                run = paragraph.add_run(part)
+            modified = True
 
-function main() {
-    if [[ -d "$directory" ]]; then
-        for file in "$directory"/*.docx; do
-            replace "$file" "$oldword" "$newword"
-        done
-    elif [[ -f "$directory" ]]; then
-         replace "$directory" "$oldword" "$newword"
-    else
-        echo "Error occured, $1 not a dir or file"
+    if modified:
+        doc.save(file_path)
+        print(f"Updated: {file_path}")
+    else:
+        print(f"No changes: '{old_text}' not found in {file_path}")
+    return modified
 
-    fi
-}
-main "$@"
+def main():
+    parser = argparse.ArgumentParser(description="Replace text in .docx files with line break support.")
+    parser.add_argument("-d", dest="path", required=True,
+                        help="Directory containing .docx files or a single .docx file")
+    parser.add_argument("-o", dest="old", required=True,
+                        help="Text to be replaced")
+    parser.add_argument("-n", dest="new", required=True,
+                        help="New text (use \\n for a line break)")
+    args = parser.parse_args()
+
+    target = args.path
+    old = args.old
+    new = args.new
+
+    if not os.path.exists(target):
+        print(f"Error: '{target}' does not exist.", file=sys.stderr)
+        sys.exit(1)
+
+    files_to_process = []
+    if os.path.isdir(target):
+        # Process all .docx files in the directory
+        pattern = os.path.join(target, "*.docx")
+        files_to_process = glob.glob(pattern)
+        if not files_to_process:
+            print(f"No .docx files found in '{target}'.")
+            sys.exit(0)
+    else:
+        # Single file – must be .docx
+        if not target.endswith(".docx"):
+            print(f"Warning: '{target}' does not have a .docx extension. Processing anyway.")
+        files_to_process = [target]
+
+    any_success = False
+    for f in files_to_process:
+        if replace_in_file(f, old, new):
+            any_success = True
+
+    if not any_success:
+        print("No replacements were made.")
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()
