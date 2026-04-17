@@ -1,6 +1,8 @@
 import webbrowser
 import urllib.parse
 
+webbrowser.register('qutebrowser', None, webbrowser.BackgroundBrowser("/usr/bin/qutebrowser"))
+
 def search_google_selection(*args):
     """Grabs the current selection in Writer and opens it in a browser."""
     # XSCRIPTCONTEXT is pre-defined in the LibreOffice Python environment
@@ -18,8 +20,8 @@ def search_google_selection(*args):
         if selected_text.strip():
             # URL encode the text for safety
             query = urllib.parse.quote(selected_text)
-            url = f"https://www.google.com/search?q={query}"
-            webbrowser.open(url)
+            url = f"https://duckduckgo.com/?q={query}"
+            webbrowser.get("qutebrowser").open(url)
     except Exception:
         # Silently fail if no text is selected
         pass

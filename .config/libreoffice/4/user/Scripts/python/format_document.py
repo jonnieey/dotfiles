@@ -1,7 +1,7 @@
 from com.sun.star.beans import PropertyValue
 from com.sun.star.awt.FontWeight import BOLD
 
-def replace_patterns(patterns_dict, use_regex=True, bold=False):
+def _replace_patterns(patterns_dict, use_regex=True, bold=False):
     """Helper function to replace multiple patterns efficiently"""
     document = XSCRIPTCONTEXT.getDocument()
     replace = document.createReplaceDescriptor()
@@ -21,7 +21,7 @@ def replace_patterns(patterns_dict, use_regex=True, bold=False):
         replace.ReplaceString = r_string
         document.replaceAll(replace)
 
-def bold_specific_lines(pattern):
+def _bold_specific_lines(pattern):
     """Apply bold formatting to lines matching the pattern"""
     document = XSCRIPTCONTEXT.getDocument()
     search = document.createSearchDescriptor()
@@ -38,7 +38,7 @@ def bold_specific_lines(pattern):
         found.setPropertyValue("CharWeight", BOLD)
         found = document.findNext(found.End, search)
 
-def highlight_patterns(patterns, color=0xFFFF00):  # Yellow highlight by default
+def _highlight_patterns(patterns, color=0xFFFF00):  # Yellow highlight by default
     """Highlight text matching patterns with a background color"""
     document = XSCRIPTCONTEXT.getDocument()
     
@@ -53,8 +53,7 @@ def highlight_patterns(patterns, color=0xFFFF00):  # Yellow highlight by default
             found.setPropertyValue("CharBackColor", color)
             found = document.findNext(found.End, search)
 
-def main():
-    # Define all replacement patterns in one dictionary
+def replace_patterns():
     REPLACEMENT_PATTERNS = {
         r'\.\s*': '.  ',
         r'\?\s*': '?  ',
@@ -96,16 +95,21 @@ def main():
         r'a\.m\.\s{2,}': 'a.m. ',
         r'A\.M\.\s{2,}': 'A.M. ',
     }
+    _replace_patterns(REPLACEMENT_PATTERNS)
+    
+    # Bold question lines
+
+def bold_specific_lines():
+    _bold_specific_lines(r'^\s*\*?Q\t.*$')
+
+def highlight_patterns():
     HIGHLIGHT_PATTERNS = [
         r'\[\?\]',          # Matches [?]
         r'\[\d{2}:\d{2}:\d{2}\]',  # Matches time format [00:01:04]
     ]
+    _highlight_patterns(HIGHLIGHT_PATTERNS)
 
-    # Process all replacements in one call
-    replace_patterns(REPLACEMENT_PATTERNS)
-    
-    # Bold question lines
-    bold_specific_lines(r'^\s*\*?Q\t.*$')
-
-    highlight_patterns(HIGHLIGHT_PATTERNS)
-
+def run_all():
+    replace_patterns()
+    bold_specific_lines()
+    highlight_patterns()
