@@ -1,16 +1,18 @@
 local autocmd = vim.api.nvim_create_autocmd
 local g = vim.g
+local group = vim.api.nvim_create_augroup('ledger_main_auto', { clear = true })
 
 g.ledger_align_at = 60
 g.ledger_align_commodity = 1
 g.ledger_bin = '/usr/bin/ledger'
 g.ledger_cleared_string = 'Cleared: '
-g.ledger_commodity_before = 1
+g.ledger_commodity_before = 0
 g.ledger_commodity_sep = ''
 g.ledger_commodity_spell = 1
 g.ledger_date_format = '%Y-%m-%d'
 g.ledger_decimal_sep = '.'
-g.ledger_default_commodity = ''
+g.ledger_default_commodity = 'KES'
+g.ledger_align_commodity = 1
 g.ledger_detailed_first = 1
 g.ledger_extra_options = '--pedantic --explicit'
 g.ledger_fillstring = '-'
@@ -21,12 +23,27 @@ g.ledger_maxwidth = 75
 g.ledger_pending_string = 'Cleared or pending: '
 g.ledger_qf_hide_file = 1
 g.ledger_qf_reconcile_format = '%(date) %-4(code) %-50(payee) %-30(account) %15(amount)\n'
-g.ledger_qf_register_format = '%(date) %-50(payee) %-30(account) %15(amount) %15(total)\n'
+g.ledger_qf_register_format = '%(date) %-50(payee) %-50(account) %-15(amount) %15(total)\n'
 g.ledger_qf_size = 10
 g.ledger_qf_vertical = 0
 g.ledger_target_string = 'Difference from target: '
 g.ledger_use_location_list = 0
 g.ledger_winpos = 'B'
+
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  group = group,
+  pattern = '*.ledger',
+  callback = function()
+    local current_dir = vim.fn.expand '%:p:h'
+    local main = vim.fn.findfile('main.ledger', current_dir .. ';')
+
+    if main ~= '' then
+      vim.b.ledger_main = main
+    else
+      vim.b.ledger_main = vim.fn.expand '%:p'
+    end
+  end,
+})
 
 local function get_last_date()
   local last_date
@@ -108,14 +125,14 @@ autocmd('FileType', {
     vim.keymap.set('n', '<leader>lT', '<cmd>InsertYesterday<cr>o', { noremap = true, silent = true })
   end,
 })
-autocmd('BufWritePost', {
-  pattern = { '*.ledger', '*.bean', '*.beancount' },
-  callback = function()
-    -- remove 2 or more empty lines
-    vim.cmd [[:silent g/^\n\n/d]]
-    vim.cmd [[:silent %s/\t/  /e]]
-  end,
-})
+-- autocmd('BufWritePost', {
+--   pattern = { '*.ledger', '*.bean', '*.beancount' },
+--   callback = function()
+--     -- remove 2 or more empty lines
+--     vim.cmd [[:silent g/^\n\n/d]]
+--     vim.cmd [[:silent %s/\t/  /e]]
+--   end,
+-- })
 
 local function show_balance(upto_date)
   upto_date = upto_date or false

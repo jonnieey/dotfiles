@@ -300,3 +300,46 @@ wk.add {
   { '<leader>gpush', ':Git push<Space>', desc = 'Push' },
   { '<leader>gpull', ':Git pull<Space>', desc = 'Pull' },
 }
+wk.add {
+  mode = { 'n', 'v' },
+  nowait = true,
+  remap = false,
+  -- emmet
+  {
+    '<leader>xe',
+    function()
+      require('nvim-emmet').wrap_with_abbreviation()
+    end,
+    desc = 'Expand Abbreviation',
+  },
+}
+--
+--   -- group
+--   { '<leader>r', group = 'REPL' },
+--
+--   -- REPL control
+--   { '<leader>rs', '<Plug>(REPLStart)', desc = 'Start REPL' },
+--   { '<leader>r?', '<Plug>(REPLStart)', desc = 'Start REPL (choose)' },
+--   { '<leader>rf', '<Plug>(REPLFocus)', desc = 'Focus REPL' },
+--   { '<leader>rh', '<Plug>(REPLHide)', desc = 'Hide REPL' },
+--   { '<leader>rq', '<Plug>(REPLClose)', desc = 'Quit REPL' },
+--   { '<leader>rc', '<CMD>REPLCleanup<CR>', desc = 'Clear REPLs' },
+--   { '<leader>rS', '<CMD>REPLSwap<CR>', desc = 'Swap REPLs' },
+--
+--   -- REPL interaction
+--   { '<leader>re', '<Plug>(REPLExec)', desc = 'Exec command', expr = true },
+--   { '<leader>rv', '<CMD>Telescope REPLShow<CR>', desc = 'View REPLs' },
+--
+--   -- send / source
+--   { '<leader>rl', '<Plug>(REPLSendLine)', desc = 'Send line' },
+--   { '<leader>ro', '<Plug>(REPLSendOperator)', desc = 'Send operator' },
+--   { '<leader>rO', '<Plug>(REPLSourceOperator)', desc = 'Source operator' },
+--
+--   -- visual mode mappings
+--   { '<leader>rs', '<Plug>(REPLSendVisual)', desc = 'Send visual', mode = 'v' },
+--   { '<leader>rS', '<Plug>(REPLSourceVisual)', desc = 'Source visual', mode = 'v' },
+--
+--   -- buffer attach/detach
+--   { '<leader>ra', '<CMD>REPLAttachBufferToREPL<CR>', desc = 'Attach buffer' },
+--   { '<leader>rd', '<CMD>REPLDetachBufferToREPL<CR>', desc = 'Detach buffer' },
+-- }

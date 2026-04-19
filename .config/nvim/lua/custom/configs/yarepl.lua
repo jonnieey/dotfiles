@@ -16,10 +16,22 @@ yarepl.setup {
     aichat = { cmd = 'aichat', formatter = yarepl.formatter.bracketed_pasting },
     radian = { cmd = 'radian', formatter = yarepl.formatter.bracketed_pasting },
     ipython = { cmd = 'ipython', formatter = yarepl.formatter.bracketed_pasting },
-    python = { cmd = 'python', formatter = yarepl.formatter.trim_empty_lines },
+    -- python = { cmd = 'python', formatter = yarepl.formatter.trim_empty_lines },
     R = { cmd = 'R', formatter = yarepl.formatter.trim_empty_lines },
     bash = { cmd = 'bash', formatter = yarepl.formatter.trim_empty_lines },
     zsh = { cmd = 'zsh', formatter = yarepl.formatter.bracketed_pasting },
+    python = {
+      cmd = 'python',
+      formatter = require('yarepl').formatter.factory {
+        replace_tab_by_spaces = true,
+        number_of_spaces_to_replace_tab = 4,
+        when_multi_lines = {
+          trim_empty_lines = true,
+          remove_leading_spaces = true,
+        },
+      },
+      source_syntax = 'python',
+    },
   },
   -- when a REPL process exits, should the window associated with those REPLs closed?
   close_on_exit = true,

@@ -1,9 +1,9 @@
 require('beancount').setup {
   -- Alignment & formatting
   separator_column = 70, -- Column for decimal separator alignment
-  instant_alignment = true, -- Align amounts on decimal point entry
+  -- instant_alignment = true, -- Align amounts on decimal point entry
   fixed_cjk_width = false, -- Treat CJK characters as 2-width
-  auto_format_on_save = true, -- Auto formatting file on saving
+  -- auto_format_on_save = true, -- Auto formatting file on saving
   auto_fill_amounts = false, -- Auto-fill missing amounts on save (opt-in)
 
   -- Completion & input
