@@ -23,7 +23,7 @@ if type cb >/dev/null 2>&1; then
 elif [ -n "$WAYLAND_DISPLAY" ]; then
 	printf "%s" "$line" | wl-copy
 elif type xclip >/dev/null 2>&1; then
-	escaped_filepath=$(echo "$line" | sed "s/\\\//g")
+	escaped_filepath=$(echo "$line" | sed "s/\\\//g;s/\"//g")
 	printf "%s" "'$escaped_filepath'" | xclip -sel pri -r
 	# printf "%s" "$line" | xclip -sel pri -r
 elif type xsel >/dev/null 2>&1; then

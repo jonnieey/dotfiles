@@ -133,7 +133,6 @@ wk.add {
   { '<leader>lrn', vim.lsp.buf.rename, desc = '[R]e[n]ame' },
   { '<leader>lca', vim.lsp.buf.code_action, desc = '[C]ode [A]ction' },
   { '<leader>K', vim.lsp.buf.hover, desc = 'Hover Documentation' },
-  { 'gD', vim.lsp.buf.declaration, desc = '[G]oto [D]eclaration' },
 
   {
     '<leader>rl',

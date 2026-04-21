@@ -29,7 +29,7 @@ mydmenu() {
 	rofi -dmenu -nb '#282c34' -nf '#abb2bf' -sb '#61afef' -sf '#282c34' -Y 350 -W 700 -X 300 -i -l 7 -g 2 -columns 2 -p "$1"
 }
 
-sites=("Duck" "Aur" "ChatGPT" "DeepSeek" "Gemini" "Github" "Gmail" "Jumia" "Kilimall" "Suno" "Temi" "Temp-mail" "Youtube")
+sites=("Duck" "Aur" "Chatbots" "Github" "Gmail" "Shopping" "Suno" "Temi" "Temp-mail" "Youtube")
 
 site=$(printf '%s\n' "${sites[@]}" | mydmenu "Sites")
 
@@ -101,42 +101,57 @@ case $site in
 	# tabbed -n 'vimb' -c vimb  'https://alx-intranet.hbtn.io/' -e
 	$BROWSER 'https://alx-intranet.hbtn.io/'
 	;;
-"ChatGPT")
-	# tabbed -n 'vimb' -c vimb 'https://chat.openai.com/chat/' -e
-	$BROWSER 'https://chat.openai.com/chat/'
-	;;
-"Gemini")
-	# tabbed -n 'vimb' -c vimb 'https://bard.google.com/' -e
-	# $BROWSER 'https://bard.google.com/'
-	$BROWSER 'https://gemini.google.com/app'
+"Chatbots")
+	chatbotsites=("ChatGPT" "Gemini" "DeepSeek" "Grok")
+	chatbotsite=$(printf '%s\n' "${chatbotsites[@]}" | mydmenu "Chatbots")
+
+	case $chatbotsite in
+	"ChatGPT")
+		# tabbed -n 'vimb' -c vimb 'https://chat.openai.com/chat/' -e
+		$BROWSER 'https://chat.openai.com/chat/'
+		;;
+	"Gemini")
+		$BROWSER 'https://gemini.google.com/app'
+		;;
+	"DeepSeek")
+		$BROWSER "https://chat.deepseek.com/"
+		;;
+	"Grok")
+		$BROWSER "https://grok.com/"
+		;;
+	esac
 	;;
 "Aur")
 	search="$(echo -en '' | mydmenu 'Search keyword')" || exit
 	# $BROWSER "https://wiki.archlinux.org/index.php?title=Special%3ASearch&search=$search"
 	$BROWSER "https://aur.archlinux.org/packages?O=0&K=$search"
 	;;
-"DeepSeek")
-	$BROWSER "https://chat.deepseek.com/"
-	;;
-"Jumia")
-	search=$(echo -en "" | mydmenu "Search keyword") || exit
-	if [[ -z "$search" ]]; then
-		$BROWSER "https://www.jumia.co.ke"
-	else
-		s=$(urlencode "$search")
-		echo "$s"
-		$BROWSER "https://www.jumia.co.ke/catalog/?q=$s"
-	fi
-	;;
-"Kilimall")
-	search=$(echo -en "" | mydmenu "Search keyword") || exit
-	if [[ -z "$search" ]]; then
-		$BROWSER "https://m.kilimall.com"
-	else
-		s=$(urlencode "$search")
-		echo "$s"
-		$BROWSER "https://m.kilimall.com/search?q=$s"
-	fi
+"Shopping")
+	shoppingsites=("Jumia" "Kilimall")
+	shoppingsite=$(printf '%s\n' "${shoppingsites[@]}" | mydmenu "Shopping sites")
+
+	case $shoppingsite in
+	"Jumia")
+		search=$(echo -en "" | mydmenu "Search keyword") || exit
+		if [[ -z "$search" ]]; then
+			$BROWSER "https://www.jumia.co.ke"
+		else
+			s=$(urlencode "$search")
+			echo "$s"
+			$BROWSER "https://www.jumia.co.ke/catalog/?q=$s"
+		fi
+		;;
+	"Kilimall")
+		search=$(echo -en "" | mydmenu "Search keyword") || exit
+		if [[ -z "$search" ]]; then
+			$BROWSER "https://m.kilimall.com"
+		else
+			s=$(urlencode "$search")
+			echo "$s"
+			$BROWSER "https://m.kilimall.com/search?q=$s"
+		fi
+		;;
+	esac
 	;;
 "Suno")
 	$BROWSER "https://suno.com/home"

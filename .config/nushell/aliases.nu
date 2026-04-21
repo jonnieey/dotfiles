@@ -24,7 +24,16 @@ def la [...paths: string] {
     let paths = if ($paths | is-empty) { ["."] } else { $paths }
     ls -a ...$paths | grid -c
 }
+def vwhich [cmd: string] {
+    let editor = ($env.EDITOR? | default "vim")
+    let path = (which $cmd | get path | to text -n)
 
+    if ($path | is-empty) {
+        print $"Command ($cmd) not found"
+    } else {
+        ^$editor $path
+    }
+}
 # anit() {
 #   command anit "$@" | sed 's/\(.*\)-\(.*\)/\1\t\2/' | column -t -s $'\t' -o - | colorize -c cyan
 # }

@@ -8,6 +8,6 @@ return {
     --   incremental_selection = { enable = true },
     --   indent = { enable = true },
     -- }
-    -- require 'custom.configs.beancount'
+    require 'custom.configs.beancount'
   end,
 }

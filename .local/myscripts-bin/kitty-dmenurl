@@ -6,7 +6,8 @@
 PRIVBROWSER=${PRIVBROWSER:-qutebrowser -T -C $HOME/.config/qutebrowser/config-priv.py}
 urlregex="(((http|https|gopher|gemini|ftp|ftps|git)://|www\\.)[a-zA-Z0-9.]*[:]?[a-zA-Z0-9./@$&%?$\#=_~-]*)|((magnet:\\?xt=urn:btih:)[a-zA-Z0-9]*)"
 
-urls="$(sed 's/.*│//g' | tr -d '\n' |                            # First remove linebreaks and mutt sidebars:
+# urls="$(sed 's/.*│//g' | tr -d '\n' |                            # First remove linebreaks and mutt sidebars:
+urls="$(sed 's/.*│//g' |                                         # First remove linebreaks and mutt sidebars:
     sed 's/\x1b\[[0-9;]*[a-zA-Z]//g' |                           # strip ANSI codes
     grep -aEo "$urlregex" |                                      # grep only urls as defined above.
     uniq |                                                       # Ignore neighboring duplicates.

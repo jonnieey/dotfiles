@@ -83,3 +83,38 @@ export extern "nmcli radio" [
 def "nu-complete nmcli radio types" [] {
     [ "all", "wifi", "wwan" ]
 }
+
+# Device aliases  
+alias "nmcli d" = nmcli device  
+alias "nmcli d s" = nmcli device status  
+alias "nmcli d sh" = nmcli device show  
+alias "nmcli d w" = nmcli device wifi  
+alias "nmcli d w l" = nmcli device wifi list  
+alias "nmcli d w c" = nmcli device wifi connect  
+alias "nmcli d w r" = nmcli device wifi rescan  
+alias "nmcli d co" = nmcli device connect  
+alias "nmcli d di" = nmcli device disconnect  
+alias "nmcli d d" = nmcli device delete  
+  
+# Connection aliases  
+alias "nmcli c" = nmcli connection  
+alias "nmcli c s" = nmcli connection show  
+alias "nmcli c sh" = nmcli connection show  
+alias "nmcli c u" = nmcli connection up  
+alias "nmcli c d" = nmcli connection down  
+alias "nmcli c a" = nmcli connection add  
+alias "nmcli c m" = nmcli connection modify  
+alias "nmcli c e" = nmcli connection edit  
+alias "nmcli c de" = nmcli connection delete  
+  
+# Networking aliases  
+alias "nmcli n" = nmcli networking  
+alias "nmcli n on" = nmcli networking on  
+alias "nmcli n of" = nmcli networking off  
+  
+# Radio aliases  
+alias "nmcli r" = nmcli radio  
+alias "nmcli r w" = nmcli radio wifi  
+alias "nmcli r ww" = nmcli radio wwan  
+alias "nmcli r a" = nmcli radio all  
+  

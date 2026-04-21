@@ -28,23 +28,23 @@ done 2>/dev/null &
 # ─────────────────────────────────────────────
 # 3. Update mirrorlist for faster downloads
 # ─────────────────────────────────────────────
-# if command -v reflector &>/dev/null; then
-#   echo ">> Updating mirrorlist with reflector"
-#   sudo reflector --latest 10 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
-# else
-#   echo ">> reflector is not installed, skipping mirrorlist update."
-#   echo "   Install it with 'sudo pacman -S reflector' to enable this feature."
-# fi
+if command -v reflector &>/dev/null; then
+  echo ">> Updating mirrorlist with reflector"
+  sudo reflector --latest 10 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+else
+  echo ">> reflector is not installed, skipping mirrorlist update."
+  echo "   Install it with 'sudo pacman -S reflector' to enable this feature."
+fi
 
 # ─────────────────────────────────────────────
 # 4. Refresh pacman keyring safely and quickly
 # ─────────────────────────────────────────────
 # echo ">> Updating archlinux-keyring package"
-# sudo pacman -Sy --needed --noconfirm archlinux-keyring
+sudo pacman -Sy --needed --noconfirm archlinux-keyring
 #
 # echo ">> Refreshing pacman keys using WKD"
 # # This is much faster than 'pacman-key --refresh-keys'
-# sudo archlinux-keyring-wkd-sync
+sudo archlinux-keyring-wkd-sync
 
 # ─────────────────────────────────────────────
 # 5. Full system update (repo + AUR)
